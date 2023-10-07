@@ -1,2 +1,8 @@
 # TC3048
-Cambios
+Ernesto Adame 
+A00825923
+
+# Fase 0
+- Tokens y palabras reservadas
+- Diagramas de sintaxis
+- Gramatica Formal
