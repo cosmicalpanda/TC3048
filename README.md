@@ -6,3 +6,6 @@ A00825923
 - Tokens y palabras reservadas
 - Diagramas de sintaxis
 - Gramatica Formal
+
+# Fase 1
+- Lexer
