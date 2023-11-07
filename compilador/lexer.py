@@ -1,4 +1,10 @@
 import ply.lex as lex
+'''
+lexer.py
+
+tokenizer for the compiler
+'''
+
 
 # Reserved
 reserved = {
