@@ -1,0 +1,5 @@
+TEST no.1
+LexToken(PROGRAM,'program',1,0)
+
+TEST no.2
+LexToken(ID,'hola',1,0)
