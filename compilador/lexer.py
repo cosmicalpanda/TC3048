@@ -1,10 +1,9 @@
-import ply.lex as lex
 '''
 lexer.py
 
 tokenizer for the compiler
 '''
-
+import ply.lex as lex
 
 # Reserved
 reserved = {
@@ -27,6 +26,7 @@ reserved = {
     'for' : 'FOR',
     'to' : 'TO',
     'do' : 'DO',
+    'print' : 'PRINT',
 }
 
 # Token list
@@ -99,11 +99,6 @@ def t_newline(t):
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
-
-def t_print(t):
-    r'print'
-    t.type = reserved.get(t.value,'PRINT')     # Check for reserved words
-    return t
 
 # Lexer build
 lexer = lex.lex()
