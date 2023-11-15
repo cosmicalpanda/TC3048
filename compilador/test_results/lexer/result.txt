@@ -51,3 +51,7 @@ LexToken(VAL_INT,('001', 'int'),42,19)
 LexToken(VAL_STRING,('string', 'string'),43,23)
 LexToken(ID,'true',44,32)
 LexToken(ID,'false',45,37)
+
+TEST no.4
+LexToken(PROGRAM,'program',48,0)
+LexToken(;,';',48,9)

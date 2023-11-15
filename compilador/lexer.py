@@ -35,7 +35,7 @@ tokens = [
     'VAL_INT',
     'VAL_FLOAT',
     'VAL_STRING',
-    'VAL_CHAR',
+    # 'VAL_CHAR',
     'EQUAL_TO',
     'NOT_EQUAL_TO'
 ]
@@ -56,6 +56,7 @@ def t_ID(t):
     r'[a-zA-Z][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')     # Check for reserved words
     return t
+
 
 # VAL_INT
 def t_VAL_INT(t):
@@ -79,12 +80,12 @@ def t_VAL_STRING(t):
     t.value = (t.value, 'string')
     return t
 
-# VAL_BOOL
-def t_VAL_BOOL(t):
-    r'true|false'
-    t.type = reserved.get(t.value,'VAL_BOOL') 
-    t.value = (t.value, 'bool')
-    return t
+# # VAL_BOOL
+# def t_VAL_BOOL(t):
+#     r'true|false'
+#     t.type = reserved.get(t.value,'VAL_BOOL') 
+#     t.value = (t.value, 'bool')
+#     return t
     
 # Ignored chars, newline & errors
 t_ignore = " \t"

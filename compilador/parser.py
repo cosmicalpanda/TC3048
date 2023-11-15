@@ -6,17 +6,43 @@ tokenizer for the compiler
 import ply.yacc as yacc
 from lexer import tokens
     
+
 # programa
 def p_programa(p):
     '''
-    programa : PROGRAM ID ';' var_opcional func_programa_loop MAIN '(' ')' '{' loop_estatuto '}' 
+    programa : PROGRAM  ID ';'  var_opcional func_programa_loop main   
     '''
 
+# main
+# No se puede declarar variables en el main
+def p_main(p):
+    '''
+    main : MAIN '(' ')' '{' loop_estatuto '}' 
+    '''
+
+
 #var_opcional
+# puede hacerse la declaracion de variables o no
 def p_var_opcional(p):
     '''
     var_opcional : var_declaracion
                  | epsilon
+    '''
+    p[0] = p[1]
+    pass
+
+
+# variable
+def p_variable(p):
+    '''
+    variable : ID  variable_1
+    '''
+
+# variable 1
+def p_variable_1(p):
+    '''
+    variable_1 : '[' hyper_exp ']'
+               | epsilon
     '''
 
 # Variable declaration
@@ -39,10 +65,11 @@ def p_func_programa_loop(p):
                        | epsilon
     '''
 
+
 # function definition
 def p_func_definicion(p):
     '''
-    func_definicion : FUNCTION func_tipo_retorno ID '(' func_parametro ')' ';' var_opcional '{' loop_estatuto '}' 
+    func_definicion : FUNCTION func_tipo_retorno ID '(' func_parametro ')' ';' var_opcional '{' loop_estatuto '}'
     '''
 
 #function return type
@@ -74,20 +101,11 @@ def p_loop_parametro(p):
                    | epsilon
     '''
 
-# loop parametro
-def p_loop_parametro(p):
-    '''
-    loop_parametro : ',' ID loop_parametro
-                   | epsilon
-    '''
-
 # Type
 def p_tipo(p):
     '''
     tipo : INT
          | FLOAT
-         | CHAR
-         | STRING
     '''
 
 # List of IDs
@@ -105,21 +123,38 @@ def p_loop_lista_ids(p):
                    | epsilon
     '''
 
+# # Estatuto
+# def p_estatuto(p):
+#     '''
+#     estatuto : asignacion
+#              | func_llamada ';'
+#              | read
+#              | write
+#              | decision
+#              | repeticion
+#     '''
+#     p[0] = p[1]
+#     pass
+
 # Estatuto
 def p_estatuto(p):
     '''
     estatuto : asignacion
-             | func_llamada
-             | io
+             | func_llamada ';'
+             | read
+             | write
              | decision
              | repeticion
     '''
+    p[0] = p[1]
+    pass
 
 # Asignacion
 def p_asignacion(p):
     '''
-    asignacion : variable '=' hyper_exp
+    asignacion : variable '=' hyper_exp ';'
     '''
+
 
 # Funcion llamada
 def p_func_llamada(p):
@@ -131,29 +166,21 @@ def p_func_llamada(p):
 #loop hyper_exp
 def p_hyper_exp_loop(p):
     '''
-    hyper_exp_loop : hyper_exp ',' hyper_exp_loop_1
+    hyper_exp_loop : hyper_exp hyper_exp_loop_1
     '''
 
 #loop hyper_exp_1
 def p_hyper_exp_loop_1(p):
     '''
-    hyper_exp_loop_1 : ',' hyper_exp_loop_1
+    hyper_exp_loop_1 : ',' hyper_exp hyper_exp_loop_1
                      | epsilon
     '''
 
-# func return
-def p_func_return(p):
-    '''
-    func_return : RETURN '(' hyper_exp ')' ';'
-    '''
-
-
-# IO
-def p_io(p):
-    '''
-    io : read
-        | write
-    '''
+# # func return
+# def p_func_return(p):
+#     '''
+#     func_return : RETURN '(' hyper_exp ')' ';'
+#     '''
 
 # Read
 def p_read(p):
@@ -193,26 +220,14 @@ def p_decision_1(p):
                | epsilon
     '''
 
-# variable
-def p_variable(p):
-    '''
-    variable : ID
-             | ID '[' hyper_exp ']'
-    '''
 
 # loop estatuto
 # TODO: determinar si es necesario ya que creo que todas las instancias de estatuto son opcionales
 # manda un estatuto obligatorio y luego opcionales
 def p_loop_estatuto(p):
     '''
-    loop_estatuto : estatuto loop_estatuto_1
-    '''
-
-# loop estatuto 1  
-def p_loop_estatuto_1(p):
-    '''
-    loop_estatuto_1 : estatuto loop_estatuto_1
-                    | epsilon
+    loop_estatuto : estatuto loop_estatuto
+                  | epsilon
     '''
 
 # Repeticion
@@ -230,10 +245,9 @@ def p_condicional(p):
 
 # No condicional
 # usar id en lugar de variable, por que usaria una casilla de algun array en un for ?
-# llamo loop_estatuto_1 para que sea opcional
 def p_no_condicional(p):
     '''
-    no_condicional : FOR variable '=' hyper_exp TO hyper_exp DO '{' loop_estatuto_1 '}' 
+    no_condicional : FOR variable '=' hyper_exp TO hyper_exp DO '{' loop_estatuto '}' 
     '''
 
 # Hyper exp
@@ -269,7 +283,7 @@ def p_super_exp_1(p):
 # Exp
 def p_exp(p):
     '''
-    exp : termino exp_1
+    exp : term exp_1
     '''
 
 # Exp 1
@@ -289,23 +303,88 @@ def p_term(p):
 # Term 1
 def p_term_1(p):
     '''
-    term_1 : '*' factor term_1
-           | '/' factor term_1
+    term_1 : '*' factor 
+           | '/' factor
            | epsilon
     '''
+
+# # Factor
+# def p_factor(p):
+#     '''
+#     factor : func_llamada
+#            | VAL_INT
+#            | VAL_FLOAT
+#            | VAL_STRING
+#            | variable
+#            | '(' hyper_exp ')'
+#     '''
 
 # Factor
 def p_factor(p):
     '''
-    factor : func_llamada
-           | VAL_INT
+    factor : VAL_INT
            | VAL_FLOAT
            | VAL_STRING
-           | VAL_BOOL
            | variable
            | '(' hyper_exp ')'
     '''
 
+
 def p_epsilon(p):
     '''epsilon : '''
     p[0] = 'epsilon'
+
+
+# def p_error(p):
+#     if not p:
+#         error_msg = "Syntax error"
+#     else:
+#         error_msg = 'syntax error in line ' + \
+#             str(p.lineno) + ' when parsing ' + str(p)
+#     raise SyntaxError(error_msg)
+
+'''
+TODO: fix char and string mixup
+TODO: fix bool problem
+'''
+codigo = '''
+
+program test1 ; 
+vars int  a , b ;  float c, d ;
+function int f1 ( int x, int y ) ; vars int a, b ; { 
+    a = 1 ;
+    b [2] = c [a] ;
+ }
+ main () {
+    x = 1 ;
+
+    f0();
+    f1 (1);
+    f2 (1, 2);
+    
+    read (a, b, c);
+
+    write (a, b, c);
+
+    if (a == 1) then {
+        a = 1;
+    } 
+
+    if (a > 1) then {
+        a = 1;
+    } else {
+        a = 2;
+    }
+
+    while (a == 1) do {
+        a = 1;
+    }
+
+    for x = 1 to 10 do {
+        a = 1;
+    }
+ }
+'''
+parser = yacc.yacc()
+
+parser.parse(codigo, tracking=True)
