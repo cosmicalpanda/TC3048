@@ -12,3 +12,10 @@ A00825923
 - Lexer tests
 - Parser
 - Parser tests
+
+# Fase 2
+- Directorio de procedimientos
+- Tabla de variables
+
+# Fase 3
+- Cubo Semantico
