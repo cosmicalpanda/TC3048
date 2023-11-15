@@ -1,4 +1,4 @@
-from vars_table import varsTable
+from vars_table import VarsTable
 
 '''
     formato de directorio de funciones:
@@ -8,12 +8,12 @@ from vars_table import varsTable
 
 '''
 
-class funcDir:
+class FuncDir:
     def __init__(self):
         self.dir = {
-            'global': ['void', varsTable('global')]
+            'global': ['void', VarsTable('global')]
         }
 
     def insert_func(self, func, tipo):
         if (not self.dir.get(func)):
-            self.dir[func] = [tipo, varsTable('local')]
+            self.dir[func] = [tipo, VarsTable('local')]

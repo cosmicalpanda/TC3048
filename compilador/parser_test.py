@@ -1,7 +1,7 @@
 '''
 parser_test.py
 '''
-from parser import parser
+from a_parser import parser
 import sys
 import os
 # import json

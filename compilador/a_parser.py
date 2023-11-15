@@ -5,7 +5,14 @@ tokenizer for the compiler
 '''
 import ply.yacc as yacc
 from lexer import tokens
-    
+from vars_table import VarsTable
+from semantic_cube import SemanticCube
+from func_dir import FuncDir
+
+func_dir = FuncDir()
+semantic_cube = SemanticCube()
+
+curr_scope = 'global'
 
 # programa
 def p_programa(p):
@@ -71,6 +78,8 @@ def p_func_definicion(p):
     '''
     func_definicion : FUNCTION func_tipo_retorno ID '(' func_parametro ')' ';' var_opcional '{' loop_estatuto '}'
     '''
+    # insert function into function directory
+    func_dir.insert_func(p[3], p[2])
 
 #function return type
 def p_func_tipo_retorno(p):
@@ -78,7 +87,8 @@ def p_func_tipo_retorno(p):
     func_tipo_retorno : tipo
                       | VOID
     '''
-
+    p[0] = p[1]
+    
 #function parameter
 def p_func_parametro(p):
     '''
@@ -107,6 +117,7 @@ def p_tipo(p):
     tipo : INT
          | FLOAT
     '''
+    p[0] = p[1]
 
 # List of IDs
 def p_lista_ids(p):

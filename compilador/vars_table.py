@@ -1,4 +1,4 @@
-class varsTable:
+class VarsTable:
     def __init__(self, scope):
         # scope: global, local, const
         # cada scope tiene su propia tabla de variables
