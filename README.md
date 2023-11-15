@@ -9,3 +9,6 @@ A00825923
 
 # Fase 1
 - Lexer
+- Lexer tests
+- Parser
+- Parser tests

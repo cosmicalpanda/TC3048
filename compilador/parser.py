@@ -346,45 +346,43 @@ def p_epsilon(p):
 '''
 TODO: fix char and string mixup
 TODO: fix bool problem
-'''
-codigo = '''
+# '''
+# codigo = '''
 
-program test1 ; 
-vars int  a , b ;  float c, d ;
-function int f1 ( int x, int y ) ; vars int a, b ; { 
-    a = 1 ;
-    b [2] = c [a] ;
- }
- main () {
-    x = 1 ;
+# program test1 ; 
+# vars int  a , b ;  float c, d ;
+# function int f1 ( int x, int y ) ; vars int a, b ; { 
+#     a = 1 ;
+#     b [2] = c [a] ;
+#  }
+#  main () {
+#     x = 1 ;
 
-    f0();
-    f1 (1);
-    f2 (1, 2);
+#     f0();
+#     f1 (1);
+#     f2 (1, 2);
     
-    read (a, b, c);
+#     read (a, b, c);
 
-    write (a, b, c);
+#     write (a, b, c);
 
-    if (a == 1) then {
-        a = 1;
-    } 
+#     if (a == 1) then {
+#         a = 1;
+#     } 
 
-    if (a > 1) then {
-        a = 1;
-    } else {
-        a = 2;
-    }
+#     if (a > 1) then {
+#         a = 1;
+#     } else {
+#         a = 2;
+#     }
 
-    while (a == 1) do {
-        a = 1;
-    }
+#     while (a == 1) do {
+#         a = 1;
+#     }
 
-    for x = 1 to 10 do {
-        a = 1;
-    }
- }
-'''
+#     for x = 1 to 10 do {
+#         a = 1;
+#     }
+#  }
+# '''
 parser = yacc.yacc()
-
-parser.parse(codigo, tracking=True)
