@@ -27,10 +27,10 @@ def test_vars_table_const():
     vt.add_const('int',  100)
     vt.add_const('float', 200)
     vt.add_const('float', 200)
-    for i in range(0, 10):
-        vt.add_const('int', i)
+    # for i in range(0, 10):
+    #     vt.add_const('int', i)
+    # vt.add_const('int', 'a')
     print(vt.table, "\n")
-    vt.add_const('int', 'a')
 
 def main():
     try:

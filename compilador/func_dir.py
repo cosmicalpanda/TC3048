@@ -3,16 +3,16 @@ from vars_table import VarsTable
 class FuncDir:
     # formato de directorio de funciones:
     # 
-    # 'nombre': [tipo, varsTable, params, ret],
+    # 'nombre': [retType, varsTable, params, ret],
     # 
     #  nombre: puede ser global, const, "funcion"
     def __init__(self):
         self.dir = {}   
 
     # agregar funcion a dirFunc
-    def add_func(self, func, tipo):
+    def add_func(self, func, retType):
         if not self.dir.get(func):
-            self.dir[func] = [tipo, None, [], None]
+            self.dir[func] = [retType, None, [], None]
         else:
             raise Exception('Funcion {} ya declarada'.format(func))
         
@@ -24,14 +24,14 @@ class FuncDir:
             raise Exception('Funcion {} no declarada'.format(func))
 
     # agregar variable a varstable
-    def add_var(self, func, type, varName):
+    def add_var(self, func, type, varName=None):
         if self.dir.get(func):
             return self.dir[func][1].add_var(type, varName)
         else:
             raise Exception('Funcion {} no declarada'.format(func))
     
     # agregar constante a dirFunc
-    def add_const(self, func, type, constVal):
+    def add_const(self, type, constVal):
         # si no existia, crear tabla de constantes 
         if 'const' not in self.dir.keys():
             self.dir['const'] = ['void', VarsTable('const'), None, None]
@@ -49,10 +49,13 @@ class FuncDir:
         else:
             raise Exception('Funcion {} no declarada'.format(func))
         
-
     # saber si existe varsTable en funcion
     def has_varstable(self, func):
         if self.dir.get(func):
             return self.dir[func][1] != None
         else:
             raise Exception('Funcion {} no declarada'.format(func))
+        
+    # saber una variable ya fue declarada en una funcion
+    def has_var(self, func, varName):
+        return self.dir[func][1].has_var(varName) != None
