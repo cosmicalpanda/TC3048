@@ -8,24 +8,60 @@ from lexer import tokens
 from vars_table import VarsTable
 from semantic_cube import SemanticCube
 from func_dir import FuncDir
+from quadruples import Quadruples
 
-func_dir = FuncDir()
-semantic_cube = SemanticCube()
+func_dir = None
+semantic_cube = None
+quadruples = None
 
-curr_scope = 'global'
+# stack de operando y su tipo [(op, type)]
+operand_stack = None
+#
+operator_stack = None
+#
+curr_scope = None
+curr_var_type = None
+curr_var_name = None
 
 # programa
 def p_programa(p):
     '''
-    programa : PROGRAM  ID ';'  var_opcional func_programa_loop main   
+    programa : PROGRAM np_program_start ID np_start_dirfunc ';' var_opcional func_programa_loop main   
     '''
+
+def p_np_program_start(p):
+    '''
+    np_program_start : epsilon
+    '''
+    # crear dirFunc
+    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack
+    func_dir = FuncDir()
+    semantic_cube = SemanticCube()
+    quadruples = Quadruples()
+    operand_stack = []
+    operator_stack = []
+    
+def p_np_start_dirfunc(p):
+    '''
+    np_start_dirfunc : epsilon
+    '''
+    # insertar funcion main en dirFunc
+    global func_dir, curr_scope
+    curr_scope = 'global'
+    func_dir.insert_func(curr_scope, 'void')
 
 # main
 # No se puede declarar variables en el main
 def p_main(p):
     '''
-    main : MAIN '(' ')' '{' loop_estatuto '}' 
+    main : MAIN '(' ')' '{' loop_estatuto '}' np_fin_total
     '''
+
+def p_np_fin_total(p):
+    '''
+    np_fin_total : epsilon
+    '''
+    # borra dirFunc y vartable global
 
 
 #var_opcional
@@ -35,7 +71,6 @@ def p_var_opcional(p):
     var_opcional : var_declaracion
                  | epsilon
     '''
-    p[0] = p[1]
     pass
 
 
@@ -52,18 +87,62 @@ def p_variable_1(p):
                | epsilon
     '''
 
+# TODO: array logic, for now only single variables
 # Variable declaration
 def p_var_declaracion(p):
     '''
-    var_declaracion : VARS tipo lista_ids ';' loop_var_decl
+    var_declaracion : VARS np_var_prep tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl ';'
     '''
 
+
+# TODO: rework for array
 # Variable declaration loop
 def p_loop_var_decl(p):
     '''
-    loop_var_decl : tipo lista_ids ';' loop_var_decl
+    loop_var_decl : ',' ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl
                   | epsilon
     '''
+
+# en caso de que curr_scope no tenga vartable, crearla
+def p_np_var_prep(p):
+    '''
+    np_var_prep : epsilon
+    '''
+    # crear vartable
+    global func_dir, curr_scope
+    if not func_dir.has_varstable(curr_scope):
+        # TODO: agregar opciones de scope
+        if curr_scope == 'global':
+            func_dir.add_varstable(curr_scope, 'global')
+
+#
+def p_np_set_curr_var_type(p):
+    '''
+    np_set_curr_var_type : epsilon
+    '''
+    # set curr_type
+    global curr_var_type
+    curr_var_type = p[-1]
+
+# 
+def p_np_set_curr_var_name(p):
+    '''
+    np_set_curr_var_name : epsilon
+    '''
+    # set curr_name
+    global curr_var_name
+    curr_var_name = p[-1]
+
+def p_np_add_var_to_varstable(p):
+    '''
+    np_add_var_to_varstable : epsilon
+    '''
+    # no se tiene que validar, si ya existe se lanza error
+    global func_dir, curr_scope, curr_var_type, curr_var_name
+    # agregar a func_dir y stack de operandos
+    func_dir.add_var(curr_scope, curr_var_type, curr_var_name)
+    operand_stack.append((curr_var_name, curr_var_type))
+
 
 #func_programa_loop
 def p_func_programa_loop(p):
@@ -72,14 +151,13 @@ def p_func_programa_loop(p):
                        | epsilon
     '''
 
-
 # function definition
 def p_func_definicion(p):
     '''
-    func_definicion : FUNCTION func_tipo_retorno ID '(' func_parametro ')' ';' var_opcional '{' loop_estatuto '}'
+    func_definicion : FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id '(' np_funcfunc_parametro ')' ';' var_opcional '{' loop_estatuto '}' np_kill_func
     '''
     # insert function into function directory
-    func_dir.insert_func(p[3], p[2])
+    # func_dir.insert_func(p[3], p[2])
 
 #function return type
 def p_func_tipo_retorno(p):
@@ -88,6 +166,14 @@ def p_func_tipo_retorno(p):
                       | VOID
     '''
     p[0] = p[1]
+
+def np_func_tipo_retorno(p):
+    '''
+    np_func_tipo_retorno : epsilon
+    '''
+    # set curr_scope
+    global curr_scope
+    curr_scope = p[-1]
     
 #function parameter
 def p_func_parametro(p):
@@ -119,20 +205,21 @@ def p_tipo(p):
     '''
     p[0] = p[1]
 
-# List of IDs
-def p_lista_ids(p):
-    '''
-    lista_ids : ID loop_lista_ids
-              | ID '[' INT ']' loop_lista_ids
-    '''
+# TODO: logica para arrays
+# # List of IDs
+# def p_lista_ids(p):
+#     '''
+#     lista_ids : ID loop_lista_ids
+#               | ID '[' INT ']' loop_lista_ids
+#     '''
 
-# loop_lista_ids
-def p_loop_lista_ids(p):
-    '''
-    loop_lista_ids : ',' ID loop_lista_ids
-                   | ',' ID '[' INT ']' loop_lista_ids
-                   | epsilon
-    '''
+# # loop_lista_ids
+# def p_loop_lista_ids(p):
+#     '''
+#     loop_lista_ids : ',' ID loop_lista_ids
+#                    | ',' ID '[' INT ']' loop_lista_ids
+#                    | epsilon
+#     '''
 
 # # Estatuto
 # def p_estatuto(p):
@@ -333,13 +420,25 @@ def p_term_1(p):
 # Factor
 def p_factor(p):
     '''
-    factor : VAL_INT
+    factor : VAL_INT np_push_const
            | VAL_FLOAT
            | VAL_STRING
            | variable
            | '(' hyper_exp ')'
     '''
+    # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
+    if len(p) == 2:
+        temp_tuple = p[1]
+        operand_stack.append(temp_tuple)
+        
 
+# TODO: how to do constants 
+def p_np_push_const(p):
+    '''
+    np_push_const : epsilon
+    '''
+    # push constante a operand stack
+    # operand_stack.append((p[1], 'int'))
 
 def p_epsilon(p):
     '''epsilon : '''
