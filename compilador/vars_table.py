@@ -15,7 +15,7 @@ class VarsTable:
             }
             self.counter = {
                 'global': {
-                    'int': 0,
+                    'int': 0000,
                     'float': 1000,
                     'char': 2000,
                     'bool': 3000

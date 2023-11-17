@@ -56,6 +56,15 @@ class FuncDir:
         else:
             raise Exception('Funcion {} no declarada'.format(func))
         
-    # saber una variable ya fue declarada en una funcion
-    def has_var(self, func, varName):
-        return self.dir[func][1].has_var(varName) != None
+    # encontrar variable en dirFunc
+    # busca func -> global
+    def search_var(self, func, varName):
+        if self.dir[func][1]:
+            var = self.dir[func][1].table['local'].get(varName)
+            if var:
+                return var[1] 
+        if self.dir['global'][1]:
+            var = self.dir['global'][1].table['global'].get(varName)
+            if var:
+                return var[1]
+        raise Exception('Variable {} no declarada'.format(varName))

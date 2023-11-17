@@ -67,18 +67,22 @@ def test_has_varstable():
     print(fd.has_varstable('func2'))
     print(fd.has_varstable('func3'))
 
-def test_has_var():
-    print("Probando has_var\n")
+def test_search_var():
+    print("Probando search_var\n")
     fd = FuncDir()
+    fd.add_func('global', 'void')
+    fd.add_varstable('global', 'global')
     fd.add_func('func1', 'int')
     fd.add_varstable('func1', 'local')
     fd.add_var('func1', 'int', 'a')
-    fd.add_var('func1', 'float', 'b')
-    print(fd.has_var('func1', 'a'))
-    print(fd.has_var('func1', 'b'))
-    print(fd.has_var('func1', 'c'))
-    print(fd.has_var('func2', 'a'))
+    fd.add_var('func1', 'int', 'b')
+    fd.add_var('global', 'int', 'b')
+    fd.add_var('global', 'int', 'c')
 
+    print(fd.search_var('func1', 'a'))
+    print(fd.search_var('func1', 'b'))
+    print(fd.search_var('func1', 'c'))
+    print(fd.search_var('func1', 'd'))
 
 def main():
     try:
@@ -115,7 +119,13 @@ def main():
         test_has_varstable()
     except Exception as e:
         print(e)
+    print("\n")
 
+    try:
+        test_search_var()
+    except Exception as e:
+        print(e)
+    print("\n")
 
 
 if __name__ == "__main__":
