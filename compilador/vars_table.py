@@ -57,7 +57,7 @@ class VarsTable:
     # Funcion para agregar una variable a la tabla de variables
     # regresa la direccion de la variable
     # TODO: codigo para agregar arreglos 
-    def add_var(self, type, varName):
+    def add_var(self, type, varName=None):
         # en caso de no tener varName es temporal
         if varName:
             # si es una variable nueva proceder
@@ -86,9 +86,9 @@ class VarsTable:
             # ejemplo: {'int10000': ('int', 10000, False)}
             self.table['temp'][new_temp] = (type, self.counter['temp'][type])
             # actualiza counter
-            self.counter['const'][type] = self.counter['const'][type] + 1
+            self.counter['temp'][type] = self.counter['temp'][type] + 1
             # retorna la direccion del temporal
-            return self.counter['const'][type] - 1
+            return self.counter['temp'][type] - 1
 
 
     # Funcion para agregar un valor constante a la tabla de constantes
