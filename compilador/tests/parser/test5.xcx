@@ -1,0 +1,12 @@
+% prueba todos los elementos del lenguaje planeados hasta el momento
+program test1 ; 
+vars int  a , b ;  float c, d ;
+function int f1 ( int x, int y ) ; vars int a, b ; bool c, d ; { 
+    a = 1 ;
+    b = 2 + 1;
+    a = 1 + 2 * 3 ;
+    c = a == b ;
+ }
+ main(){
+
+ }

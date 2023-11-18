@@ -16,55 +16,55 @@ Rule 4     main -> MAIN ( ) { loop_estatuto } np_fin_total
 Rule 5     np_fin_total -> epsilon
 Rule 6     var_opcional -> var_declaracion
 Rule 7     var_opcional -> epsilon
-Rule 8     variable -> ID np_single_var_search
-Rule 9     variable -> ID [ hyper_exp ]
-Rule 10    var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
-Rule 11    np_var_prep -> epsilon
-Rule 12    loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion
-Rule 13    loop_var_declaracion -> epsilon
-Rule 14    var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
-Rule 15    loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
-Rule 16    loop_var_decl_mismo_tipo -> epsilon
-Rule 17    np_set_curr_var_type -> epsilon
-Rule 18    np_set_curr_var_name -> epsilon
-Rule 19    np_add_var_to_varstable -> epsilon
-Rule 20    func_programa_loop -> func_definicion func_programa_loop
-Rule 21    func_programa_loop -> epsilon
-Rule 22    func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-Rule 23    func_tipo_retorno -> tipo
-Rule 24    func_tipo_retorno -> VOID
-Rule 25    np_func_tipo_retorno -> epsilon
-Rule 26    np_func_id -> epsilon
-Rule 27    np_add_to_func_dir -> epsilon
-Rule 28    np_kill_func -> epsilon
-Rule 29    np_prep_func_params -> epsilon
-Rule 30    func_parametro -> parametro
-Rule 31    func_parametro -> epsilon
-Rule 32    parametro -> tipo ID loop_parametro
-Rule 33    loop_parametro -> , tipo ID loop_parametro
-Rule 34    loop_parametro -> epsilon
-Rule 35    tipo -> INT
-Rule 36    tipo -> FLOAT
-Rule 37    tipo -> CHAR
-Rule 38    tipo -> BOOL
-Rule 39    estatuto -> asignacion
-Rule 40    estatuto -> func_llamada ;
-Rule 41    estatuto -> read
-Rule 42    estatuto -> write
-Rule 43    estatuto -> decision
-Rule 44    estatuto -> repeticion
-Rule 45    estatuto -> func_return
-Rule 46    asignacion -> variable = hyper_exp ;
-Rule 47    func_llamada -> ID ( )
-Rule 48    func_llamada -> ID ( hyper_exp_loop )
-Rule 49    hyper_exp_loop -> hyper_exp hyper_exp_loop_1
-Rule 50    hyper_exp_loop_1 -> , hyper_exp hyper_exp_loop_1
-Rule 51    hyper_exp_loop_1 -> epsilon
-Rule 52    func_return -> RETURN ( hyper_exp ) ;
-Rule 53    read -> READ ( variable_loop ) ;
-Rule 54    variable_loop -> variable variable_loop_1
-Rule 55    variable_loop_1 -> , variable variable_loop_1
-Rule 56    variable_loop_1 -> epsilon
+Rule 8     variable -> ID np_single_var_process
+Rule 9     var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
+Rule 10    np_var_prep -> epsilon
+Rule 11    loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion
+Rule 12    loop_var_declaracion -> epsilon
+Rule 13    var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+Rule 14    loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
+Rule 15    loop_var_decl_mismo_tipo -> epsilon
+Rule 16    np_set_curr_var_type -> epsilon
+Rule 17    np_set_curr_var_name -> epsilon
+Rule 18    np_add_var_to_varstable -> epsilon
+Rule 19    func_programa_loop -> func_definicion func_programa_loop
+Rule 20    func_programa_loop -> epsilon
+Rule 21    func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+Rule 22    func_tipo_retorno -> tipo
+Rule 23    func_tipo_retorno -> VOID
+Rule 24    np_func_tipo_retorno -> epsilon
+Rule 25    np_func_id -> epsilon
+Rule 26    np_add_to_func_dir -> epsilon
+Rule 27    np_kill_func -> epsilon
+Rule 28    np_prep_func_params -> epsilon
+Rule 29    func_parametro -> parametro
+Rule 30    func_parametro -> epsilon
+Rule 31    parametro -> tipo ID loop_parametro
+Rule 32    loop_parametro -> , tipo ID loop_parametro
+Rule 33    loop_parametro -> epsilon
+Rule 34    tipo -> INT
+Rule 35    tipo -> FLOAT
+Rule 36    tipo -> CHAR
+Rule 37    tipo -> BOOL
+Rule 38    estatuto -> asignacion
+Rule 39    estatuto -> func_llamada ;
+Rule 40    estatuto -> read
+Rule 41    estatuto -> write
+Rule 42    estatuto -> decision
+Rule 43    estatuto -> repeticion
+Rule 44    estatuto -> func_return
+Rule 45    asignacion -> variable = hyper_exp ;
+Rule 46    func_llamada -> ID ( )
+Rule 47    func_llamada -> ID ( hyper_exp_loop )
+Rule 48    hyper_exp_loop -> hyper_exp np_add_to_input_counter hyper_exp_loop_1
+Rule 49    hyper_exp_loop_1 -> , hyper_exp np_add_to_input_counter hyper_exp_loop_1
+Rule 50    hyper_exp_loop_1 -> epsilon
+Rule 51    func_return -> RETURN ( hyper_exp ) ;
+Rule 52    read -> READ ( variable_loop ) ;
+Rule 53    variable_loop -> variable np_add_to_input_counter variable_loop_1
+Rule 54    variable_loop_1 -> , variable np_add_to_input_counter variable_loop_1
+Rule 55    variable_loop_1 -> epsilon
+Rule 56    np_add_to_input_counter -> epsilon
 Rule 57    write -> WRITE ( hyper_exp_loop ) ;
 Rule 58    decision -> IF ( hyper_exp ) THEN { loop_estatuto } decision_1
 Rule 59    decision_1 -> ELSE { loop_estatuto }
@@ -103,40 +103,40 @@ Rule 91    constant -> VAL_CHAR np_push_const_char
 Rule 92    np_push_const_int -> epsilon
 Rule 93    np_push_const_float -> epsilon
 Rule 94    np_push_const_char -> epsilon
-Rule 95    np_single_var_search -> epsilon
+Rule 95    np_single_var_process -> epsilon
 Rule 96    epsilon -> <empty>
 
 Terminals, with rules where they appear
 
 &                    : 68
-(                    : 4 22 47 48 52 53 57 58 65 88
-)                    : 4 22 47 48 52 53 57 58 65 88
+(                    : 4 21 46 47 51 52 57 58 65 88
+)                    : 4 21 46 47 51 52 57 58 65 88
 *                    : 82
 +                    : 78
-,                    : 15 33 50 55
+,                    : 14 32 49 54
 -                    : 79
 /                    : 83
-;                    : 1 14 22 40 46 52 53 57
+;                    : 1 13 21 39 45 51 52 57
 <                    : 72
-=                    : 46 66
+=                    : 45 66
 >                    : 73
-BOOL                 : 38
-CHAR                 : 37
+BOOL                 : 37
+CHAR                 : 36
 DO                   : 65 66
 ELSE                 : 59
 EQUAL_TO             : 74
-FLOAT                : 36
+FLOAT                : 35
 FOR                  : 66
-FUNCTION             : 22
-ID                   : 1 8 9 14 15 22 32 33 47 48
+FUNCTION             : 21
+ID                   : 1 8 13 14 21 31 32 46 47
 IF                   : 58
-INT                  : 35
+INT                  : 34
 MAIN                 : 4
 NOT_EQUAL_TO         : 75
 PRINT                : 
 PROGRAM              : 1
-READ                 : 53
-RETURN               : 52
+READ                 : 52
+RETURN               : 51
 STRING               : 
 THEN                 : 58
 TO                   : 66
@@ -144,78 +144,77 @@ VAL_CHAR             : 91
 VAL_FLOAT            : 90
 VAL_INT              : 89
 VAL_STRING           : 
-VARS                 : 10
-VOID                 : 24
+VARS                 : 9
+VOID                 : 23
 WHILE                : 65
 WRITE                : 57
-[                    : 9
-]                    : 9
 error                : 
-{                    : 4 22 58 59 65 66
+{                    : 4 21 58 59 65 66
 |                    : 69
-}                    : 4 22 58 59 65 66
+}                    : 4 21 58 59 65 66
 
 Nonterminals, with rules where they appear
 
-asignacion           : 39
+asignacion           : 38
 condicional          : 63
 constant             : 86
-decision             : 43
+decision             : 42
 decision_1           : 58
-epsilon              : 2 3 5 7 11 13 16 17 18 19 21 25 26 27 28 29 31 34 51 56 60 62 70 76 80 84 85 92 93 94 95
+epsilon              : 2 3 5 7 10 12 15 16 17 18 20 24 25 26 27 28 30 33 50 55 56 60 62 70 76 80 84 85 92 93 94 95
 estatuto             : 61
 exp                  : 71 72 73 74 75
 exp_1                : 77
 factor               : 81 82 83
-func_definicion      : 20
-func_llamada         : 40
-func_parametro       : 22
-func_programa_loop   : 1 20
-func_return          : 45
-func_tipo_retorno    : 22
-hyper_exp            : 9 46 49 50 52 58 65 66 66 88
+func_definicion      : 19
+func_llamada         : 39
+func_parametro       : 21
+func_programa_loop   : 1 19
+func_return          : 44
+func_tipo_retorno    : 21
+hyper_exp            : 45 48 49 51 58 65 66 66 88
 hyper_exp_1          : 67
-hyper_exp_loop       : 48 57
-hyper_exp_loop_1     : 49 50
-loop_estatuto        : 4 22 58 59 61 65 66
-loop_parametro       : 32 33
-loop_var_decl_mismo_tipo : 14 15
-loop_var_declaracion : 10 12
+hyper_exp_loop       : 47 57
+hyper_exp_loop_1     : 48 49
+loop_estatuto        : 4 21 58 59 61 65 66
+loop_parametro       : 31 32
+loop_var_decl_mismo_tipo : 13 14
+loop_var_declaracion : 9 11
 main                 : 1
 no_condicional       : 64
-np_add_to_func_dir   : 22
-np_add_var_to_varstable : 14 15
+np_add_to_func_dir   : 21
+np_add_to_input_counter : 48 49 53 54
+np_add_var_to_varstable : 13 14
 np_fin_total         : 4
-np_func_id           : 22
-np_func_tipo_retorno : 22
-np_kill_func         : 22
-np_prep_func_params  : 22
+np_func_id           : 21
+np_func_tipo_retorno : 21
+np_kill_func         : 21
+np_prep_func_params  : 21
 np_program_start     : 1
 np_push_const_char   : 91
 np_push_const_float  : 90
 np_push_const_int    : 89
 np_push_operator_stack : 68 69 72 73 74 75 78 79 82 83
-np_set_curr_var_name : 14 15
-np_set_curr_var_type : 14
-np_single_var_search : 8
+np_set_curr_var_name : 13 14
+np_set_curr_var_type : 13
+np_single_var_process : 8
 np_start_dirfunc     : 1
-np_var_prep          : 10
-parametro            : 30
+np_var_prep          : 9
+parametro            : 29
 programa             : 0
-read                 : 41
-repeticion           : 44
+read                 : 40
+repeticion           : 43
 super_exp            : 67 68 69
 super_exp_1          : 71
 term                 : 77 78 79
 term_1               : 81
-tipo                 : 14 23 32 33
+tipo                 : 13 22 31 32
 var_declaracion      : 6
-var_declaracion_mismo_tipo : 10 12
-var_opcional         : 1 22
-variable             : 46 54 55 66 87
-variable_loop        : 53
-variable_loop_1      : 54 55
-write                : 42
+var_declaracion_mismo_tipo : 9 11
+var_opcional         : 1 21
+variable             : 45 53 54 66 87
+variable_loop        : 52
+variable_loop_1      : 53 54
+write                : 41
 
 Parsing method: LALR
 
@@ -289,7 +288,7 @@ state 8
     (1) programa -> PROGRAM np_program_start ID np_start_dirfunc ; . var_opcional func_programa_loop main
     (6) var_opcional -> . var_declaracion
     (7) var_opcional -> . epsilon
-    (10) var_declaracion -> . VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
+    (9) var_declaracion -> . VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
     (96) epsilon -> .
 
     VARS            shift and go to state 9
@@ -302,8 +301,8 @@ state 8
 
 state 9
 
-    (10) var_declaracion -> VARS . np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
-    (11) np_var_prep -> . epsilon
+    (9) var_declaracion -> VARS . np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
+    (10) np_var_prep -> . epsilon
     (96) epsilon -> .
 
     INT             reduce using rule 96 (epsilon -> .)
@@ -335,9 +334,9 @@ state 11
 state 12
 
     (1) programa -> PROGRAM np_program_start ID np_start_dirfunc ; var_opcional . func_programa_loop main
-    (20) func_programa_loop -> . func_definicion func_programa_loop
-    (21) func_programa_loop -> . epsilon
-    (22) func_definicion -> . FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (19) func_programa_loop -> . func_definicion func_programa_loop
+    (20) func_programa_loop -> . epsilon
+    (21) func_definicion -> . FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
     (96) epsilon -> .
 
     FUNCTION        shift and go to state 16
@@ -349,22 +348,22 @@ state 12
 
 state 13
 
-    (11) np_var_prep -> epsilon .
+    (10) np_var_prep -> epsilon .
 
-    INT             reduce using rule 11 (np_var_prep -> epsilon .)
-    FLOAT           reduce using rule 11 (np_var_prep -> epsilon .)
-    CHAR            reduce using rule 11 (np_var_prep -> epsilon .)
-    BOOL            reduce using rule 11 (np_var_prep -> epsilon .)
+    INT             reduce using rule 10 (np_var_prep -> epsilon .)
+    FLOAT           reduce using rule 10 (np_var_prep -> epsilon .)
+    CHAR            reduce using rule 10 (np_var_prep -> epsilon .)
+    BOOL            reduce using rule 10 (np_var_prep -> epsilon .)
 
 
 state 14
 
-    (10) var_declaracion -> VARS np_var_prep . var_declaracion_mismo_tipo loop_var_declaracion
-    (14) var_declaracion_mismo_tipo -> . tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
-    (35) tipo -> . INT
-    (36) tipo -> . FLOAT
-    (37) tipo -> . CHAR
-    (38) tipo -> . BOOL
+    (9) var_declaracion -> VARS np_var_prep . var_declaracion_mismo_tipo loop_var_declaracion
+    (13) var_declaracion_mismo_tipo -> . tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (34) tipo -> . INT
+    (35) tipo -> . FLOAT
+    (36) tipo -> . CHAR
+    (37) tipo -> . BOOL
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -376,10 +375,10 @@ state 14
 
 state 15
 
-    (20) func_programa_loop -> func_definicion . func_programa_loop
-    (20) func_programa_loop -> . func_definicion func_programa_loop
-    (21) func_programa_loop -> . epsilon
-    (22) func_definicion -> . FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (19) func_programa_loop -> func_definicion . func_programa_loop
+    (19) func_programa_loop -> . func_definicion func_programa_loop
+    (20) func_programa_loop -> . epsilon
+    (21) func_definicion -> . FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
     (96) epsilon -> .
 
     FUNCTION        shift and go to state 16
@@ -391,13 +390,13 @@ state 15
 
 state 16
 
-    (22) func_definicion -> FUNCTION . func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-    (23) func_tipo_retorno -> . tipo
-    (24) func_tipo_retorno -> . VOID
-    (35) tipo -> . INT
-    (36) tipo -> . FLOAT
-    (37) tipo -> . CHAR
-    (38) tipo -> . BOOL
+    (21) func_definicion -> FUNCTION . func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (22) func_tipo_retorno -> . tipo
+    (23) func_tipo_retorno -> . VOID
+    (34) tipo -> . INT
+    (35) tipo -> . FLOAT
+    (36) tipo -> . CHAR
+    (37) tipo -> . BOOL
 
     VOID            shift and go to state 26
     INT             shift and go to state 20
@@ -410,9 +409,9 @@ state 16
 
 state 17
 
-    (21) func_programa_loop -> epsilon .
+    (20) func_programa_loop -> epsilon .
 
-    MAIN            reduce using rule 21 (func_programa_loop -> epsilon .)
+    MAIN            reduce using rule 20 (func_programa_loop -> epsilon .)
 
 
 state 18
@@ -426,8 +425,8 @@ state 18
 
 state 19
 
-    (14) var_declaracion_mismo_tipo -> tipo . np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
-    (17) np_set_curr_var_type -> . epsilon
+    (13) var_declaracion_mismo_tipo -> tipo . np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (16) np_set_curr_var_type -> . epsilon
     (96) epsilon -> .
 
     ID              reduce using rule 96 (epsilon -> .)
@@ -437,36 +436,36 @@ state 19
 
 state 20
 
-    (35) tipo -> INT .
+    (34) tipo -> INT .
 
-    ID              reduce using rule 35 (tipo -> INT .)
+    ID              reduce using rule 34 (tipo -> INT .)
 
 
 state 21
 
-    (36) tipo -> FLOAT .
+    (35) tipo -> FLOAT .
 
-    ID              reduce using rule 36 (tipo -> FLOAT .)
+    ID              reduce using rule 35 (tipo -> FLOAT .)
 
 
 state 22
 
-    (37) tipo -> CHAR .
+    (36) tipo -> CHAR .
 
-    ID              reduce using rule 37 (tipo -> CHAR .)
+    ID              reduce using rule 36 (tipo -> CHAR .)
 
 
 state 23
 
-    (10) var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo . loop_var_declaracion
-    (12) loop_var_declaracion -> . var_declaracion_mismo_tipo loop_var_declaracion
-    (13) loop_var_declaracion -> . epsilon
-    (14) var_declaracion_mismo_tipo -> . tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (9) var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo . loop_var_declaracion
+    (11) loop_var_declaracion -> . var_declaracion_mismo_tipo loop_var_declaracion
+    (12) loop_var_declaracion -> . epsilon
+    (13) var_declaracion_mismo_tipo -> . tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
     (96) epsilon -> .
-    (35) tipo -> . INT
-    (36) tipo -> . FLOAT
-    (37) tipo -> . CHAR
-    (38) tipo -> . BOOL
+    (34) tipo -> . INT
+    (35) tipo -> . FLOAT
+    (36) tipo -> . CHAR
+    (37) tipo -> . BOOL
 
     FUNCTION        reduce using rule 96 (epsilon -> .)
     MAIN            reduce using rule 96 (epsilon -> .)
@@ -483,36 +482,36 @@ state 23
 
 state 24
 
-    (38) tipo -> BOOL .
+    (37) tipo -> BOOL .
 
-    ID              reduce using rule 38 (tipo -> BOOL .)
+    ID              reduce using rule 37 (tipo -> BOOL .)
 
 
 state 25
 
-    (20) func_programa_loop -> func_definicion func_programa_loop .
+    (19) func_programa_loop -> func_definicion func_programa_loop .
 
-    MAIN            reduce using rule 20 (func_programa_loop -> func_definicion func_programa_loop .)
+    MAIN            reduce using rule 19 (func_programa_loop -> func_definicion func_programa_loop .)
 
 
 state 26
 
-    (24) func_tipo_retorno -> VOID .
+    (23) func_tipo_retorno -> VOID .
 
-    ID              reduce using rule 24 (func_tipo_retorno -> VOID .)
+    ID              reduce using rule 23 (func_tipo_retorno -> VOID .)
 
 
 state 27
 
-    (23) func_tipo_retorno -> tipo .
+    (22) func_tipo_retorno -> tipo .
 
-    ID              reduce using rule 23 (func_tipo_retorno -> tipo .)
+    ID              reduce using rule 22 (func_tipo_retorno -> tipo .)
 
 
 state 28
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno . np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-    (25) np_func_tipo_retorno -> . epsilon
+    (21) func_definicion -> FUNCTION func_tipo_retorno . np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (24) np_func_tipo_retorno -> . epsilon
     (96) epsilon -> .
 
     ID              reduce using rule 96 (epsilon -> .)
@@ -536,38 +535,38 @@ state 30
 
 state 31
 
-    (17) np_set_curr_var_type -> epsilon .
+    (16) np_set_curr_var_type -> epsilon .
 
-    ID              reduce using rule 17 (np_set_curr_var_type -> epsilon .)
+    ID              reduce using rule 16 (np_set_curr_var_type -> epsilon .)
 
 
 state 32
 
-    (14) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type . ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (13) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type . ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
 
     ID              shift and go to state 39
 
 
 state 33
 
-    (13) loop_var_declaracion -> epsilon .
+    (12) loop_var_declaracion -> epsilon .
 
-    FUNCTION        reduce using rule 13 (loop_var_declaracion -> epsilon .)
-    MAIN            reduce using rule 13 (loop_var_declaracion -> epsilon .)
-    {               reduce using rule 13 (loop_var_declaracion -> epsilon .)
+    FUNCTION        reduce using rule 12 (loop_var_declaracion -> epsilon .)
+    MAIN            reduce using rule 12 (loop_var_declaracion -> epsilon .)
+    {               reduce using rule 12 (loop_var_declaracion -> epsilon .)
 
 
 state 34
 
-    (12) loop_var_declaracion -> var_declaracion_mismo_tipo . loop_var_declaracion
-    (12) loop_var_declaracion -> . var_declaracion_mismo_tipo loop_var_declaracion
-    (13) loop_var_declaracion -> . epsilon
-    (14) var_declaracion_mismo_tipo -> . tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (11) loop_var_declaracion -> var_declaracion_mismo_tipo . loop_var_declaracion
+    (11) loop_var_declaracion -> . var_declaracion_mismo_tipo loop_var_declaracion
+    (12) loop_var_declaracion -> . epsilon
+    (13) var_declaracion_mismo_tipo -> . tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
     (96) epsilon -> .
-    (35) tipo -> . INT
-    (36) tipo -> . FLOAT
-    (37) tipo -> . CHAR
-    (38) tipo -> . BOOL
+    (34) tipo -> . INT
+    (35) tipo -> . FLOAT
+    (36) tipo -> . CHAR
+    (37) tipo -> . BOOL
 
     FUNCTION        reduce using rule 96 (epsilon -> .)
     MAIN            reduce using rule 96 (epsilon -> .)
@@ -584,25 +583,25 @@ state 34
 
 state 35
 
-    (10) var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .
+    (9) var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .
 
-    FUNCTION        reduce using rule 10 (var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .)
-    MAIN            reduce using rule 10 (var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .)
-    {               reduce using rule 10 (var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .)
+    FUNCTION        reduce using rule 9 (var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .)
+    MAIN            reduce using rule 9 (var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .)
+    {               reduce using rule 9 (var_declaracion -> VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion .)
 
 
 state 36
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno . ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno . ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
 
     ID              shift and go to state 41
 
 
 state 37
 
-    (25) np_func_tipo_retorno -> epsilon .
+    (24) np_func_tipo_retorno -> epsilon .
 
-    ID              reduce using rule 25 (np_func_tipo_retorno -> epsilon .)
+    ID              reduce using rule 24 (np_func_tipo_retorno -> epsilon .)
 
 
 state 38
@@ -614,8 +613,8 @@ state 38
 
 state 39
 
-    (14) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID . np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
-    (18) np_set_curr_var_name -> . epsilon
+    (13) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID . np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (17) np_set_curr_var_name -> . epsilon
     (96) epsilon -> .
 
     ,               reduce using rule 96 (epsilon -> .)
@@ -626,17 +625,17 @@ state 39
 
 state 40
 
-    (12) loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .
+    (11) loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .
 
-    FUNCTION        reduce using rule 12 (loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .)
-    MAIN            reduce using rule 12 (loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .)
-    {               reduce using rule 12 (loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .)
+    FUNCTION        reduce using rule 11 (loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .)
+    MAIN            reduce using rule 11 (loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .)
+    {               reduce using rule 11 (loop_var_declaracion -> var_declaracion_mismo_tipo loop_var_declaracion .)
 
 
 state 41
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID . np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-    (26) np_func_id -> . epsilon
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID . np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (25) np_func_id -> . epsilon
     (96) epsilon -> .
 
     (               reduce using rule 96 (epsilon -> .)
@@ -653,16 +652,16 @@ state 42
 
 state 43
 
-    (18) np_set_curr_var_name -> epsilon .
+    (17) np_set_curr_var_name -> epsilon .
 
-    ,               reduce using rule 18 (np_set_curr_var_name -> epsilon .)
-    ;               reduce using rule 18 (np_set_curr_var_name -> epsilon .)
+    ,               reduce using rule 17 (np_set_curr_var_name -> epsilon .)
+    ;               reduce using rule 17 (np_set_curr_var_name -> epsilon .)
 
 
 state 44
 
-    (14) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name . np_add_var_to_varstable loop_var_decl_mismo_tipo ;
-    (19) np_add_var_to_varstable -> . epsilon
+    (13) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name . np_add_var_to_varstable loop_var_decl_mismo_tipo ;
+    (18) np_add_var_to_varstable -> . epsilon
     (96) epsilon -> .
 
     ,               reduce using rule 96 (epsilon -> .)
@@ -673,15 +672,15 @@ state 44
 
 state 45
 
-    (26) np_func_id -> epsilon .
+    (25) np_func_id -> epsilon .
 
-    (               reduce using rule 26 (np_func_id -> epsilon .)
+    (               reduce using rule 25 (np_func_id -> epsilon .)
 
 
 state 46
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id . np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-    (27) np_add_to_func_dir -> . epsilon
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id . np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (26) np_add_to_func_dir -> . epsilon
     (96) epsilon -> .
 
     (               reduce using rule 96 (epsilon -> .)
@@ -694,25 +693,24 @@ state 47
     (4) main -> MAIN ( ) { . loop_estatuto } np_fin_total
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -741,9 +739,9 @@ state 47
 
 state 48
 
-    (14) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable . loop_var_decl_mismo_tipo ;
-    (15) loop_var_decl_mismo_tipo -> . , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
-    (16) loop_var_decl_mismo_tipo -> . epsilon
+    (13) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable . loop_var_decl_mismo_tipo ;
+    (14) loop_var_decl_mismo_tipo -> . , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
+    (15) loop_var_decl_mismo_tipo -> . epsilon
     (96) epsilon -> .
 
     ,               shift and go to state 73
@@ -754,36 +752,36 @@ state 48
 
 state 49
 
-    (19) np_add_var_to_varstable -> epsilon .
+    (18) np_add_var_to_varstable -> epsilon .
 
-    ,               reduce using rule 19 (np_add_var_to_varstable -> epsilon .)
-    ;               reduce using rule 19 (np_add_var_to_varstable -> epsilon .)
+    ,               reduce using rule 18 (np_add_var_to_varstable -> epsilon .)
+    ;               reduce using rule 18 (np_add_var_to_varstable -> epsilon .)
 
 
 state 50
 
-    (27) np_add_to_func_dir -> epsilon .
+    (26) np_add_to_func_dir -> epsilon .
 
-    (               reduce using rule 27 (np_add_to_func_dir -> epsilon .)
+    (               reduce using rule 26 (np_add_to_func_dir -> epsilon .)
 
 
 state 51
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir . ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir . ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
 
     (               shift and go to state 75
 
 
 state 52
 
-    (52) func_return -> RETURN . ( hyper_exp ) ;
+    (51) func_return -> RETURN . ( hyper_exp ) ;
 
     (               shift and go to state 76
 
 
 state 53
 
-    (53) read -> READ . ( variable_loop ) ;
+    (52) read -> READ . ( variable_loop ) ;
 
     (               shift and go to state 77
 
@@ -797,7 +795,7 @@ state 54
 
 state 55
 
-    (40) estatuto -> func_llamada . ;
+    (39) estatuto -> func_llamada . ;
 
     ;               shift and go to state 79
 
@@ -811,16 +809,16 @@ state 56
 
 state 57
 
-    (43) estatuto -> decision .
+    (42) estatuto -> decision .
 
-    ID              reduce using rule 43 (estatuto -> decision .)
-    READ            reduce using rule 43 (estatuto -> decision .)
-    WRITE           reduce using rule 43 (estatuto -> decision .)
-    IF              reduce using rule 43 (estatuto -> decision .)
-    RETURN          reduce using rule 43 (estatuto -> decision .)
-    WHILE           reduce using rule 43 (estatuto -> decision .)
-    FOR             reduce using rule 43 (estatuto -> decision .)
-    }               reduce using rule 43 (estatuto -> decision .)
+    ID              reduce using rule 42 (estatuto -> decision .)
+    READ            reduce using rule 42 (estatuto -> decision .)
+    WRITE           reduce using rule 42 (estatuto -> decision .)
+    IF              reduce using rule 42 (estatuto -> decision .)
+    RETURN          reduce using rule 42 (estatuto -> decision .)
+    WHILE           reduce using rule 42 (estatuto -> decision .)
+    FOR             reduce using rule 42 (estatuto -> decision .)
+    }               reduce using rule 42 (estatuto -> decision .)
 
 
 state 58
@@ -828,25 +826,24 @@ state 58
     (61) loop_estatuto -> estatuto . loop_estatuto
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -875,32 +872,30 @@ state 58
 
 state 59
 
-    (47) func_llamada -> ID . ( )
-    (48) func_llamada -> ID . ( hyper_exp_loop )
-    (8) variable -> ID . np_single_var_search
-    (9) variable -> ID . [ hyper_exp ]
-    (95) np_single_var_search -> . epsilon
+    (46) func_llamada -> ID . ( )
+    (47) func_llamada -> ID . ( hyper_exp_loop )
+    (8) variable -> ID . np_single_var_process
+    (95) np_single_var_process -> . epsilon
     (96) epsilon -> .
 
-    (               shift and go to state 83
-    [               shift and go to state 85
+    (               shift and go to state 82
     =               reduce using rule 96 (epsilon -> .)
 
     epsilon                        shift and go to state 84
-    np_single_var_search           shift and go to state 82
+    np_single_var_process          shift and go to state 83
 
 state 60
 
-    (42) estatuto -> write .
+    (41) estatuto -> write .
 
-    ID              reduce using rule 42 (estatuto -> write .)
-    READ            reduce using rule 42 (estatuto -> write .)
-    WRITE           reduce using rule 42 (estatuto -> write .)
-    IF              reduce using rule 42 (estatuto -> write .)
-    RETURN          reduce using rule 42 (estatuto -> write .)
-    WHILE           reduce using rule 42 (estatuto -> write .)
-    FOR             reduce using rule 42 (estatuto -> write .)
-    }               reduce using rule 42 (estatuto -> write .)
+    ID              reduce using rule 41 (estatuto -> write .)
+    READ            reduce using rule 41 (estatuto -> write .)
+    WRITE           reduce using rule 41 (estatuto -> write .)
+    IF              reduce using rule 41 (estatuto -> write .)
+    RETURN          reduce using rule 41 (estatuto -> write .)
+    WHILE           reduce using rule 41 (estatuto -> write .)
+    FOR             reduce using rule 41 (estatuto -> write .)
+    }               reduce using rule 41 (estatuto -> write .)
 
 
 state 61
@@ -920,25 +915,24 @@ state 61
 state 62
 
     (66) no_condicional -> FOR . variable = hyper_exp TO hyper_exp DO { loop_estatuto }
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    ID              shift and go to state 87
+    ID              shift and go to state 86
 
-    variable                       shift and go to state 86
+    variable                       shift and go to state 85
 
 state 63
 
-    (41) estatuto -> read .
+    (40) estatuto -> read .
 
-    ID              reduce using rule 41 (estatuto -> read .)
-    READ            reduce using rule 41 (estatuto -> read .)
-    WRITE           reduce using rule 41 (estatuto -> read .)
-    IF              reduce using rule 41 (estatuto -> read .)
-    RETURN          reduce using rule 41 (estatuto -> read .)
-    WHILE           reduce using rule 41 (estatuto -> read .)
-    FOR             reduce using rule 41 (estatuto -> read .)
-    }               reduce using rule 41 (estatuto -> read .)
+    ID              reduce using rule 40 (estatuto -> read .)
+    READ            reduce using rule 40 (estatuto -> read .)
+    WRITE           reduce using rule 40 (estatuto -> read .)
+    IF              reduce using rule 40 (estatuto -> read .)
+    RETURN          reduce using rule 40 (estatuto -> read .)
+    WHILE           reduce using rule 40 (estatuto -> read .)
+    FOR             reduce using rule 40 (estatuto -> read .)
+    }               reduce using rule 40 (estatuto -> read .)
 
 
 state 64
@@ -966,90 +960,90 @@ state 66
 
     (57) write -> WRITE . ( hyper_exp_loop ) ;
 
-    (               shift and go to state 88
+    (               shift and go to state 87
 
 
 state 67
 
-    (46) asignacion -> variable . = hyper_exp ;
+    (45) asignacion -> variable . = hyper_exp ;
 
-    =               shift and go to state 89
+    =               shift and go to state 88
 
 
 state 68
 
     (58) decision -> IF . ( hyper_exp ) THEN { loop_estatuto } decision_1
 
-    (               shift and go to state 90
+    (               shift and go to state 89
 
 
 state 69
 
-    (39) estatuto -> asignacion .
+    (38) estatuto -> asignacion .
 
-    ID              reduce using rule 39 (estatuto -> asignacion .)
-    READ            reduce using rule 39 (estatuto -> asignacion .)
-    WRITE           reduce using rule 39 (estatuto -> asignacion .)
-    IF              reduce using rule 39 (estatuto -> asignacion .)
-    RETURN          reduce using rule 39 (estatuto -> asignacion .)
-    WHILE           reduce using rule 39 (estatuto -> asignacion .)
-    FOR             reduce using rule 39 (estatuto -> asignacion .)
-    }               reduce using rule 39 (estatuto -> asignacion .)
+    ID              reduce using rule 38 (estatuto -> asignacion .)
+    READ            reduce using rule 38 (estatuto -> asignacion .)
+    WRITE           reduce using rule 38 (estatuto -> asignacion .)
+    IF              reduce using rule 38 (estatuto -> asignacion .)
+    RETURN          reduce using rule 38 (estatuto -> asignacion .)
+    WHILE           reduce using rule 38 (estatuto -> asignacion .)
+    FOR             reduce using rule 38 (estatuto -> asignacion .)
+    }               reduce using rule 38 (estatuto -> asignacion .)
 
 
 state 70
 
-    (45) estatuto -> func_return .
+    (44) estatuto -> func_return .
 
-    ID              reduce using rule 45 (estatuto -> func_return .)
-    READ            reduce using rule 45 (estatuto -> func_return .)
-    WRITE           reduce using rule 45 (estatuto -> func_return .)
-    IF              reduce using rule 45 (estatuto -> func_return .)
-    RETURN          reduce using rule 45 (estatuto -> func_return .)
-    WHILE           reduce using rule 45 (estatuto -> func_return .)
-    FOR             reduce using rule 45 (estatuto -> func_return .)
-    }               reduce using rule 45 (estatuto -> func_return .)
+    ID              reduce using rule 44 (estatuto -> func_return .)
+    READ            reduce using rule 44 (estatuto -> func_return .)
+    WRITE           reduce using rule 44 (estatuto -> func_return .)
+    IF              reduce using rule 44 (estatuto -> func_return .)
+    RETURN          reduce using rule 44 (estatuto -> func_return .)
+    WHILE           reduce using rule 44 (estatuto -> func_return .)
+    FOR             reduce using rule 44 (estatuto -> func_return .)
+    }               reduce using rule 44 (estatuto -> func_return .)
 
 
 state 71
 
-    (44) estatuto -> repeticion .
+    (43) estatuto -> repeticion .
 
-    ID              reduce using rule 44 (estatuto -> repeticion .)
-    READ            reduce using rule 44 (estatuto -> repeticion .)
-    WRITE           reduce using rule 44 (estatuto -> repeticion .)
-    IF              reduce using rule 44 (estatuto -> repeticion .)
-    RETURN          reduce using rule 44 (estatuto -> repeticion .)
-    WHILE           reduce using rule 44 (estatuto -> repeticion .)
-    FOR             reduce using rule 44 (estatuto -> repeticion .)
-    }               reduce using rule 44 (estatuto -> repeticion .)
+    ID              reduce using rule 43 (estatuto -> repeticion .)
+    READ            reduce using rule 43 (estatuto -> repeticion .)
+    WRITE           reduce using rule 43 (estatuto -> repeticion .)
+    IF              reduce using rule 43 (estatuto -> repeticion .)
+    RETURN          reduce using rule 43 (estatuto -> repeticion .)
+    WHILE           reduce using rule 43 (estatuto -> repeticion .)
+    FOR             reduce using rule 43 (estatuto -> repeticion .)
+    }               reduce using rule 43 (estatuto -> repeticion .)
 
 
 state 72
 
-    (16) loop_var_decl_mismo_tipo -> epsilon .
+    (15) loop_var_decl_mismo_tipo -> epsilon .
 
-    ;               reduce using rule 16 (loop_var_decl_mismo_tipo -> epsilon .)
+    ;               reduce using rule 15 (loop_var_decl_mismo_tipo -> epsilon .)
 
 
 state 73
 
-    (15) loop_var_decl_mismo_tipo -> , . ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
+    (14) loop_var_decl_mismo_tipo -> , . ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
 
-    ID              shift and go to state 91
+    ID              shift and go to state 90
 
 
 state 74
 
-    (14) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo . ;
+    (13) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo . ;
 
-    ;               shift and go to state 92
+    ;               shift and go to state 91
 
 
 state 75
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( . np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-    (29) np_prep_func_params -> . epsilon
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( . np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (28) np_prep_func_params -> . epsilon
     (96) epsilon -> .
 
     INT             reduce using rule 96 (epsilon -> .)
@@ -1058,12 +1052,12 @@ state 75
     BOOL            reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 94
-    np_prep_func_params            shift and go to state 93
+    epsilon                        shift and go to state 93
+    np_prep_func_params            shift and go to state 92
 
 state 76
 
-    (52) func_return -> RETURN ( . hyper_exp ) ;
+    (51) func_return -> RETURN ( . hyper_exp ) ;
     (67) hyper_exp -> . super_exp hyper_exp_1
     (71) super_exp -> . exp super_exp_1
     (77) exp -> . term exp_1
@@ -1074,34 +1068,32 @@ state 76
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 99
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 98
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
 state 77
 
-    (53) read -> READ ( . variable_loop ) ;
-    (54) variable_loop -> . variable variable_loop_1
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (52) read -> READ ( . variable_loop ) ;
+    (53) variable_loop -> . variable np_add_to_input_counter variable_loop_1
+    (8) variable -> . ID np_single_var_process
 
-    ID              shift and go to state 87
+    ID              shift and go to state 86
 
-    variable                       shift and go to state 106
-    variable_loop                  shift and go to state 107
+    variable                       shift and go to state 105
+    variable_loop                  shift and go to state 106
 
 state 78
 
@@ -1116,35 +1108,34 @@ state 78
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 108
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 107
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
 state 79
 
-    (40) estatuto -> func_llamada ; .
+    (39) estatuto -> func_llamada ; .
 
-    ID              reduce using rule 40 (estatuto -> func_llamada ; .)
-    READ            reduce using rule 40 (estatuto -> func_llamada ; .)
-    WRITE           reduce using rule 40 (estatuto -> func_llamada ; .)
-    IF              reduce using rule 40 (estatuto -> func_llamada ; .)
-    RETURN          reduce using rule 40 (estatuto -> func_llamada ; .)
-    WHILE           reduce using rule 40 (estatuto -> func_llamada ; .)
-    FOR             reduce using rule 40 (estatuto -> func_llamada ; .)
-    }               reduce using rule 40 (estatuto -> func_llamada ; .)
+    ID              reduce using rule 39 (estatuto -> func_llamada ; .)
+    READ            reduce using rule 39 (estatuto -> func_llamada ; .)
+    WRITE           reduce using rule 39 (estatuto -> func_llamada ; .)
+    IF              reduce using rule 39 (estatuto -> func_llamada ; .)
+    RETURN          reduce using rule 39 (estatuto -> func_llamada ; .)
+    WHILE           reduce using rule 39 (estatuto -> func_llamada ; .)
+    FOR             reduce using rule 39 (estatuto -> func_llamada ; .)
+    }               reduce using rule 39 (estatuto -> func_llamada ; .)
 
 
 state 80
@@ -1155,8 +1146,8 @@ state 80
 
     $end            reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 109
-    np_fin_total                   shift and go to state 110
+    epsilon                        shift and go to state 108
+    np_fin_total                   shift and go to state 109
 
 state 81
 
@@ -1167,32 +1158,9 @@ state 81
 
 state 82
 
-    (8) variable -> ID np_single_var_search .
-
-    *               reduce using rule 8 (variable -> ID np_single_var_search .)
-    /               reduce using rule 8 (variable -> ID np_single_var_search .)
-    +               reduce using rule 8 (variable -> ID np_single_var_search .)
-    -               reduce using rule 8 (variable -> ID np_single_var_search .)
-    <               reduce using rule 8 (variable -> ID np_single_var_search .)
-    >               reduce using rule 8 (variable -> ID np_single_var_search .)
-    EQUAL_TO        reduce using rule 8 (variable -> ID np_single_var_search .)
-    NOT_EQUAL_TO    reduce using rule 8 (variable -> ID np_single_var_search .)
-    &               reduce using rule 8 (variable -> ID np_single_var_search .)
-    |               reduce using rule 8 (variable -> ID np_single_var_search .)
-    )               reduce using rule 8 (variable -> ID np_single_var_search .)
-    ,               reduce using rule 8 (variable -> ID np_single_var_search .)
-    ]               reduce using rule 8 (variable -> ID np_single_var_search .)
-    ;               reduce using rule 8 (variable -> ID np_single_var_search .)
-    TO              reduce using rule 8 (variable -> ID np_single_var_search .)
-    DO              reduce using rule 8 (variable -> ID np_single_var_search .)
-    =               reduce using rule 8 (variable -> ID np_single_var_search .)
-
-
-state 83
-
-    (47) func_llamada -> ID ( . )
-    (48) func_llamada -> ID ( . hyper_exp_loop )
-    (49) hyper_exp_loop -> . hyper_exp hyper_exp_loop_1
+    (46) func_llamada -> ID ( . )
+    (47) func_llamada -> ID ( . hyper_exp_loop )
+    (48) hyper_exp_loop -> . hyper_exp np_add_to_input_counter hyper_exp_loop_1
     (67) hyper_exp -> . super_exp hyper_exp_1
     (71) super_exp -> . exp super_exp_1
     (77) exp -> . term exp_1
@@ -1203,93 +1171,81 @@ state 83
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    )               shift and go to state 112
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    )               shift and go to state 111
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 113
-    constant                       shift and go to state 95
-    hyper_exp_loop                 shift and go to state 111
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 112
+    constant                       shift and go to state 94
+    hyper_exp_loop                 shift and go to state 110
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
+
+state 83
+
+    (8) variable -> ID np_single_var_process .
+
+    *               reduce using rule 8 (variable -> ID np_single_var_process .)
+    /               reduce using rule 8 (variable -> ID np_single_var_process .)
+    <               reduce using rule 8 (variable -> ID np_single_var_process .)
+    >               reduce using rule 8 (variable -> ID np_single_var_process .)
+    EQUAL_TO        reduce using rule 8 (variable -> ID np_single_var_process .)
+    NOT_EQUAL_TO    reduce using rule 8 (variable -> ID np_single_var_process .)
+    &               reduce using rule 8 (variable -> ID np_single_var_process .)
+    |               reduce using rule 8 (variable -> ID np_single_var_process .)
+    )               reduce using rule 8 (variable -> ID np_single_var_process .)
+    ,               reduce using rule 8 (variable -> ID np_single_var_process .)
+    ;               reduce using rule 8 (variable -> ID np_single_var_process .)
+    TO              reduce using rule 8 (variable -> ID np_single_var_process .)
+    DO              reduce using rule 8 (variable -> ID np_single_var_process .)
+    +               reduce using rule 8 (variable -> ID np_single_var_process .)
+    -               reduce using rule 8 (variable -> ID np_single_var_process .)
+    =               reduce using rule 8 (variable -> ID np_single_var_process .)
+
 
 state 84
 
-    (95) np_single_var_search -> epsilon .
+    (95) np_single_var_process -> epsilon .
 
-    =               reduce using rule 95 (np_single_var_search -> epsilon .)
-    *               reduce using rule 95 (np_single_var_search -> epsilon .)
-    /               reduce using rule 95 (np_single_var_search -> epsilon .)
-    +               reduce using rule 95 (np_single_var_search -> epsilon .)
-    -               reduce using rule 95 (np_single_var_search -> epsilon .)
-    <               reduce using rule 95 (np_single_var_search -> epsilon .)
-    >               reduce using rule 95 (np_single_var_search -> epsilon .)
-    EQUAL_TO        reduce using rule 95 (np_single_var_search -> epsilon .)
-    NOT_EQUAL_TO    reduce using rule 95 (np_single_var_search -> epsilon .)
-    &               reduce using rule 95 (np_single_var_search -> epsilon .)
-    |               reduce using rule 95 (np_single_var_search -> epsilon .)
-    )               reduce using rule 95 (np_single_var_search -> epsilon .)
-    ,               reduce using rule 95 (np_single_var_search -> epsilon .)
-    ]               reduce using rule 95 (np_single_var_search -> epsilon .)
-    ;               reduce using rule 95 (np_single_var_search -> epsilon .)
-    TO              reduce using rule 95 (np_single_var_search -> epsilon .)
-    DO              reduce using rule 95 (np_single_var_search -> epsilon .)
+    =               reduce using rule 95 (np_single_var_process -> epsilon .)
+    *               reduce using rule 95 (np_single_var_process -> epsilon .)
+    /               reduce using rule 95 (np_single_var_process -> epsilon .)
+    +               reduce using rule 95 (np_single_var_process -> epsilon .)
+    -               reduce using rule 95 (np_single_var_process -> epsilon .)
+    <               reduce using rule 95 (np_single_var_process -> epsilon .)
+    >               reduce using rule 95 (np_single_var_process -> epsilon .)
+    EQUAL_TO        reduce using rule 95 (np_single_var_process -> epsilon .)
+    NOT_EQUAL_TO    reduce using rule 95 (np_single_var_process -> epsilon .)
+    &               reduce using rule 95 (np_single_var_process -> epsilon .)
+    |               reduce using rule 95 (np_single_var_process -> epsilon .)
+    )               reduce using rule 95 (np_single_var_process -> epsilon .)
+    ,               reduce using rule 95 (np_single_var_process -> epsilon .)
+    ;               reduce using rule 95 (np_single_var_process -> epsilon .)
+    TO              reduce using rule 95 (np_single_var_process -> epsilon .)
+    DO              reduce using rule 95 (np_single_var_process -> epsilon .)
 
 
 state 85
 
-    (9) variable -> ID [ . hyper_exp ]
-    (67) hyper_exp -> . super_exp hyper_exp_1
-    (71) super_exp -> . exp super_exp_1
-    (77) exp -> . term exp_1
-    (81) term -> . factor term_1
-    (86) factor -> . constant
-    (87) factor -> . variable
-    (88) factor -> . ( hyper_exp )
-    (89) constant -> . VAL_INT np_push_const_int
-    (90) constant -> . VAL_FLOAT np_push_const_float
-    (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (66) no_condicional -> FOR variable . = hyper_exp TO hyper_exp DO { loop_estatuto }
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    =               shift and go to state 113
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 114
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
 
 state 86
 
-    (66) no_condicional -> FOR variable . = hyper_exp TO hyper_exp DO { loop_estatuto }
-
-    =               shift and go to state 115
-
-
-state 87
-
-    (8) variable -> ID . np_single_var_search
-    (9) variable -> ID . [ hyper_exp ]
-    (95) np_single_var_search -> . epsilon
+    (8) variable -> ID . np_single_var_process
+    (95) np_single_var_process -> . epsilon
     (96) epsilon -> .
 
-    [               shift and go to state 85
     =               reduce using rule 96 (epsilon -> .)
     *               reduce using rule 96 (epsilon -> .)
     /               reduce using rule 96 (epsilon -> .)
@@ -1303,18 +1259,47 @@ state 87
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
     epsilon                        shift and go to state 84
-    np_single_var_search           shift and go to state 82
+    np_single_var_process          shift and go to state 83
+
+state 87
+
+    (57) write -> WRITE ( . hyper_exp_loop ) ;
+    (48) hyper_exp_loop -> . hyper_exp np_add_to_input_counter hyper_exp_loop_1
+    (67) hyper_exp -> . super_exp hyper_exp_1
+    (71) super_exp -> . exp super_exp_1
+    (77) exp -> . term exp_1
+    (81) term -> . factor term_1
+    (86) factor -> . constant
+    (87) factor -> . variable
+    (88) factor -> . ( hyper_exp )
+    (89) constant -> . VAL_INT np_push_const_int
+    (90) constant -> . VAL_FLOAT np_push_const_float
+    (91) constant -> . VAL_CHAR np_push_const_char
+    (8) variable -> . ID np_single_var_process
+
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
+
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 112
+    constant                       shift and go to state 94
+    hyper_exp_loop                 shift and go to state 114
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
 state 88
 
-    (57) write -> WRITE ( . hyper_exp_loop ) ;
-    (49) hyper_exp_loop -> . hyper_exp hyper_exp_loop_1
+    (45) asignacion -> variable = . hyper_exp ;
     (67) hyper_exp -> . super_exp hyper_exp_1
     (71) super_exp -> . exp super_exp_1
     (77) exp -> . term exp_1
@@ -1325,55 +1310,23 @@ state 88
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 113
-    constant                       shift and go to state 95
-    hyper_exp_loop                 shift and go to state 116
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 115
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
 state 89
-
-    (46) asignacion -> variable = . hyper_exp ;
-    (67) hyper_exp -> . super_exp hyper_exp_1
-    (71) super_exp -> . exp super_exp_1
-    (77) exp -> . term exp_1
-    (81) term -> . factor term_1
-    (86) factor -> . constant
-    (87) factor -> . variable
-    (88) factor -> . ( hyper_exp )
-    (89) constant -> . VAL_INT np_push_const_int
-    (90) constant -> . VAL_FLOAT np_push_const_float
-    (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
-
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
-
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 117
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
-
-state 90
 
     (58) decision -> IF ( . hyper_exp ) THEN { loop_estatuto } decision_1
     (67) hyper_exp -> . super_exp hyper_exp_1
@@ -1386,59 +1339,58 @@ state 90
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 118
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 116
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 91
+state 90
 
-    (15) loop_var_decl_mismo_tipo -> , ID . np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
-    (18) np_set_curr_var_name -> . epsilon
+    (14) loop_var_decl_mismo_tipo -> , ID . np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
+    (17) np_set_curr_var_name -> . epsilon
     (96) epsilon -> .
 
     ,               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
 
     epsilon                        shift and go to state 43
-    np_set_curr_var_name           shift and go to state 119
+    np_set_curr_var_name           shift and go to state 117
+
+state 91
+
+    (13) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .
+
+    INT             reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+    FLOAT           reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+    CHAR            reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+    BOOL            reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+    FUNCTION        reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+    MAIN            reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+    {               reduce using rule 13 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
+
 
 state 92
 
-    (14) var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .
-
-    INT             reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-    FLOAT           reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-    CHAR            reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-    BOOL            reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-    FUNCTION        reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-    MAIN            reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-    {               reduce using rule 14 (var_declaracion_mismo_tipo -> tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ; .)
-
-
-state 93
-
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params . func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
-    (30) func_parametro -> . parametro
-    (31) func_parametro -> . epsilon
-    (32) parametro -> . tipo ID loop_parametro
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params . func_parametro ) ; var_opcional { loop_estatuto } np_kill_func
+    (29) func_parametro -> . parametro
+    (30) func_parametro -> . epsilon
+    (31) parametro -> . tipo ID loop_parametro
     (96) epsilon -> .
-    (35) tipo -> . INT
-    (36) tipo -> . FLOAT
-    (37) tipo -> . CHAR
-    (38) tipo -> . BOOL
+    (34) tipo -> . INT
+    (35) tipo -> . FLOAT
+    (36) tipo -> . CHAR
+    (37) tipo -> . BOOL
 
     )               reduce using rule 96 (epsilon -> .)
     INT             shift and go to state 20
@@ -1446,23 +1398,23 @@ state 93
     CHAR            shift and go to state 22
     BOOL            shift and go to state 24
 
-    tipo                           shift and go to state 121
-    parametro                      shift and go to state 122
-    epsilon                        shift and go to state 123
-    func_parametro                 shift and go to state 120
+    tipo                           shift and go to state 119
+    parametro                      shift and go to state 120
+    epsilon                        shift and go to state 121
+    func_parametro                 shift and go to state 118
+
+state 93
+
+    (28) np_prep_func_params -> epsilon .
+
+    INT             reduce using rule 28 (np_prep_func_params -> epsilon .)
+    FLOAT           reduce using rule 28 (np_prep_func_params -> epsilon .)
+    CHAR            reduce using rule 28 (np_prep_func_params -> epsilon .)
+    BOOL            reduce using rule 28 (np_prep_func_params -> epsilon .)
+    )               reduce using rule 28 (np_prep_func_params -> epsilon .)
+
 
 state 94
-
-    (29) np_prep_func_params -> epsilon .
-
-    INT             reduce using rule 29 (np_prep_func_params -> epsilon .)
-    FLOAT           reduce using rule 29 (np_prep_func_params -> epsilon .)
-    CHAR            reduce using rule 29 (np_prep_func_params -> epsilon .)
-    BOOL            reduce using rule 29 (np_prep_func_params -> epsilon .)
-    )               reduce using rule 29 (np_prep_func_params -> epsilon .)
-
-
-state 95
 
     (86) factor -> constant .
 
@@ -1476,15 +1428,14 @@ state 95
     NOT_EQUAL_TO    reduce using rule 86 (factor -> constant .)
     &               reduce using rule 86 (factor -> constant .)
     |               reduce using rule 86 (factor -> constant .)
-    TO              reduce using rule 86 (factor -> constant .)
-    )               reduce using rule 86 (factor -> constant .)
     ,               reduce using rule 86 (factor -> constant .)
-    ]               reduce using rule 86 (factor -> constant .)
+    )               reduce using rule 86 (factor -> constant .)
     ;               reduce using rule 86 (factor -> constant .)
+    TO              reduce using rule 86 (factor -> constant .)
     DO              reduce using rule 86 (factor -> constant .)
 
 
-state 96
+state 95
 
     (67) hyper_exp -> super_exp . hyper_exp_1
     (68) hyper_exp_1 -> . & np_push_operator_stack super_exp
@@ -1492,19 +1443,18 @@ state 96
     (70) hyper_exp_1 -> . epsilon
     (96) epsilon -> .
 
-    &               shift and go to state 124
-    |               shift and go to state 127
+    &               shift and go to state 122
+    |               shift and go to state 125
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    hyper_exp_1                    shift and go to state 126
-    epsilon                        shift and go to state 125
+    hyper_exp_1                    shift and go to state 124
+    epsilon                        shift and go to state 123
 
-state 97
+state 96
 
     (88) factor -> ( . hyper_exp )
     (67) hyper_exp -> . super_exp hyper_exp_1
@@ -1517,24 +1467,23 @@ state 97
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 128
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 126
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 98
+state 97
 
     (81) term -> factor . term_1
     (82) term_1 -> . * np_push_operator_stack factor
@@ -1542,8 +1491,8 @@ state 98
     (84) term_1 -> . epsilon
     (96) epsilon -> .
 
-    *               shift and go to state 130
-    /               shift and go to state 131
+    *               shift and go to state 128
+    /               shift and go to state 129
     +               reduce using rule 96 (epsilon -> .)
     -               reduce using rule 96 (epsilon -> .)
     <               reduce using rule 96 (epsilon -> .)
@@ -1554,22 +1503,21 @@ state 98
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    term_1                         shift and go to state 132
-    epsilon                        shift and go to state 129
+    term_1                         shift and go to state 130
+    epsilon                        shift and go to state 127
+
+state 98
+
+    (51) func_return -> RETURN ( hyper_exp . ) ;
+
+    )               shift and go to state 131
+
 
 state 99
-
-    (52) func_return -> RETURN ( hyper_exp . ) ;
-
-    )               shift and go to state 133
-
-
-state 100
 
     (71) super_exp -> exp . super_exp_1
     (72) super_exp_1 -> . < np_push_operator_stack exp
@@ -1579,23 +1527,22 @@ state 100
     (76) super_exp_1 -> . epsilon
     (96) epsilon -> .
 
-    <               shift and go to state 138
-    >               shift and go to state 139
-    EQUAL_TO        shift and go to state 134
-    NOT_EQUAL_TO    shift and go to state 135
+    <               shift and go to state 136
+    >               shift and go to state 137
+    EQUAL_TO        shift and go to state 132
+    NOT_EQUAL_TO    shift and go to state 133
     &               reduce using rule 96 (epsilon -> .)
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 136
-    super_exp_1                    shift and go to state 137
+    epsilon                        shift and go to state 134
+    super_exp_1                    shift and go to state 135
 
-state 101
+state 100
 
     (90) constant -> VAL_FLOAT . np_push_const_float
     (93) np_push_const_float -> . epsilon
@@ -1613,15 +1560,14 @@ state 101
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    np_push_const_float            shift and go to state 140
-    epsilon                        shift and go to state 141
+    np_push_const_float            shift and go to state 138
+    epsilon                        shift and go to state 139
 
-state 102
+state 101
 
     (91) constant -> VAL_CHAR . np_push_const_char
     (94) np_push_const_char -> . epsilon
@@ -1639,15 +1585,14 @@ state 102
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 142
-    np_push_const_char             shift and go to state 143
+    epsilon                        shift and go to state 140
+    np_push_const_char             shift and go to state 141
 
-state 103
+state 102
 
     (87) factor -> variable .
 
@@ -1661,15 +1606,14 @@ state 103
     NOT_EQUAL_TO    reduce using rule 87 (factor -> variable .)
     &               reduce using rule 87 (factor -> variable .)
     |               reduce using rule 87 (factor -> variable .)
-    TO              reduce using rule 87 (factor -> variable .)
-    )               reduce using rule 87 (factor -> variable .)
     ,               reduce using rule 87 (factor -> variable .)
-    ]               reduce using rule 87 (factor -> variable .)
+    )               reduce using rule 87 (factor -> variable .)
     ;               reduce using rule 87 (factor -> variable .)
+    TO              reduce using rule 87 (factor -> variable .)
     DO              reduce using rule 87 (factor -> variable .)
 
 
-state 104
+state 103
 
     (77) exp -> term . exp_1
     (78) exp_1 -> . + np_push_operator_stack term
@@ -1677,8 +1621,8 @@ state 104
     (80) exp_1 -> . epsilon
     (96) epsilon -> .
 
-    +               shift and go to state 145
-    -               shift and go to state 146
+    +               shift and go to state 143
+    -               shift and go to state 144
     <               reduce using rule 96 (epsilon -> .)
     >               reduce using rule 96 (epsilon -> .)
     EQUAL_TO        reduce using rule 96 (epsilon -> .)
@@ -1687,15 +1631,14 @@ state 104
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 144
-    exp_1                          shift and go to state 147
+    epsilon                        shift and go to state 142
+    exp_1                          shift and go to state 145
 
-state 105
+state 104
 
     (89) constant -> VAL_INT . np_push_const_int
     (92) np_push_const_int -> . epsilon
@@ -1713,90 +1656,80 @@ state 105
     |               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
     ,               reduce using rule 96 (epsilon -> .)
-    ]               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
     TO              reduce using rule 96 (epsilon -> .)
     DO              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 148
-    np_push_const_int              shift and go to state 149
+    epsilon                        shift and go to state 146
+    np_push_const_int              shift and go to state 147
+
+state 105
+
+    (53) variable_loop -> variable . np_add_to_input_counter variable_loop_1
+    (56) np_add_to_input_counter -> . epsilon
+    (96) epsilon -> .
+
+    ,               reduce using rule 96 (epsilon -> .)
+    )               reduce using rule 96 (epsilon -> .)
+
+    np_add_to_input_counter        shift and go to state 148
+    epsilon                        shift and go to state 149
 
 state 106
 
-    (54) variable_loop -> variable . variable_loop_1
-    (55) variable_loop_1 -> . , variable variable_loop_1
-    (56) variable_loop_1 -> . epsilon
-    (96) epsilon -> .
+    (52) read -> READ ( variable_loop . ) ;
 
-    ,               shift and go to state 152
-    )               reduce using rule 96 (epsilon -> .)
+    )               shift and go to state 150
 
-    epsilon                        shift and go to state 150
-    variable_loop_1                shift and go to state 151
 
 state 107
 
-    (53) read -> READ ( variable_loop . ) ;
+    (65) condicional -> WHILE ( hyper_exp . ) DO { loop_estatuto }
 
-    )               shift and go to state 153
+    )               shift and go to state 151
 
 
 state 108
-
-    (65) condicional -> WHILE ( hyper_exp . ) DO { loop_estatuto }
-
-    )               shift and go to state 154
-
-
-state 109
 
     (5) np_fin_total -> epsilon .
 
     $end            reduce using rule 5 (np_fin_total -> epsilon .)
 
 
-state 110
+state 109
 
     (4) main -> MAIN ( ) { loop_estatuto } np_fin_total .
 
     $end            reduce using rule 4 (main -> MAIN ( ) { loop_estatuto } np_fin_total .)
 
 
+state 110
+
+    (47) func_llamada -> ID ( hyper_exp_loop . )
+
+    )               shift and go to state 152
+
+
 state 111
 
-    (48) func_llamada -> ID ( hyper_exp_loop . )
+    (46) func_llamada -> ID ( ) .
 
-    )               shift and go to state 155
+    ;               reduce using rule 46 (func_llamada -> ID ( ) .)
 
 
 state 112
 
-    (47) func_llamada -> ID ( ) .
-
-    ;               reduce using rule 47 (func_llamada -> ID ( ) .)
-
-
-state 113
-
-    (49) hyper_exp_loop -> hyper_exp . hyper_exp_loop_1
-    (50) hyper_exp_loop_1 -> . , hyper_exp hyper_exp_loop_1
-    (51) hyper_exp_loop_1 -> . epsilon
+    (48) hyper_exp_loop -> hyper_exp . np_add_to_input_counter hyper_exp_loop_1
+    (56) np_add_to_input_counter -> . epsilon
     (96) epsilon -> .
 
-    ,               shift and go to state 157
+    ,               reduce using rule 96 (epsilon -> .)
     )               reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 156
-    hyper_exp_loop_1               shift and go to state 158
+    np_add_to_input_counter        shift and go to state 153
+    epsilon                        shift and go to state 149
 
-state 114
-
-    (9) variable -> ID [ hyper_exp . ]
-
-    ]               shift and go to state 159
-
-
-state 115
+state 113
 
     (66) no_condicional -> FOR variable = . hyper_exp TO hyper_exp DO { loop_estatuto }
     (67) hyper_exp -> . super_exp hyper_exp_1
@@ -1809,85 +1742,84 @@ state 115
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 160
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 154
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 116
+state 114
 
     (57) write -> WRITE ( hyper_exp_loop . ) ;
 
-    )               shift and go to state 161
+    )               shift and go to state 155
+
+
+state 115
+
+    (45) asignacion -> variable = hyper_exp . ;
+
+    ;               shift and go to state 156
+
+
+state 116
+
+    (58) decision -> IF ( hyper_exp . ) THEN { loop_estatuto } decision_1
+
+    )               shift and go to state 157
 
 
 state 117
 
-    (46) asignacion -> variable = hyper_exp . ;
-
-    ;               shift and go to state 162
-
-
-state 118
-
-    (58) decision -> IF ( hyper_exp . ) THEN { loop_estatuto } decision_1
-
-    )               shift and go to state 163
-
-
-state 119
-
-    (15) loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name . np_add_var_to_varstable loop_var_decl_mismo_tipo
-    (19) np_add_var_to_varstable -> . epsilon
+    (14) loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name . np_add_var_to_varstable loop_var_decl_mismo_tipo
+    (18) np_add_var_to_varstable -> . epsilon
     (96) epsilon -> .
 
     ,               reduce using rule 96 (epsilon -> .)
     ;               reduce using rule 96 (epsilon -> .)
 
-    np_add_var_to_varstable        shift and go to state 164
+    np_add_var_to_varstable        shift and go to state 158
     epsilon                        shift and go to state 49
+
+state 118
+
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro . ) ; var_opcional { loop_estatuto } np_kill_func
+
+    )               shift and go to state 159
+
+
+state 119
+
+    (31) parametro -> tipo . ID loop_parametro
+
+    ID              shift and go to state 160
+
 
 state 120
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro . ) ; var_opcional { loop_estatuto } np_kill_func
+    (29) func_parametro -> parametro .
 
-    )               shift and go to state 165
+    )               reduce using rule 29 (func_parametro -> parametro .)
 
 
 state 121
 
-    (32) parametro -> tipo . ID loop_parametro
+    (30) func_parametro -> epsilon .
 
-    ID              shift and go to state 166
+    )               reduce using rule 30 (func_parametro -> epsilon .)
 
 
 state 122
-
-    (30) func_parametro -> parametro .
-
-    )               reduce using rule 30 (func_parametro -> parametro .)
-
-
-state 123
-
-    (31) func_parametro -> epsilon .
-
-    )               reduce using rule 31 (func_parametro -> epsilon .)
-
-
-state 124
 
     (68) hyper_exp_1 -> & . np_push_operator_stack super_exp
     (85) np_push_operator_stack -> . epsilon
@@ -1899,34 +1831,32 @@ state 124
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 168
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 162
 
-state 125
+state 123
 
     (70) hyper_exp_1 -> epsilon .
 
     )               reduce using rule 70 (hyper_exp_1 -> epsilon .)
     ,               reduce using rule 70 (hyper_exp_1 -> epsilon .)
-    ]               reduce using rule 70 (hyper_exp_1 -> epsilon .)
     ;               reduce using rule 70 (hyper_exp_1 -> epsilon .)
     TO              reduce using rule 70 (hyper_exp_1 -> epsilon .)
     DO              reduce using rule 70 (hyper_exp_1 -> epsilon .)
 
 
-state 126
+state 124
 
     (67) hyper_exp -> super_exp hyper_exp_1 .
 
+    DO              reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
     ,               reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
     )               reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
-    DO              reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
     TO              reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
     ;               reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
-    ]               reduce using rule 67 (hyper_exp -> super_exp hyper_exp_1 .)
 
 
-state 127
+state 125
 
     (69) hyper_exp_1 -> | . np_push_operator_stack super_exp
     (85) np_push_operator_stack -> . epsilon
@@ -1938,17 +1868,17 @@ state 127
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 169
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 163
 
-state 128
+state 126
 
     (88) factor -> ( hyper_exp . )
 
-    )               shift and go to state 170
+    )               shift and go to state 164
 
 
-state 129
+state 127
 
     (84) term_1 -> epsilon .
 
@@ -1962,13 +1892,12 @@ state 129
     |               reduce using rule 84 (term_1 -> epsilon .)
     )               reduce using rule 84 (term_1 -> epsilon .)
     ,               reduce using rule 84 (term_1 -> epsilon .)
-    ]               reduce using rule 84 (term_1 -> epsilon .)
     ;               reduce using rule 84 (term_1 -> epsilon .)
     TO              reduce using rule 84 (term_1 -> epsilon .)
     DO              reduce using rule 84 (term_1 -> epsilon .)
 
 
-state 130
+state 128
 
     (82) term_1 -> * . np_push_operator_stack factor
     (85) np_push_operator_stack -> . epsilon
@@ -1980,10 +1909,10 @@ state 130
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 171
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 165
 
-state 131
+state 129
 
     (83) term_1 -> / . np_push_operator_stack factor
     (85) np_push_operator_stack -> . epsilon
@@ -1995,37 +1924,36 @@ state 131
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 172
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 166
 
-state 132
+state 130
 
     (81) term -> factor term_1 .
 
     +               reduce using rule 81 (term -> factor term_1 .)
     -               reduce using rule 81 (term -> factor term_1 .)
+    &               reduce using rule 81 (term -> factor term_1 .)
+    |               reduce using rule 81 (term -> factor term_1 .)
+    )               reduce using rule 81 (term -> factor term_1 .)
+    ,               reduce using rule 81 (term -> factor term_1 .)
+    ;               reduce using rule 81 (term -> factor term_1 .)
+    TO              reduce using rule 81 (term -> factor term_1 .)
+    DO              reduce using rule 81 (term -> factor term_1 .)
     <               reduce using rule 81 (term -> factor term_1 .)
     >               reduce using rule 81 (term -> factor term_1 .)
     EQUAL_TO        reduce using rule 81 (term -> factor term_1 .)
     NOT_EQUAL_TO    reduce using rule 81 (term -> factor term_1 .)
-    &               reduce using rule 81 (term -> factor term_1 .)
-    |               reduce using rule 81 (term -> factor term_1 .)
-    ;               reduce using rule 81 (term -> factor term_1 .)
-    )               reduce using rule 81 (term -> factor term_1 .)
-    ,               reduce using rule 81 (term -> factor term_1 .)
-    ]               reduce using rule 81 (term -> factor term_1 .)
-    TO              reduce using rule 81 (term -> factor term_1 .)
-    DO              reduce using rule 81 (term -> factor term_1 .)
 
 
-state 133
+state 131
 
-    (52) func_return -> RETURN ( hyper_exp ) . ;
+    (51) func_return -> RETURN ( hyper_exp ) . ;
 
-    ;               shift and go to state 173
+    ;               shift and go to state 167
 
 
-state 134
+state 132
 
     (74) super_exp_1 -> EQUAL_TO . np_push_operator_stack exp
     (85) np_push_operator_stack -> . epsilon
@@ -2037,10 +1965,10 @@ state 134
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 174
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 168
 
-state 135
+state 133
 
     (75) super_exp_1 -> NOT_EQUAL_TO . np_push_operator_stack exp
     (85) np_push_operator_stack -> . epsilon
@@ -2052,10 +1980,10 @@ state 135
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 175
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 169
 
-state 136
+state 134
 
     (76) super_exp_1 -> epsilon .
 
@@ -2063,13 +1991,12 @@ state 136
     |               reduce using rule 76 (super_exp_1 -> epsilon .)
     )               reduce using rule 76 (super_exp_1 -> epsilon .)
     ,               reduce using rule 76 (super_exp_1 -> epsilon .)
-    ]               reduce using rule 76 (super_exp_1 -> epsilon .)
     ;               reduce using rule 76 (super_exp_1 -> epsilon .)
     TO              reduce using rule 76 (super_exp_1 -> epsilon .)
     DO              reduce using rule 76 (super_exp_1 -> epsilon .)
 
 
-state 137
+state 135
 
     (71) super_exp -> exp super_exp_1 .
 
@@ -2078,12 +2005,11 @@ state 137
     DO              reduce using rule 71 (super_exp -> exp super_exp_1 .)
     ,               reduce using rule 71 (super_exp -> exp super_exp_1 .)
     )               reduce using rule 71 (super_exp -> exp super_exp_1 .)
-    ]               reduce using rule 71 (super_exp -> exp super_exp_1 .)
     ;               reduce using rule 71 (super_exp -> exp super_exp_1 .)
     TO              reduce using rule 71 (super_exp -> exp super_exp_1 .)
 
 
-state 138
+state 136
 
     (72) super_exp_1 -> < . np_push_operator_stack exp
     (85) np_push_operator_stack -> . epsilon
@@ -2095,10 +2021,10 @@ state 138
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 176
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 170
 
-state 139
+state 137
 
     (73) super_exp_1 -> > . np_push_operator_stack exp
     (85) np_push_operator_stack -> . epsilon
@@ -2110,10 +2036,10 @@ state 139
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 177
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 171
 
-state 140
+state 138
 
     (90) constant -> VAL_FLOAT np_push_const_float .
 
@@ -2127,15 +2053,14 @@ state 140
     NOT_EQUAL_TO    reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
     &               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
     |               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
-    ]               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
-    )               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
     ,               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
+    )               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
     ;               reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
     TO              reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
     DO              reduce using rule 90 (constant -> VAL_FLOAT np_push_const_float .)
 
 
-state 141
+state 139
 
     (93) np_push_const_float -> epsilon .
 
@@ -2151,13 +2076,12 @@ state 141
     |               reduce using rule 93 (np_push_const_float -> epsilon .)
     )               reduce using rule 93 (np_push_const_float -> epsilon .)
     ,               reduce using rule 93 (np_push_const_float -> epsilon .)
-    ]               reduce using rule 93 (np_push_const_float -> epsilon .)
     ;               reduce using rule 93 (np_push_const_float -> epsilon .)
     TO              reduce using rule 93 (np_push_const_float -> epsilon .)
     DO              reduce using rule 93 (np_push_const_float -> epsilon .)
 
 
-state 142
+state 140
 
     (94) np_push_const_char -> epsilon .
 
@@ -2173,13 +2097,12 @@ state 142
     |               reduce using rule 94 (np_push_const_char -> epsilon .)
     )               reduce using rule 94 (np_push_const_char -> epsilon .)
     ,               reduce using rule 94 (np_push_const_char -> epsilon .)
-    ]               reduce using rule 94 (np_push_const_char -> epsilon .)
     ;               reduce using rule 94 (np_push_const_char -> epsilon .)
     TO              reduce using rule 94 (np_push_const_char -> epsilon .)
     DO              reduce using rule 94 (np_push_const_char -> epsilon .)
 
 
-state 143
+state 141
 
     (91) constant -> VAL_CHAR np_push_const_char .
 
@@ -2193,15 +2116,14 @@ state 143
     NOT_EQUAL_TO    reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
     &               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
     |               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
-    ]               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
-    )               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
     ,               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
+    )               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
     ;               reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
     TO              reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
     DO              reduce using rule 91 (constant -> VAL_CHAR np_push_const_char .)
 
 
-state 144
+state 142
 
     (80) exp_1 -> epsilon .
 
@@ -2213,13 +2135,12 @@ state 144
     |               reduce using rule 80 (exp_1 -> epsilon .)
     )               reduce using rule 80 (exp_1 -> epsilon .)
     ,               reduce using rule 80 (exp_1 -> epsilon .)
-    ]               reduce using rule 80 (exp_1 -> epsilon .)
     ;               reduce using rule 80 (exp_1 -> epsilon .)
     TO              reduce using rule 80 (exp_1 -> epsilon .)
     DO              reduce using rule 80 (exp_1 -> epsilon .)
 
 
-state 145
+state 143
 
     (78) exp_1 -> + . np_push_operator_stack term
     (85) np_push_operator_stack -> . epsilon
@@ -2231,10 +2152,10 @@ state 145
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 178
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 172
 
-state 146
+state 144
 
     (79) exp_1 -> - . np_push_operator_stack term
     (85) np_push_operator_stack -> . epsilon
@@ -2246,10 +2167,10 @@ state 146
     VAL_CHAR        reduce using rule 96 (epsilon -> .)
     ID              reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 167
-    np_push_operator_stack         shift and go to state 179
+    epsilon                        shift and go to state 161
+    np_push_operator_stack         shift and go to state 173
 
-state 147
+state 145
 
     (77) exp -> term exp_1 .
 
@@ -2257,17 +2178,16 @@ state 147
     >               reduce using rule 77 (exp -> term exp_1 .)
     EQUAL_TO        reduce using rule 77 (exp -> term exp_1 .)
     NOT_EQUAL_TO    reduce using rule 77 (exp -> term exp_1 .)
-    )               reduce using rule 77 (exp -> term exp_1 .)
-    ,               reduce using rule 77 (exp -> term exp_1 .)
-    ]               reduce using rule 77 (exp -> term exp_1 .)
-    ;               reduce using rule 77 (exp -> term exp_1 .)
-    TO              reduce using rule 77 (exp -> term exp_1 .)
-    DO              reduce using rule 77 (exp -> term exp_1 .)
     &               reduce using rule 77 (exp -> term exp_1 .)
     |               reduce using rule 77 (exp -> term exp_1 .)
+    TO              reduce using rule 77 (exp -> term exp_1 .)
+    )               reduce using rule 77 (exp -> term exp_1 .)
+    DO              reduce using rule 77 (exp -> term exp_1 .)
+    ,               reduce using rule 77 (exp -> term exp_1 .)
+    ;               reduce using rule 77 (exp -> term exp_1 .)
 
 
-state 148
+state 146
 
     (92) np_push_const_int -> epsilon .
 
@@ -2283,13 +2203,12 @@ state 148
     |               reduce using rule 92 (np_push_const_int -> epsilon .)
     )               reduce using rule 92 (np_push_const_int -> epsilon .)
     ,               reduce using rule 92 (np_push_const_int -> epsilon .)
-    ]               reduce using rule 92 (np_push_const_int -> epsilon .)
     ;               reduce using rule 92 (np_push_const_int -> epsilon .)
     TO              reduce using rule 92 (np_push_const_int -> epsilon .)
     DO              reduce using rule 92 (np_push_const_int -> epsilon .)
 
 
-state 149
+state 147
 
     (89) constant -> VAL_INT np_push_const_int .
 
@@ -2303,195 +2222,137 @@ state 149
     NOT_EQUAL_TO    reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
     &               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
     |               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
-    ]               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
-    )               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
     ,               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
+    )               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
     ;               reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
     TO              reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
     DO              reduce using rule 89 (constant -> VAL_INT np_push_const_int .)
 
 
+state 148
+
+    (53) variable_loop -> variable np_add_to_input_counter . variable_loop_1
+    (54) variable_loop_1 -> . , variable np_add_to_input_counter variable_loop_1
+    (55) variable_loop_1 -> . epsilon
+    (96) epsilon -> .
+
+    ,               shift and go to state 175
+    )               reduce using rule 96 (epsilon -> .)
+
+    variable_loop_1                shift and go to state 174
+    epsilon                        shift and go to state 176
+
+state 149
+
+    (56) np_add_to_input_counter -> epsilon .
+
+    ,               reduce using rule 56 (np_add_to_input_counter -> epsilon .)
+    )               reduce using rule 56 (np_add_to_input_counter -> epsilon .)
+
+
 state 150
 
-    (56) variable_loop_1 -> epsilon .
+    (52) read -> READ ( variable_loop ) . ;
 
-    )               reduce using rule 56 (variable_loop_1 -> epsilon .)
+    ;               shift and go to state 177
 
 
 state 151
 
-    (54) variable_loop -> variable variable_loop_1 .
+    (65) condicional -> WHILE ( hyper_exp ) . DO { loop_estatuto }
 
-    )               reduce using rule 54 (variable_loop -> variable variable_loop_1 .)
+    DO              shift and go to state 178
 
 
 state 152
 
-    (55) variable_loop_1 -> , . variable variable_loop_1
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (47) func_llamada -> ID ( hyper_exp_loop ) .
 
-    ID              shift and go to state 87
+    ;               reduce using rule 47 (func_llamada -> ID ( hyper_exp_loop ) .)
 
-    variable                       shift and go to state 180
 
 state 153
 
-    (53) read -> READ ( variable_loop ) . ;
+    (48) hyper_exp_loop -> hyper_exp np_add_to_input_counter . hyper_exp_loop_1
+    (49) hyper_exp_loop_1 -> . , hyper_exp np_add_to_input_counter hyper_exp_loop_1
+    (50) hyper_exp_loop_1 -> . epsilon
+    (96) epsilon -> .
 
-    ;               shift and go to state 181
+    ,               shift and go to state 179
+    )               reduce using rule 96 (epsilon -> .)
 
+    epsilon                        shift and go to state 180
+    hyper_exp_loop_1               shift and go to state 181
 
 state 154
 
-    (65) condicional -> WHILE ( hyper_exp ) . DO { loop_estatuto }
+    (66) no_condicional -> FOR variable = hyper_exp . TO hyper_exp DO { loop_estatuto }
 
-    DO              shift and go to state 182
+    TO              shift and go to state 182
 
 
 state 155
 
-    (48) func_llamada -> ID ( hyper_exp_loop ) .
+    (57) write -> WRITE ( hyper_exp_loop ) . ;
 
-    ;               reduce using rule 48 (func_llamada -> ID ( hyper_exp_loop ) .)
+    ;               shift and go to state 183
 
 
 state 156
 
-    (51) hyper_exp_loop_1 -> epsilon .
+    (45) asignacion -> variable = hyper_exp ; .
 
-    )               reduce using rule 51 (hyper_exp_loop_1 -> epsilon .)
+    ID              reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    READ            reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    WRITE           reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    IF              reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    RETURN          reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    WHILE           reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    FOR             reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
+    }               reduce using rule 45 (asignacion -> variable = hyper_exp ; .)
 
 
 state 157
 
-    (50) hyper_exp_loop_1 -> , . hyper_exp hyper_exp_loop_1
-    (67) hyper_exp -> . super_exp hyper_exp_1
-    (71) super_exp -> . exp super_exp_1
-    (77) exp -> . term exp_1
-    (81) term -> . factor term_1
-    (86) factor -> . constant
-    (87) factor -> . variable
-    (88) factor -> . ( hyper_exp )
-    (89) constant -> . VAL_INT np_push_const_int
-    (90) constant -> . VAL_FLOAT np_push_const_float
-    (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (58) decision -> IF ( hyper_exp ) . THEN { loop_estatuto } decision_1
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    THEN            shift and go to state 184
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 183
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
 
 state 158
 
-    (49) hyper_exp_loop -> hyper_exp hyper_exp_loop_1 .
-
-    )               reduce using rule 49 (hyper_exp_loop -> hyper_exp hyper_exp_loop_1 .)
-
-
-state 159
-
-    (9) variable -> ID [ hyper_exp ] .
-
-    *               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    /               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    +               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    -               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    <               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    >               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    EQUAL_TO        reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    NOT_EQUAL_TO    reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    &               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    |               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    )               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    ,               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    ]               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    ;               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    TO              reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    DO              reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-    =               reduce using rule 9 (variable -> ID [ hyper_exp ] .)
-
-
-state 160
-
-    (66) no_condicional -> FOR variable = hyper_exp . TO hyper_exp DO { loop_estatuto }
-
-    TO              shift and go to state 184
-
-
-state 161
-
-    (57) write -> WRITE ( hyper_exp_loop ) . ;
-
-    ;               shift and go to state 185
-
-
-state 162
-
-    (46) asignacion -> variable = hyper_exp ; .
-
-    ID              reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    READ            reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    WRITE           reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    IF              reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    RETURN          reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    WHILE           reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    FOR             reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-    }               reduce using rule 46 (asignacion -> variable = hyper_exp ; .)
-
-
-state 163
-
-    (58) decision -> IF ( hyper_exp ) . THEN { loop_estatuto } decision_1
-
-    THEN            shift and go to state 186
-
-
-state 164
-
-    (15) loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable . loop_var_decl_mismo_tipo
-    (15) loop_var_decl_mismo_tipo -> . , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
-    (16) loop_var_decl_mismo_tipo -> . epsilon
+    (14) loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable . loop_var_decl_mismo_tipo
+    (14) loop_var_decl_mismo_tipo -> . , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
+    (15) loop_var_decl_mismo_tipo -> . epsilon
     (96) epsilon -> .
 
     ,               shift and go to state 73
     ;               reduce using rule 96 (epsilon -> .)
 
     epsilon                        shift and go to state 72
-    loop_var_decl_mismo_tipo       shift and go to state 187
+    loop_var_decl_mismo_tipo       shift and go to state 185
 
-state 165
+state 159
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) . ; var_opcional { loop_estatuto } np_kill_func
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) . ; var_opcional { loop_estatuto } np_kill_func
 
-    ;               shift and go to state 188
+    ;               shift and go to state 186
 
 
-state 166
+state 160
 
-    (32) parametro -> tipo ID . loop_parametro
-    (33) loop_parametro -> . , tipo ID loop_parametro
-    (34) loop_parametro -> . epsilon
+    (31) parametro -> tipo ID . loop_parametro
+    (32) loop_parametro -> . , tipo ID loop_parametro
+    (33) loop_parametro -> . epsilon
     (96) epsilon -> .
 
-    ,               shift and go to state 191
+    ,               shift and go to state 189
     )               reduce using rule 96 (epsilon -> .)
 
-    loop_parametro                 shift and go to state 189
-    epsilon                        shift and go to state 190
+    loop_parametro                 shift and go to state 187
+    epsilon                        shift and go to state 188
 
-state 167
+state 161
 
     (85) np_push_operator_stack -> epsilon .
 
@@ -2502,7 +2363,7 @@ state 167
     ID              reduce using rule 85 (np_push_operator_stack -> epsilon .)
 
 
-state 168
+state 162
 
     (68) hyper_exp_1 -> & np_push_operator_stack . super_exp
     (71) super_exp -> . exp super_exp_1
@@ -2514,23 +2375,22 @@ state 168
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 192
-    term                           shift and go to state 104
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 190
+    term                           shift and go to state 103
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 169
+state 163
 
     (69) hyper_exp_1 -> | np_push_operator_stack . super_exp
     (71) super_exp -> . exp super_exp_1
@@ -2542,23 +2402,22 @@ state 169
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 193
-    term                           shift and go to state 104
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 191
+    term                           shift and go to state 103
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 170
+state 164
 
     (88) factor -> ( hyper_exp ) .
 
@@ -2572,15 +2431,14 @@ state 170
     NOT_EQUAL_TO    reduce using rule 88 (factor -> ( hyper_exp ) .)
     &               reduce using rule 88 (factor -> ( hyper_exp ) .)
     |               reduce using rule 88 (factor -> ( hyper_exp ) .)
-    TO              reduce using rule 88 (factor -> ( hyper_exp ) .)
-    )               reduce using rule 88 (factor -> ( hyper_exp ) .)
     ,               reduce using rule 88 (factor -> ( hyper_exp ) .)
-    ]               reduce using rule 88 (factor -> ( hyper_exp ) .)
+    )               reduce using rule 88 (factor -> ( hyper_exp ) .)
     ;               reduce using rule 88 (factor -> ( hyper_exp ) .)
+    TO              reduce using rule 88 (factor -> ( hyper_exp ) .)
     DO              reduce using rule 88 (factor -> ( hyper_exp ) .)
 
 
-state 171
+state 165
 
     (82) term_1 -> * np_push_operator_stack . factor
     (86) factor -> . constant
@@ -2589,20 +2447,19 @@ state 171
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    constant                       shift and go to state 95
-    factor                         shift and go to state 194
-    variable                       shift and go to state 103
+    constant                       shift and go to state 94
+    factor                         shift and go to state 192
+    variable                       shift and go to state 102
 
-state 172
+state 166
 
     (83) term_1 -> / np_push_operator_stack . factor
     (86) factor -> . constant
@@ -2611,34 +2468,33 @@ state 172
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    constant                       shift and go to state 95
-    factor                         shift and go to state 195
-    variable                       shift and go to state 103
+    constant                       shift and go to state 94
+    factor                         shift and go to state 193
+    variable                       shift and go to state 102
 
-state 173
+state 167
 
-    (52) func_return -> RETURN ( hyper_exp ) ; .
+    (51) func_return -> RETURN ( hyper_exp ) ; .
 
-    ID              reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    READ            reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    WRITE           reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    IF              reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    RETURN          reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    WHILE           reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    FOR             reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
-    }               reduce using rule 52 (func_return -> RETURN ( hyper_exp ) ; .)
+    ID              reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    READ            reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    WRITE           reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    IF              reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    RETURN          reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    WHILE           reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    FOR             reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
+    }               reduce using rule 51 (func_return -> RETURN ( hyper_exp ) ; .)
 
 
-state 174
+state 168
 
     (74) super_exp_1 -> EQUAL_TO np_push_operator_stack . exp
     (77) exp -> . term exp_1
@@ -2649,22 +2505,21 @@ state 174
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    term                           shift and go to state 104
-    constant                       shift and go to state 95
-    exp                            shift and go to state 196
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    term                           shift and go to state 103
+    constant                       shift and go to state 94
+    exp                            shift and go to state 194
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 175
+state 169
 
     (75) super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack . exp
     (77) exp -> . term exp_1
@@ -2675,22 +2530,21 @@ state 175
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    term                           shift and go to state 104
-    constant                       shift and go to state 95
-    exp                            shift and go to state 197
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    term                           shift and go to state 103
+    constant                       shift and go to state 94
+    exp                            shift and go to state 195
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 176
+state 170
 
     (72) super_exp_1 -> < np_push_operator_stack . exp
     (77) exp -> . term exp_1
@@ -2701,22 +2555,21 @@ state 176
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    term                           shift and go to state 104
-    constant                       shift and go to state 95
-    exp                            shift and go to state 198
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    term                           shift and go to state 103
+    constant                       shift and go to state 94
+    exp                            shift and go to state 196
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 177
+state 171
 
     (73) super_exp_1 -> > np_push_operator_stack . exp
     (77) exp -> . term exp_1
@@ -2727,22 +2580,21 @@ state 177
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    term                           shift and go to state 104
-    constant                       shift and go to state 95
-    exp                            shift and go to state 199
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    term                           shift and go to state 103
+    constant                       shift and go to state 94
+    exp                            shift and go to state 197
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 178
+state 172
 
     (78) exp_1 -> + np_push_operator_stack . term
     (81) term -> . factor term_1
@@ -2752,21 +2604,20 @@ state 178
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    term                           shift and go to state 200
-    constant                       shift and go to state 95
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    term                           shift and go to state 198
+    constant                       shift and go to state 94
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 179
+state 173
 
     (79) exp_1 -> - np_push_operator_stack . term
     (81) term -> . factor term_1
@@ -2776,68 +2627,107 @@ state 179
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    term                           shift and go to state 201
-    constant                       shift and go to state 95
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    term                           shift and go to state 199
+    constant                       shift and go to state 94
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 180
+state 174
 
-    (55) variable_loop_1 -> , variable . variable_loop_1
-    (55) variable_loop_1 -> . , variable variable_loop_1
-    (56) variable_loop_1 -> . epsilon
-    (96) epsilon -> .
+    (53) variable_loop -> variable np_add_to_input_counter variable_loop_1 .
 
-    ,               shift and go to state 152
-    )               reduce using rule 96 (epsilon -> .)
-
-    epsilon                        shift and go to state 150
-    variable_loop_1                shift and go to state 202
-
-state 181
-
-    (53) read -> READ ( variable_loop ) ; .
-
-    ID              reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    READ            reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    WRITE           reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    IF              reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    RETURN          reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    WHILE           reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    FOR             reduce using rule 53 (read -> READ ( variable_loop ) ; .)
-    }               reduce using rule 53 (read -> READ ( variable_loop ) ; .)
+    )               reduce using rule 53 (variable_loop -> variable np_add_to_input_counter variable_loop_1 .)
 
 
-state 182
+state 175
+
+    (54) variable_loop_1 -> , . variable np_add_to_input_counter variable_loop_1
+    (8) variable -> . ID np_single_var_process
+
+    ID              shift and go to state 86
+
+    variable                       shift and go to state 200
+
+state 176
+
+    (55) variable_loop_1 -> epsilon .
+
+    )               reduce using rule 55 (variable_loop_1 -> epsilon .)
+
+
+state 177
+
+    (52) read -> READ ( variable_loop ) ; .
+
+    ID              reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    READ            reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    WRITE           reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    IF              reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    RETURN          reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    WHILE           reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    FOR             reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+    }               reduce using rule 52 (read -> READ ( variable_loop ) ; .)
+
+
+state 178
 
     (65) condicional -> WHILE ( hyper_exp ) DO . { loop_estatuto }
 
-    {               shift and go to state 203
+    {               shift and go to state 201
 
 
-state 183
+state 179
 
-    (50) hyper_exp_loop_1 -> , hyper_exp . hyper_exp_loop_1
-    (50) hyper_exp_loop_1 -> . , hyper_exp hyper_exp_loop_1
-    (51) hyper_exp_loop_1 -> . epsilon
-    (96) epsilon -> .
+    (49) hyper_exp_loop_1 -> , . hyper_exp np_add_to_input_counter hyper_exp_loop_1
+    (67) hyper_exp -> . super_exp hyper_exp_1
+    (71) super_exp -> . exp super_exp_1
+    (77) exp -> . term exp_1
+    (81) term -> . factor term_1
+    (86) factor -> . constant
+    (87) factor -> . variable
+    (88) factor -> . ( hyper_exp )
+    (89) constant -> . VAL_INT np_push_const_int
+    (90) constant -> . VAL_FLOAT np_push_const_float
+    (91) constant -> . VAL_CHAR np_push_const_char
+    (8) variable -> . ID np_single_var_process
 
-    ,               shift and go to state 157
-    )               reduce using rule 96 (epsilon -> .)
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    epsilon                        shift and go to state 156
-    hyper_exp_loop_1               shift and go to state 204
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 202
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 184
+state 180
+
+    (50) hyper_exp_loop_1 -> epsilon .
+
+    )               reduce using rule 50 (hyper_exp_loop_1 -> epsilon .)
+
+
+state 181
+
+    (48) hyper_exp_loop -> hyper_exp np_add_to_input_counter hyper_exp_loop_1 .
+
+    )               reduce using rule 48 (hyper_exp_loop -> hyper_exp np_add_to_input_counter hyper_exp_loop_1 .)
+
+
+state 182
 
     (66) no_condicional -> FOR variable = hyper_exp TO . hyper_exp DO { loop_estatuto }
     (67) hyper_exp -> . super_exp hyper_exp_1
@@ -2850,24 +2740,23 @@ state 184
     (89) constant -> . VAL_INT np_push_const_int
     (90) constant -> . VAL_FLOAT np_push_const_float
     (91) constant -> . VAL_CHAR np_push_const_char
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (8) variable -> . ID np_single_var_process
 
-    (               shift and go to state 97
-    VAL_INT         shift and go to state 105
-    VAL_FLOAT       shift and go to state 101
-    VAL_CHAR        shift and go to state 102
-    ID              shift and go to state 87
+    (               shift and go to state 96
+    VAL_INT         shift and go to state 104
+    VAL_FLOAT       shift and go to state 100
+    VAL_CHAR        shift and go to state 101
+    ID              shift and go to state 86
 
-    super_exp                      shift and go to state 96
-    term                           shift and go to state 104
-    hyper_exp                      shift and go to state 205
-    constant                       shift and go to state 95
-    exp                            shift and go to state 100
-    factor                         shift and go to state 98
-    variable                       shift and go to state 103
+    super_exp                      shift and go to state 95
+    term                           shift and go to state 103
+    hyper_exp                      shift and go to state 203
+    constant                       shift and go to state 94
+    exp                            shift and go to state 99
+    factor                         shift and go to state 97
+    variable                       shift and go to state 102
 
-state 185
+state 183
 
     (57) write -> WRITE ( hyper_exp_loop ) ; .
 
@@ -2881,26 +2770,26 @@ state 185
     }               reduce using rule 57 (write -> WRITE ( hyper_exp_loop ) ; .)
 
 
-state 186
+state 184
 
     (58) decision -> IF ( hyper_exp ) THEN . { loop_estatuto } decision_1
 
-    {               shift and go to state 206
+    {               shift and go to state 204
 
 
-state 187
+state 185
 
-    (15) loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo .
+    (14) loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo .
 
-    ;               reduce using rule 15 (loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo .)
+    ;               reduce using rule 14 (loop_var_decl_mismo_tipo -> , ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo .)
 
 
-state 188
+state 186
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; . var_opcional { loop_estatuto } np_kill_func
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; . var_opcional { loop_estatuto } np_kill_func
     (6) var_opcional -> . var_declaracion
     (7) var_opcional -> . epsilon
-    (10) var_declaracion -> . VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
+    (9) var_declaracion -> . VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
     (96) epsilon -> .
 
     VARS            shift and go to state 9
@@ -2908,62 +2797,60 @@ state 188
 
     epsilon                        shift and go to state 11
     var_declaracion                shift and go to state 10
-    var_opcional                   shift and go to state 207
+    var_opcional                   shift and go to state 205
+
+state 187
+
+    (31) parametro -> tipo ID loop_parametro .
+
+    )               reduce using rule 31 (parametro -> tipo ID loop_parametro .)
+
+
+state 188
+
+    (33) loop_parametro -> epsilon .
+
+    )               reduce using rule 33 (loop_parametro -> epsilon .)
+
 
 state 189
 
-    (32) parametro -> tipo ID loop_parametro .
-
-    )               reduce using rule 32 (parametro -> tipo ID loop_parametro .)
-
-
-state 190
-
-    (34) loop_parametro -> epsilon .
-
-    )               reduce using rule 34 (loop_parametro -> epsilon .)
-
-
-state 191
-
-    (33) loop_parametro -> , . tipo ID loop_parametro
-    (35) tipo -> . INT
-    (36) tipo -> . FLOAT
-    (37) tipo -> . CHAR
-    (38) tipo -> . BOOL
+    (32) loop_parametro -> , . tipo ID loop_parametro
+    (34) tipo -> . INT
+    (35) tipo -> . FLOAT
+    (36) tipo -> . CHAR
+    (37) tipo -> . BOOL
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     CHAR            shift and go to state 22
     BOOL            shift and go to state 24
 
-    tipo                           shift and go to state 208
+    tipo                           shift and go to state 206
 
-state 192
+state 190
 
     (68) hyper_exp_1 -> & np_push_operator_stack super_exp .
 
     )               reduce using rule 68 (hyper_exp_1 -> & np_push_operator_stack super_exp .)
     ,               reduce using rule 68 (hyper_exp_1 -> & np_push_operator_stack super_exp .)
-    ]               reduce using rule 68 (hyper_exp_1 -> & np_push_operator_stack super_exp .)
     ;               reduce using rule 68 (hyper_exp_1 -> & np_push_operator_stack super_exp .)
     TO              reduce using rule 68 (hyper_exp_1 -> & np_push_operator_stack super_exp .)
     DO              reduce using rule 68 (hyper_exp_1 -> & np_push_operator_stack super_exp .)
 
 
-state 193
+state 191
 
     (69) hyper_exp_1 -> | np_push_operator_stack super_exp .
 
     )               reduce using rule 69 (hyper_exp_1 -> | np_push_operator_stack super_exp .)
     ,               reduce using rule 69 (hyper_exp_1 -> | np_push_operator_stack super_exp .)
-    ]               reduce using rule 69 (hyper_exp_1 -> | np_push_operator_stack super_exp .)
     ;               reduce using rule 69 (hyper_exp_1 -> | np_push_operator_stack super_exp .)
     TO              reduce using rule 69 (hyper_exp_1 -> | np_push_operator_stack super_exp .)
     DO              reduce using rule 69 (hyper_exp_1 -> | np_push_operator_stack super_exp .)
 
 
-state 194
+state 192
 
     (82) term_1 -> * np_push_operator_stack factor .
 
@@ -2977,13 +2864,12 @@ state 194
     |               reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
     )               reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
     ,               reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
-    ]               reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
     ;               reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
     TO              reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
     DO              reduce using rule 82 (term_1 -> * np_push_operator_stack factor .)
 
 
-state 195
+state 193
 
     (83) term_1 -> / np_push_operator_stack factor .
 
@@ -2997,13 +2883,12 @@ state 195
     |               reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
     )               reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
     ,               reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
-    ]               reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
     ;               reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
     TO              reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
     DO              reduce using rule 83 (term_1 -> / np_push_operator_stack factor .)
 
 
-state 196
+state 194
 
     (74) super_exp_1 -> EQUAL_TO np_push_operator_stack exp .
 
@@ -3011,13 +2896,12 @@ state 196
     |               reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
     )               reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
     ,               reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
-    ]               reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
     ;               reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
     TO              reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
     DO              reduce using rule 74 (super_exp_1 -> EQUAL_TO np_push_operator_stack exp .)
 
 
-state 197
+state 195
 
     (75) super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .
 
@@ -3025,13 +2909,12 @@ state 197
     |               reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
     )               reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
     ,               reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
-    ]               reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
     ;               reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
     TO              reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
     DO              reduce using rule 75 (super_exp_1 -> NOT_EQUAL_TO np_push_operator_stack exp .)
 
 
-state 198
+state 196
 
     (72) super_exp_1 -> < np_push_operator_stack exp .
 
@@ -3039,13 +2922,12 @@ state 198
     |               reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
     )               reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
     ,               reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
-    ]               reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
     ;               reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
     TO              reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
     DO              reduce using rule 72 (super_exp_1 -> < np_push_operator_stack exp .)
 
 
-state 199
+state 197
 
     (73) super_exp_1 -> > np_push_operator_stack exp .
 
@@ -3053,13 +2935,12 @@ state 199
     |               reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
     )               reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
     ,               reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
-    ]               reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
     ;               reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
     TO              reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
     DO              reduce using rule 73 (super_exp_1 -> > np_push_operator_stack exp .)
 
 
-state 200
+state 198
 
     (78) exp_1 -> + np_push_operator_stack term .
 
@@ -3071,13 +2952,12 @@ state 200
     |               reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
     )               reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
     ,               reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
-    ]               reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
     ;               reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
     TO              reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
     DO              reduce using rule 78 (exp_1 -> + np_push_operator_stack term .)
 
 
-state 201
+state 199
 
     (79) exp_1 -> - np_push_operator_stack term .
 
@@ -3089,43 +2969,46 @@ state 201
     |               reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
     )               reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
     ,               reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
-    ]               reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
     ;               reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
     TO              reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
     DO              reduce using rule 79 (exp_1 -> - np_push_operator_stack term .)
 
 
-state 202
+state 200
 
-    (55) variable_loop_1 -> , variable variable_loop_1 .
+    (54) variable_loop_1 -> , variable . np_add_to_input_counter variable_loop_1
+    (56) np_add_to_input_counter -> . epsilon
+    (96) epsilon -> .
 
-    )               reduce using rule 55 (variable_loop_1 -> , variable variable_loop_1 .)
+    ,               reduce using rule 96 (epsilon -> .)
+    )               reduce using rule 96 (epsilon -> .)
 
+    np_add_to_input_counter        shift and go to state 207
+    epsilon                        shift and go to state 149
 
-state 203
+state 201
 
     (65) condicional -> WHILE ( hyper_exp ) DO { . loop_estatuto }
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -3148,48 +3031,52 @@ state 203
     variable                       shift and go to state 67
     func_llamada                   shift and go to state 55
     repeticion                     shift and go to state 71
-    loop_estatuto                  shift and go to state 209
+    loop_estatuto                  shift and go to state 208
     condicional                    shift and go to state 65
     no_condicional                 shift and go to state 61
 
-state 204
+state 202
 
-    (50) hyper_exp_loop_1 -> , hyper_exp hyper_exp_loop_1 .
+    (49) hyper_exp_loop_1 -> , hyper_exp . np_add_to_input_counter hyper_exp_loop_1
+    (56) np_add_to_input_counter -> . epsilon
+    (96) epsilon -> .
 
-    )               reduce using rule 50 (hyper_exp_loop_1 -> , hyper_exp hyper_exp_loop_1 .)
+    ,               reduce using rule 96 (epsilon -> .)
+    )               reduce using rule 96 (epsilon -> .)
 
+    np_add_to_input_counter        shift and go to state 209
+    epsilon                        shift and go to state 149
 
-state 205
+state 203
 
     (66) no_condicional -> FOR variable = hyper_exp TO hyper_exp . DO { loop_estatuto }
 
     DO              shift and go to state 210
 
 
-state 206
+state 204
 
     (58) decision -> IF ( hyper_exp ) THEN { . loop_estatuto } decision_1
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -3216,65 +3103,90 @@ state 206
     condicional                    shift and go to state 65
     no_condicional                 shift and go to state 61
 
-state 207
+state 205
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional . { loop_estatuto } np_kill_func
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional . { loop_estatuto } np_kill_func
 
     {               shift and go to state 212
 
 
-state 208
+state 206
 
-    (33) loop_parametro -> , tipo . ID loop_parametro
+    (32) loop_parametro -> , tipo . ID loop_parametro
 
     ID              shift and go to state 213
 
 
-state 209
+state 207
+
+    (54) variable_loop_1 -> , variable np_add_to_input_counter . variable_loop_1
+    (54) variable_loop_1 -> . , variable np_add_to_input_counter variable_loop_1
+    (55) variable_loop_1 -> . epsilon
+    (96) epsilon -> .
+
+    ,               shift and go to state 175
+    )               reduce using rule 96 (epsilon -> .)
+
+    variable_loop_1                shift and go to state 214
+    epsilon                        shift and go to state 176
+
+state 208
 
     (65) condicional -> WHILE ( hyper_exp ) DO { loop_estatuto . }
 
-    }               shift and go to state 214
+    }               shift and go to state 215
 
+
+state 209
+
+    (49) hyper_exp_loop_1 -> , hyper_exp np_add_to_input_counter . hyper_exp_loop_1
+    (49) hyper_exp_loop_1 -> . , hyper_exp np_add_to_input_counter hyper_exp_loop_1
+    (50) hyper_exp_loop_1 -> . epsilon
+    (96) epsilon -> .
+
+    ,               shift and go to state 179
+    )               reduce using rule 96 (epsilon -> .)
+
+    epsilon                        shift and go to state 180
+    hyper_exp_loop_1               shift and go to state 216
 
 state 210
 
     (66) no_condicional -> FOR variable = hyper_exp TO hyper_exp DO . { loop_estatuto }
 
-    {               shift and go to state 215
+    {               shift and go to state 217
 
 
 state 211
 
     (58) decision -> IF ( hyper_exp ) THEN { loop_estatuto . } decision_1
 
-    }               shift and go to state 216
+    }               shift and go to state 218
 
 
 state 212
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { . loop_estatuto } np_kill_func
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { . loop_estatuto } np_kill_func
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -3288,7 +3200,7 @@ state 212
     FOR             shift and go to state 62
 
     func_llamada                   shift and go to state 55
-    loop_estatuto                  shift and go to state 217
+    loop_estatuto                  shift and go to state 219
     func_return                    shift and go to state 70
     decision                       shift and go to state 57
     estatuto                       shift and go to state 58
@@ -3303,18 +3215,25 @@ state 212
 
 state 213
 
-    (33) loop_parametro -> , tipo ID . loop_parametro
-    (33) loop_parametro -> . , tipo ID loop_parametro
-    (34) loop_parametro -> . epsilon
+    (32) loop_parametro -> , tipo ID . loop_parametro
+    (32) loop_parametro -> . , tipo ID loop_parametro
+    (33) loop_parametro -> . epsilon
     (96) epsilon -> .
 
-    ,               shift and go to state 191
+    ,               shift and go to state 189
     )               reduce using rule 96 (epsilon -> .)
 
-    loop_parametro                 shift and go to state 218
-    epsilon                        shift and go to state 190
+    loop_parametro                 shift and go to state 220
+    epsilon                        shift and go to state 188
 
 state 214
+
+    (54) variable_loop_1 -> , variable np_add_to_input_counter variable_loop_1 .
+
+    )               reduce using rule 54 (variable_loop_1 -> , variable np_add_to_input_counter variable_loop_1 .)
+
+
+state 215
 
     (65) condicional -> WHILE ( hyper_exp ) DO { loop_estatuto } .
 
@@ -3328,30 +3247,36 @@ state 214
     }               reduce using rule 65 (condicional -> WHILE ( hyper_exp ) DO { loop_estatuto } .)
 
 
-state 215
+state 216
+
+    (49) hyper_exp_loop_1 -> , hyper_exp np_add_to_input_counter hyper_exp_loop_1 .
+
+    )               reduce using rule 49 (hyper_exp_loop_1 -> , hyper_exp np_add_to_input_counter hyper_exp_loop_1 .)
+
+
+state 217
 
     (66) no_condicional -> FOR variable = hyper_exp TO hyper_exp DO { . loop_estatuto }
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -3374,18 +3299,18 @@ state 215
     variable                       shift and go to state 67
     func_llamada                   shift and go to state 55
     repeticion                     shift and go to state 71
-    loop_estatuto                  shift and go to state 219
+    loop_estatuto                  shift and go to state 221
     condicional                    shift and go to state 65
     no_condicional                 shift and go to state 61
 
-state 216
+state 218
 
     (58) decision -> IF ( hyper_exp ) THEN { loop_estatuto } . decision_1
     (59) decision_1 -> . ELSE { loop_estatuto }
     (60) decision_1 -> . epsilon
     (96) epsilon -> .
 
-    ELSE            shift and go to state 220
+    ELSE            shift and go to state 222
     ID              reduce using rule 96 (epsilon -> .)
     READ            reduce using rule 96 (epsilon -> .)
     WRITE           reduce using rule 96 (epsilon -> .)
@@ -3395,38 +3320,38 @@ state 216
     FOR             reduce using rule 96 (epsilon -> .)
     }               reduce using rule 96 (epsilon -> .)
 
-    decision_1                     shift and go to state 221
-    epsilon                        shift and go to state 222
-
-state 217
-
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto . } np_kill_func
-
-    }               shift and go to state 223
-
-
-state 218
-
-    (33) loop_parametro -> , tipo ID loop_parametro .
-
-    )               reduce using rule 33 (loop_parametro -> , tipo ID loop_parametro .)
-
+    decision_1                     shift and go to state 223
+    epsilon                        shift and go to state 224
 
 state 219
 
-    (66) no_condicional -> FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto . }
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto . } np_kill_func
 
-    }               shift and go to state 224
+    }               shift and go to state 225
 
 
 state 220
 
-    (59) decision_1 -> ELSE . { loop_estatuto }
+    (32) loop_parametro -> , tipo ID loop_parametro .
 
-    {               shift and go to state 225
+    )               reduce using rule 32 (loop_parametro -> , tipo ID loop_parametro .)
 
 
 state 221
+
+    (66) no_condicional -> FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto . }
+
+    }               shift and go to state 226
+
+
+state 222
+
+    (59) decision_1 -> ELSE . { loop_estatuto }
+
+    {               shift and go to state 227
+
+
+state 223
 
     (58) decision -> IF ( hyper_exp ) THEN { loop_estatuto } decision_1 .
 
@@ -3440,7 +3365,7 @@ state 221
     }               reduce using rule 58 (decision -> IF ( hyper_exp ) THEN { loop_estatuto } decision_1 .)
 
 
-state 222
+state 224
 
     (60) decision_1 -> epsilon .
 
@@ -3454,19 +3379,19 @@ state 222
     }               reduce using rule 60 (decision_1 -> epsilon .)
 
 
-state 223
+state 225
 
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } . np_kill_func
-    (28) np_kill_func -> . epsilon
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } . np_kill_func
+    (27) np_kill_func -> . epsilon
     (96) epsilon -> .
 
     FUNCTION        reduce using rule 96 (epsilon -> .)
     MAIN            reduce using rule 96 (epsilon -> .)
 
-    epsilon                        shift and go to state 227
-    np_kill_func                   shift and go to state 226
+    epsilon                        shift and go to state 229
+    np_kill_func                   shift and go to state 228
 
-state 224
+state 226
 
     (66) no_condicional -> FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto } .
 
@@ -3480,30 +3405,29 @@ state 224
     }               reduce using rule 66 (no_condicional -> FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto } .)
 
 
-state 225
+state 227
 
     (59) decision_1 -> ELSE { . loop_estatuto }
     (61) loop_estatuto -> . estatuto loop_estatuto
     (62) loop_estatuto -> . epsilon
-    (39) estatuto -> . asignacion
-    (40) estatuto -> . func_llamada ;
-    (41) estatuto -> . read
-    (42) estatuto -> . write
-    (43) estatuto -> . decision
-    (44) estatuto -> . repeticion
-    (45) estatuto -> . func_return
+    (38) estatuto -> . asignacion
+    (39) estatuto -> . func_llamada ;
+    (40) estatuto -> . read
+    (41) estatuto -> . write
+    (42) estatuto -> . decision
+    (43) estatuto -> . repeticion
+    (44) estatuto -> . func_return
     (96) epsilon -> .
-    (46) asignacion -> . variable = hyper_exp ;
-    (47) func_llamada -> . ID ( )
-    (48) func_llamada -> . ID ( hyper_exp_loop )
-    (53) read -> . READ ( variable_loop ) ;
+    (45) asignacion -> . variable = hyper_exp ;
+    (46) func_llamada -> . ID ( )
+    (47) func_llamada -> . ID ( hyper_exp_loop )
+    (52) read -> . READ ( variable_loop ) ;
     (57) write -> . WRITE ( hyper_exp_loop ) ;
     (58) decision -> . IF ( hyper_exp ) THEN { loop_estatuto } decision_1
     (63) repeticion -> . condicional
     (64) repeticion -> . no_condicional
-    (52) func_return -> . RETURN ( hyper_exp ) ;
-    (8) variable -> . ID np_single_var_search
-    (9) variable -> . ID [ hyper_exp ]
+    (51) func_return -> . RETURN ( hyper_exp ) ;
+    (8) variable -> . ID np_single_var_process
     (65) condicional -> . WHILE ( hyper_exp ) DO { loop_estatuto }
     (66) no_condicional -> . FOR variable = hyper_exp TO hyper_exp DO { loop_estatuto }
 
@@ -3526,34 +3450,34 @@ state 225
     variable                       shift and go to state 67
     func_llamada                   shift and go to state 55
     repeticion                     shift and go to state 71
-    loop_estatuto                  shift and go to state 228
+    loop_estatuto                  shift and go to state 230
     condicional                    shift and go to state 65
     no_condicional                 shift and go to state 61
 
-state 226
-
-    (22) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func .
-
-    FUNCTION        reduce using rule 22 (func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func .)
-    MAIN            reduce using rule 22 (func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func .)
-
-
-state 227
-
-    (28) np_kill_func -> epsilon .
-
-    FUNCTION        reduce using rule 28 (np_kill_func -> epsilon .)
-    MAIN            reduce using rule 28 (np_kill_func -> epsilon .)
-
-
 state 228
 
-    (59) decision_1 -> ELSE { loop_estatuto . }
+    (21) func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func .
 
-    }               shift and go to state 229
+    FUNCTION        reduce using rule 21 (func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func .)
+    MAIN            reduce using rule 21 (func_definicion -> FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir ( np_prep_func_params func_parametro ) ; var_opcional { loop_estatuto } np_kill_func .)
 
 
 state 229
+
+    (27) np_kill_func -> epsilon .
+
+    FUNCTION        reduce using rule 27 (np_kill_func -> epsilon .)
+    MAIN            reduce using rule 27 (np_kill_func -> epsilon .)
+
+
+state 230
+
+    (59) decision_1 -> ELSE { loop_estatuto . }
+
+    }               shift and go to state 231
+
+
+state 231
 
     (59) decision_1 -> ELSE { loop_estatuto } .
 

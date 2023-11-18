@@ -25,7 +25,8 @@ curr_var_name = None
 curr_func_type = None
 curr_param_name = None
 curr_param_type = None
-
+# multiple input counter
+input_counter = 0
 '''
 main
 '''
@@ -69,6 +70,9 @@ def p_np_fin_total(p):
     np_fin_total : epsilon
     '''
     # borra dirFunc y vartable global
+    for q in quadruples.list:
+        print(q)
+    
 
 '''
 vars
@@ -83,14 +87,16 @@ def p_var_opcional(p):
     '''
     pass
 
-
+# TODO: add array logic
+#             | ID '[' hyper_exp ']'
 # variable
 def p_variable(p):
     '''
-    variable : ID np_single_var_search
-             | ID '[' hyper_exp ']'
-    '''
+    variable : ID np_single_var_process
 
+    '''
+    # if len(p) == 2:
+    #     p[0] = p[1]
 
 # TODO: array logic, for now only single variables
 # Variable declaration
@@ -334,8 +340,15 @@ def p_asignacion(p):
     '''
     asignacion : variable '=' hyper_exp ';'
     '''
-
-
+    # obtener datos de operandos
+    op2 = operand_stack.pop()
+    op1 = operand_stack.pop()
+    # tipos iguales
+    if op1[1] != op2[1]:
+        raise Exception('Error: tipos incompatibles en asignacion. {} = {}'.format(op1[1], op2[1]))
+    # agregar cuadruplo
+    quadruples.gen_quad('=', op2, None, op1)
+    
 # Funcion llamada
 def p_func_llamada(p):
     '''
@@ -346,15 +359,17 @@ def p_func_llamada(p):
 #loop hyper_exp
 def p_hyper_exp_loop(p):
     '''
-    hyper_exp_loop : hyper_exp hyper_exp_loop_1
+    hyper_exp_loop : hyper_exp np_add_to_input_counter hyper_exp_loop_1
     '''
 
 #loop hyper_exp_1
 def p_hyper_exp_loop_1(p):
     '''
-    hyper_exp_loop_1 : ',' hyper_exp hyper_exp_loop_1
+    hyper_exp_loop_1 : ',' hyper_exp np_add_to_input_counter hyper_exp_loop_1
                      | epsilon
     '''
+
+
 
 # func return
 def p_func_return(p):
@@ -367,25 +382,52 @@ def p_read(p):
     '''
     read : READ '(' variable_loop ')' ';'
     '''
+    global input_counter, operand_stack, quadruples
+    for i in range(0,input_counter):
+        # obtener datos de operandos
+        opdir, _ = operand_stack.pop()
+        # agregar cuadruplo
+        quadruples.gen_quad('read', None, None, opdir)
+    input_counter = 0
 
 # Variable loop
 def p_variable_loop(p):
     '''
-    variable_loop : variable variable_loop_1
+    variable_loop : variable np_add_to_input_counter variable_loop_1
     '''
+    # p[0] = [p[1]] + p[2]
 
 # Variable loop 1
 def p_variable_loop_1(p):
     '''
-    variable_loop_1 : ',' variable variable_loop_1
+    variable_loop_1 : ',' variable np_add_to_input_counter variable_loop_1
                     | epsilon
     '''
+    # if len(p) == 4:
+    #     p[0] = [p[2]] + p[3]
+    # else:
+    #     p[0] = []
+
+def p_np_add_to_input_counter(p):
+    '''
+    np_add_to_input_counter : epsilon
+    '''
+    # agregar a input counter
+    global input_counter
+    input_counter += 1
 
 # Write
 def p_write(p):
     '''
     write : WRITE '(' hyper_exp_loop ')' ';'
     '''
+    global input_counter, operand_stack, quadruples
+    for i in range(0,input_counter):
+        # obtener datos de operandos
+        opdir, _ = operand_stack.pop()
+        # agregar cuadruplo
+        quadruples.gen_quad('write', None, None, opdir)
+    input_counter = 0
 
 # Decision
 def p_decision(p):
@@ -409,6 +451,10 @@ def p_loop_estatuto(p):
     loop_estatuto : estatuto loop_estatuto
                   | epsilon
     '''
+    if len(p) == 3:
+        p[0] = [p[1]] + p[2]
+    else:
+        p[0] = []
 
 # Repeticion
 def p_repeticion(p):
@@ -568,7 +614,7 @@ def p_np_push_operator_stack(p):
     np_push_operator_stack : epsilon
     '''
     # push operador a stack
-    # global operator_stack
+    global operator_stack
     operator_stack.append(p[-1])
 # # Factor
 # def p_factor(p):
@@ -629,12 +675,12 @@ def p_np_push_const_char(p):
     dir = func_dir.add_const('char', p[-1])
     operand_stack.append((dir, 'char'))
 
-def p_np_single_var_search(p):
+def p_np_single_var_process(p):
     '''
-    np_single_var_search : epsilon
+    np_single_var_process : epsilon
     '''
     # buscar variable en dirFunc
-    # global func_dir, curr_func
+    global func_dir, curr_func
     #
     tipo, dir = func_dir.search_var(curr_func, p[-1])
     operand_stack.append((dir, tipo))
