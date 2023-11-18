@@ -24,6 +24,7 @@ class FuncDir:
             raise Exception('Error llamando add_varstable. Funcion {} no declarada'.format(func))
 
     # agregar variable a varstable
+    # retorna la direccion de la variable en caso correcto
     def add_var(self, func, type, varName=None):
         if self.dir.get(func):
             return self.dir[func][1].add_var(type, varName)
@@ -58,13 +59,14 @@ class FuncDir:
         
     # encontrar variable en dirFunc
     # busca func -> global
+    # retorna tipo, direccion
     def search_var(self, func, varName):
         if self.dir[func][1]:
             var = self.dir[func][1].table['local'].get(varName)
             if var:
-                return var[1] 
+                return var[0], var[1]
         if self.dir['global'][1]:
             var = self.dir['global'][1].table['global'].get(varName)
             if var:
-                return var[1]
+                return var[0], var[1]
         raise Exception('Error llamando search_var. Variable {} no declarada'.format(varName))
