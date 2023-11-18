@@ -14,21 +14,21 @@ class FuncDir:
         if not self.dir.get(func):
             self.dir[func] = [retType, None, [], None]
         else:
-            raise Exception('Funcion {} ya declarada'.format(func))
+            raise Exception('Error llamando add_func. Funcion {} ya declarada'.format(func))
         
     # agregar tabla de variables a funcion
     def add_varstable(self, func, scope):
         if self.dir.get(func):
             self.dir[func][1] = VarsTable(scope)
         else:
-            raise Exception('Funcion {} no declarada'.format(func))
+            raise Exception('Error llamando add_varstable. Funcion {} no declarada'.format(func))
 
     # agregar variable a varstable
     def add_var(self, func, type, varName=None):
         if self.dir.get(func):
             return self.dir[func][1].add_var(type, varName)
         else:
-            raise Exception('Funcion {} no declarada'.format(func))
+            raise Exception('Error llamando add_var. Funcion {} no declarada'.format(func))
     
     # agregar constante a dirFunc
     def add_const(self, type, constVal):
@@ -47,14 +47,14 @@ class FuncDir:
             #  const : varstable.add_var(type, varName)
             return self.add_var(func, type, param)
         else:
-            raise Exception('Funcion {} no declarada'.format(func))
+            raise Exception('Error llamando add_param. Funcion {} no declarada'.format(func))
         
     # saber si existe varsTable en funcion
     def has_varstable(self, func):
         if self.dir.get(func):
             return self.dir[func][1] != None
         else:
-            raise Exception('Funcion {} no declarada'.format(func))
+            raise Exception('Error llamando has_varstable. Funcion {} no declarada'.format(func))
         
     # encontrar variable en dirFunc
     # busca func -> global
@@ -67,4 +67,4 @@ class FuncDir:
             var = self.dir['global'][1].table['global'].get(varName)
             if var:
                 return var[1]
-        raise Exception('Variable {} no declarada'.format(varName))
+        raise Exception('Error llamando search_var. Variable {} no declarada'.format(varName))

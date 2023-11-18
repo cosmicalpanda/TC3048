@@ -1,7 +1,6 @@
 '''
-lexer.py
-
-tokenizer for the compiler
+b_parser.py
+solo analiza que la gramatica pueda correr independiente de los procesos de las reglas
 '''
 import ply.yacc as yacc
 from lexer import tokens
@@ -10,25 +9,19 @@ from semantic_cube import SemanticCube
 from func_dir import FuncDir
 from quadruples import Quadruples
 
-func_dir = None
-semantic_cube = None
-quadruples = None
+# func_dir = None
+# semantic_cube = None
+# quadruples = None
 
-# stack de operando y su tipo [(op, type)]
-operand_stack = None
-#
-operator_stack = None
-#
-curr_func = None
-curr_var_type = None
-curr_var_name = None
-curr_func_type = None
-curr_param_name = None
-curr_param_type = None
+# # stack de operando y su tipo [(op, type)]
+# operand_stack = None
+# #
+# operator_stack = None
+# #
+# curr_scope = None
+# curr_var_type = None
+# curr_var_name = None
 
-'''
-main
-'''
 # programa
 def p_programa(p):
     '''
@@ -40,22 +33,21 @@ def p_np_program_start(p):
     np_program_start : epsilon
     '''
     # crear dirFunc
-    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack
-    func_dir = FuncDir()
-    semantic_cube = SemanticCube()
-    quadruples = Quadruples()
-    operand_stack = []
-    operator_stack = []
+    # global func_dir, semantic_cube, quadruples, operand_stack, operator_stack
+    # func_dir = FuncDir()
+    # semantic_cube = SemanticCube()
+    # quadruples = Quadruples()
+    # operand_stack = []
+    # operator_stack = []
     
 def p_np_start_dirfunc(p):
     '''
     np_start_dirfunc : epsilon
     '''
     # insertar funcion main en dirFunc
-    global func_dir, curr_func, curr_func_type
-    curr_func = 'global'
-    curr_func_type = 'void'
-    func_dir.add_func(curr_func, curr_func_type)
+    # global func_dir, curr_scope
+    # curr_scope = 'global'
+    # func_dir.add_func(curr_scope, 'void')
 
 # main
 # No se puede declarar variables en el main
@@ -70,9 +62,6 @@ def p_np_fin_total(p):
     '''
     # borra dirFunc y vartable global
 
-'''
-vars
-'''
 
 #var_opcional
 # puede hacerse la declaracion de variables o no
@@ -82,7 +71,9 @@ def p_var_opcional(p):
                  | epsilon
     '''
     pass
-
+'''
+vars
+'''
 
 # variable
 def p_variable(p):
@@ -101,22 +92,22 @@ def p_variable_1(p):
 # Variable declaration
 def p_var_declaracion(p):
     '''
-    var_declaracion : VARS np_var_prep var_declaracion_mismo_tipo loop_var_declaracion
+    var_declaracion : VARS var_declaracion_mismo_tipo loop_var_declaracion
     '''
 
-# en caso de que curr_func no tenga vartable, crearla
-def p_np_var_prep(p):
-    '''
-    np_var_prep : epsilon
-    '''
-    # crear vartable
-    global func_dir, curr_func
-    if not func_dir.has_varstable(curr_func):
-        # TODO: agregar opciones de scope
-        if curr_func == 'global':
-            func_dir.add_varstable(curr_func, 'global')
-        else:
-            func_dir.add_varstable(curr_func, 'local')
+# # en caso de que curr_scope no tenga vartable, crearla
+# def p_np_var_prep(p):
+#     '''
+#     np_var_prep : epsilon
+#     '''
+#     # # crear vartable
+#     # global func_dir, curr_scope
+#     # if not func_dir.has_varstable(curr_scope):
+#     #     # TODO: agregar opciones de scope
+#     #     if curr_scope == 'global':
+#     #         func_dir.add_varstable(curr_scope, 'global')
+#     #     else:
+#     #         func_dir.add_varstable(curr_scope, 'local')
 
 
 def p_loop_var_declaracion(p):
@@ -128,50 +119,48 @@ def p_loop_var_declaracion(p):
 # declaracion bloque de variables del mismo tipo
 def p_var_declaracion_mismo_tipo(p):
     '''
-    var_declaracion_mismo_tipo :  tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ';'
+    var_declaracion_mismo_tipo : tipo  ID loop_var_decl_mismo_tipo ';'
     '''
 
 # TODO: rework for array
 # Variable declaration loop
 def p_loop_var_decl_mismo_tipo(p):
     '''
-    loop_var_decl_mismo_tipo : ',' ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
-                  | epsilon
+    loop_var_decl_mismo_tipo : ',' ID  loop_var_decl_mismo_tipo
+                             | epsilon
     '''
 
-#
-def p_np_set_curr_var_type(p):
-    '''
-    np_set_curr_var_type : epsilon
-    '''
-    # set curr_type
-    global curr_var_type
-    curr_var_type = p[-1]
+# #
+# def p_np_set_curr_var_type(p):
+#     '''
+#     np_set_curr_var_type : epsilon
+#     '''
+#     # # set curr_type
+#     # global curr_var_type
+#     # curr_var_type = p[-1]
 
-# 
-def p_np_set_curr_var_name(p):
-    '''
-    np_set_curr_var_name : epsilon
-    '''
-    # set curr_name
-    global curr_var_name
-    curr_var_name = p[-1]
+# # 
+# def p_np_set_curr_var_name(p):
+#     '''
+#     np_set_curr_var_name : epsilon
+#     '''
+#     # # set curr_name
+#     # global curr_var_name
+#     # curr_var_name = p[-1]
 
-def p_np_add_var_to_varstable(p):
-    '''
-    np_add_var_to_varstable : epsilon
-    '''
-    # no se tiene que validar, si ya existe se lanza error
-    global func_dir, curr_func, curr_var_type, curr_var_name
-    # agregar a func_dir y stack de operandos
-    print(curr_func, curr_var_type, curr_var_name)
-    func_dir.add_var(curr_func, curr_var_type, curr_var_name)
-    operand_stack.append((curr_var_name, curr_var_type))
+# def p_np_add_var_to_varstable(p):
+#     '''
+#     np_add_var_to_varstable : epsilon
+#     '''
+#     # # no se tiene que validar, si ya existe se lanza error
+#     # global func_dir, curr_scope, curr_var_type, curr_var_name
+#     # # agregar a func_dir y stack de operandos
+#     # func_dir.add_var(curr_scope, curr_var_type, curr_var_name)
+#     # operand_stack.append((curr_var_name, curr_var_type))
 
 '''
 funciones
 '''
-
 #func_programa_loop
 def p_func_programa_loop(p):
     '''
@@ -182,7 +171,7 @@ def p_func_programa_loop(p):
 # function definition
 def p_func_definicion(p):
     '''
-    func_definicion : FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir '(' np_prep_func_params func_parametro ')' ';' var_opcional '{' loop_estatuto '}' np_kill_func
+    func_definicion : FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id '('  func_parametro ')' ';' var_opcional '{' loop_estatuto '}' np_kill_func
     '''
     # insert function into function directory
     # func_dir.insert_func(p[3], p[2])
@@ -199,69 +188,38 @@ def p_np_func_tipo_retorno(p):
     '''
     np_func_tipo_retorno : epsilon
     '''
-    # set curr_func_type
-    global curr_func_type
-    curr_func_type = p[-1]
+    # set curr_scope
+    global curr_scope
+    curr_scope = p[-1]
 
 def p_np_func_id(p):
     '''
     np_func_id : epsilon
     '''
-    # set curr_func
-    global curr_func
-    curr_func = p[-1]
-
-def p_np_add_to_func_dir(p):
-    '''
-    np_add_to_func_dir : epsilon
-    '''
-    # agregar a func_dir
-    global func_dir, curr_func, curr_func_type
-    print(curr_func, curr_func_type)
-    func_dir.add_func(curr_func, curr_func_type)
-    print("OK")
+    # set curr_scope
+    # global curr_scope
+    # curr_scope = p[-1]
 
 def p_np_kill_func(p):
     '''
     np_kill_func : epsilon
     '''
-    # kill curr_func
+    # kill curr_scope
 
-def p_np_prep_func_params(p):
-    '''
-    np_prep_func_params : epsilon
-    '''
-    # crear vartable
-    global func_dir, curr_func
-    if not func_dir.has_varstable(curr_func):
-        func_dir.add_varstable(curr_func, 'local')
-
+    
 #function parameter
 def p_func_parametro(p):
     '''
-    func_parametro : parametro
+    func_parametro : parametro func_parametro
                    | epsilon
     '''
-    # logica en caso de no params, quiza agregar params vacio de una vez ?
 
-#TODO: logica para agregar params a func en func_dir
 # Parameter
 # Solo declara parametros del mismo tipo, para otro tipo se tiene que volver a invocar
 def p_parametro(p):
     '''
     parametro : tipo ID loop_parametro
     '''
-    # agregar a func_dir 
-    # se agrega a stack de operandos? no vdd 
-    if len(p) == 2:
-        pass
-    else:
-        for i in p:
-            print(i)
-        print(curr_func, p[1], p[2])
-        func_dir.add_var(curr_func, p[1], p[2])
-        # operand_stack.append((p[1], p[2]))
-
 
 # Parameter loop
 # loop parametro es para loopear los parametros del mismo tipo
@@ -270,16 +228,6 @@ def p_loop_parametro(p):
     loop_parametro : ',' tipo ID loop_parametro
                    | epsilon
     '''
-    if len(p) == 2:
-        pass
-    else:
-        # agregar a func_dir 
-        # se agrega a stack de operandos? no vdd 
-        for i in p:
-            print(i)
-        print(curr_func, p[2], p[3])
-        func_dir.add_var(curr_func, p[2], p[3])
-        # operand_stack.append((p[1], p[2]))
 
 # Type
 def p_tipo(p):
@@ -330,8 +278,8 @@ def p_estatuto(p):
              | repeticion
              | func_return 
     '''
-    p[0] = p[1]
-    pass
+    # # p[0] = p[1]
+    # pass
 
 # Asignacion
 def p_asignacion(p):
@@ -513,10 +461,10 @@ def p_factor(p):
            | variable
            | '(' hyper_exp ')'
     '''
-    # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
-    if len(p) == 2:
-        temp_tuple = p[1]
-        operand_stack.append(temp_tuple)
+    # # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
+    # if len(p) == 2:
+    #     temp_tuple = p[1]
+    #     operand_stack.append(temp_tuple)
         
 
 # TODO: how to do constants 
@@ -529,7 +477,7 @@ def p_np_push_const(p):
 
 def p_epsilon(p):
     '''epsilon : '''
-    p[0] = 'epsilon'
+    # p[0] = 'epsilon'
 
 
 # def p_error(p):
@@ -582,4 +530,4 @@ TODO: fix bool problem
 #     }
 #  }
 # '''
-parser = yacc.yacc()
+parserb = yacc.yacc()

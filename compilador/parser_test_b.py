@@ -1,7 +1,7 @@
 '''
 parser_test.py
 '''
-from a_parser import parser
+from b_parser import parserb
 import sys
 import os
 # import json
@@ -47,14 +47,14 @@ else:
             # obtien el el texto a parsear
             data = open(rf, 'r').read()
 
-            res = parser.parse(data, tracking=True)
+            res = parserb.parse(data, tracking=True)
             wf.write("apropiado\n")
 
         except Exception as e:
             error_msg = str(e)
             wf.write("error: " + error_msg + "\n")
         
-        except EOFError:
-            break
+        # except EOFError:
+        #     break
 
     wf.close()

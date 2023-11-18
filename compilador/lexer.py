@@ -35,7 +35,7 @@ tokens = [
     'VAL_INT',
     'VAL_FLOAT',
     'VAL_STRING',
-    # 'VAL_CHAR',
+    'VAL_CHAR',
     'EQUAL_TO',
     'NOT_EQUAL_TO'
 ]
@@ -78,6 +78,14 @@ def t_VAL_STRING(t):
     t.type = reserved.get(t.value, 'VAL_STRING')
     t.value = t.value[1:len(t.value)-1]  # Remove quotes
     t.value = (t.value, 'string')
+    return t
+
+# VAL_CHAR
+def t_VAL_CHAR(t):
+    r'\'[^\']\''
+    t.type = reserved.get(t.value, 'VAL_CHAR')
+    t.value = t.value[1:-1]  # Remove quotes
+    t.value = (t.value, 'char')
     return t
 
 # # VAL_BOOL

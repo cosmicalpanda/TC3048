@@ -75,7 +75,7 @@ class VarsTable:
                 return self.counter[self.scope][type] - 1
             # si ya existe declarar error
             else:
-                raise Exception('Variable {} ya declarada'.format(varName))
+                raise Exception('Error llamando add_var. Variable "{}" ya declarada de tipo {}'.format(varName, self.table[self.scope][varName][0]))
         else:
             # solo se pueden agregar temporales a funciones locales
             if self.scope != 'local':

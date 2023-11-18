@@ -1,8 +1,9 @@
+% prueba todos los elementos del lenguaje planeados hasta el momento
 program test1 ; 
 vars int  a , b ;  float c, d ;
 function int f1 ( int x, int y ) ; vars int a, b ; { 
     a = 1 ;
-    b [2] = c [a] ;
+    % b [2] = c [a] ;
  }
 
  main () {
@@ -33,4 +34,5 @@ function int f1 ( int x, int y ) ; vars int a, b ; {
     for x = 1 to 10 do {
         a = 1;
     }
+    
  }

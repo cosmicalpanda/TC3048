@@ -1,0 +1,5 @@
+% solo prueba declaracion de variables globales
+program test1 ; 
+vars int  a , b ;  float c, d ;
+ main () {
+ }

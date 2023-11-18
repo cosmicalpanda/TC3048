@@ -1,0 +1,10 @@
+% solo prueba declaracion de funciones
+program test1 ; 
+function int f1 ( int x, int y ) ; 
+
+vars int a , b ; float c ; { 
+
+ }
+
+main () {
+ }
