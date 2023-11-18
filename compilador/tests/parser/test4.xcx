@@ -1,0 +1,22 @@
+% prueba todos los elementos del lenguaje planeados hasta el momento
+program test1 ; 
+vars int  a , b ;  float c, d ;
+function int f1 ( int x, int y ) ; vars int a, b ; bool c, d ; { 
+    a = a + b ;
+    a = a - b ;
+    a = a * b ;
+    a = a / b ;
+    a = a > b ;
+    a = a < b ;
+    a = a != b ;
+    a = a == b ;
+    c = c | d ;
+    c = c & d ;
+    % solo la logica aritmetica
+    c = 1 + 1 ;
+    c = 1.1 - 1.1 ;
+    c = 'a' == 'b' ;
+ }
+ main(){
+
+ }

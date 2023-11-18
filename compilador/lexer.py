@@ -14,6 +14,7 @@ reserved = {
     'float' : 'FLOAT',
     'string' : 'STRING',
     'char' : 'CHAR',
+    'bool' : 'BOOL',
     'function' : 'FUNCTION',
     'return' : 'RETURN',
     'void' : 'VOID',
@@ -47,6 +48,9 @@ literals = ".,;:]}){([=+-*/><|%&"
 t_EQUAL_TO = r'=='
 t_NOT_EQUAL_TO = r'!='
 
+t_VAL_INT = r'-?[0-9]+'
+t_VAL_FLOAT = r'-?[0-9]+\.[0-9]+'
+
 
 # Add reserverd list
 tokens = tokens + list(reserved.values())
@@ -58,19 +62,19 @@ def t_ID(t):
     return t
 
 
-# VAL_INT
-def t_VAL_INT(t):
-    r'\d+'
-    t.type = reserved.get(t.value,'VAL_INT')
-    t.value = (t.value,'int')
-    return t
+# # VAL_INT
+# def t_VAL_INT(t):
+#     r'\d+'
+#     t.type = reserved.get(t.value,'VAL_INT')
+#     t.value = (t.value,'int')
+#     return t
 
-# VAL_FLOAT
-def t_VAL_FLOAT(t):
-    r'\d+\.\d+'
-    t.type = reserved.get(t.value,'VAL_FLOAT')
-    t.value = (t.value,'float')
-    return t
+# # VAL_FLOAT
+# def t_VAL_FLOAT(t):
+#     r'\d+\.\d+'
+#     t.type = reserved.get(t.value,'VAL_FLOAT')
+#     t.value = (t.value,'float')
+#     return t
 
 # VAL_STRING
 def t_VAL_STRING(t):

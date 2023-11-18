@@ -4,7 +4,7 @@ parser_test.py
 from a_parser import parser
 import sys
 import os
-# import json
+import json
 
 # Se puede especificar un test case en particular como argumento
 test_no = str(sys.argv[1]) if len(sys.argv) > 1 else None
@@ -14,17 +14,16 @@ print("---PROBANDO ANALIZADOR SINTACTICO---")
 # Si se especifica un test case en particular, se prueba solo ese
 if test_no:
     pass
-    # try:
-    #     s = open('compiler/tests/parser/' + 'test' +
-    #              test_no + '.gmc', 'r').read()
-    #     parser.parse(s, tracking=True)
-    #     print('test no.', test_no, ': apropiado')
-    # except Exception as e:
-    #     error_msg = "test " + str(test_no) + " : " + str(e)
-    #     # Save ovejota as error
-    #     with open('ovejota.json', "w") as output_file:
-    #         json.dump({'error': error_msg}, output_file, indent=2)
-    #     raise e
+    try:
+        data = open('tests/parser/' + 'test' + test_no + '.xcx', 'r').read()
+        parser.parse(data, tracking=True)
+        print('test no.', test_no, ': apropiado')
+    except Exception as e:
+        error_msg = "test " + str(test_no) + " : " + str(e)
+        # Save ovejota as error
+        with open('obj.json', "w") as output_file:
+            json.dump({'error': error_msg}, output_file, indent=2)
+        raise e
 else:
     # assign directory
     directory = 'tests/parser'

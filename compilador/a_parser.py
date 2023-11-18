@@ -282,6 +282,7 @@ def p_tipo(p):
     tipo : INT
          | FLOAT
          | CHAR
+         | BOOL
     '''
     p[0] = p[1]
 
@@ -441,7 +442,7 @@ def p_hyper_exp(p):
         # obtener operador
         operator = operator_stack.pop()
         # verificar si se puede hacer la operacion
-        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        result_type = semantic_cube.is_match((operator,op1[1], op2[1]))
         # direccion
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
@@ -475,7 +476,7 @@ def p_super_exp(p):
         # obtener operador
         operator = operator_stack.pop()
         # verificar si se puede hacer la operacion
-        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        result_type = semantic_cube.is_match((operator,op1[1], op2[1]))
         # direccion
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
@@ -510,7 +511,7 @@ def p_exp(p):
         # obtener operador
         operator = operator_stack.pop()
         # verificar si se puede hacer la operacion
-        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        result_type = semantic_cube.is_match((operator,op1[1], op2[1]))
         # direccion
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
@@ -543,7 +544,7 @@ def p_term(p):
         # obtener operador
         operator = operator_stack.pop()
         # verificar si se puede hacer la operacion
-        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        result_type = semantic_cube.is_match((operator,op1[1], op2[1]))
         # direccion
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
@@ -606,7 +607,7 @@ def p_constant(p):
 # TODO: how to do constants 
 def p_np_push_const_int(p):
     '''
-    np_push_const : epsilon
+    np_push_const_int : epsilon
     '''
     # push constante a operand stack
     dir = func_dir.add_const('int', p[-1])
@@ -628,7 +629,7 @@ def p_np_push_const_char(p):
     dir = func_dir.add_const('char', p[-1])
     operand_stack.append((dir, 'char'))
 
-def np_single_var_search(p):
+def p_np_single_var_search(p):
     '''
     np_single_var_search : epsilon
     '''
@@ -643,13 +644,13 @@ def p_epsilon(p):
     p[0] = 'epsilon'
 
 
-# def p_error(p):
-#     if not p:
-#         error_msg = "Syntax error"
-#     else:
-#         error_msg = 'syntax error in line ' + \
-#             str(p.lineno) + ' when parsing ' + str(p)
-#     raise SyntaxError(error_msg)
+def p_error(p):
+    if not p:
+        error_msg = "Syntax error"
+    else:
+        error_msg = 'syntax error in line ' + \
+            str(p.lineno) + ' when parsing ' + str(p)
+    raise SyntaxError(error_msg)
 
 '''
 
