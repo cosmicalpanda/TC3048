@@ -36,9 +36,8 @@ class FuncDir:
         # si no existia, crear tabla de constantes 
         if 'const' not in self.dir.keys():
             self.dir['const'] = ['void', VarsTable('const'), None, None]
-        else:
-           #  const : varstable.add_const(type, constVal)
-           return self.dir['const'][1].add_const(type, constVal)
+        #  const : varstable.add_const(type, constVal)
+        return self.dir['const'][1].add_const(type, constVal)
         
     # agregar parametro a funcion
     # a su vez agrega el parametro a la varstable de dicha funcion

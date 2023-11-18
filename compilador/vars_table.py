@@ -4,7 +4,7 @@ class VarsTable:
         self.scope = scope
 
         # cada scope tiene su propia tabla de variables
-        # {nombre_variable: tipo_variable, lugar}
+        # {nombre_variable: tipo_variable, direccion}
         # cada scope tiene su propio contador de variables
         # local cuenta con un contador de variables locales
         # {tipo_variable: contador}
@@ -48,8 +48,9 @@ class VarsTable:
                 'const': {
                     'int': 20000,
                     'float': 21000,
-                    # no se si se ocupen chars en constantes
-                    # 'char': 18000,
+                    # no se si char y/o str se usen en la hora de de imprimir letreros
+                    'char': 22000,
+                    # 'str': 23000,
                 }
             }
     

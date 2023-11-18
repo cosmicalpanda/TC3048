@@ -14,7 +14,7 @@ func_dir = None
 semantic_cube = None
 quadruples = None
 
-# stack de operando y su tipo [(op, type)]
+# stack de direcion y tipo [(dir, type)]
 operand_stack = None
 #
 operator_stack = None
@@ -87,15 +87,10 @@ def p_var_opcional(p):
 # variable
 def p_variable(p):
     '''
-    variable : ID  variable_1
+    variable : ID np_single_var_search
+             | ID '[' hyper_exp ']'
     '''
 
-# variable 1
-def p_variable_1(p):
-    '''
-    variable_1 : '[' hyper_exp ']'
-               | epsilon
-    '''
 
 # TODO: array logic, for now only single variables
 # Variable declaration
@@ -439,12 +434,32 @@ def p_hyper_exp(p):
     '''
     hyper_exp : super_exp hyper_exp_1
     '''
+    if operator_stack and (operator_stack[-1] in ['&', '|']):
+        # obtener operandos
+        op2 = operand_stack.pop()
+        op1 = operand_stack.pop()
+        # obtener operador
+        operator = operator_stack.pop()
+        # verificar si se puede hacer la operacion
+        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        # direccion
+        result_dir = func_dir.add_var(curr_func, result_type)
+        if result_type:
+            # agregar cuadruplo
+            quadruples.gen_quad(operator, op1, op2,result_dir)
+            # agregar resultado a operand stack
+            temp = (result_dir, result_type)
+            operand_stack.append(temp)
+        else:
+            raise Exception('Error: tipos incompatibles en operacion')
+    
+
 
 # Hyper exp 1
 def p_hyper_exp_1(p):
     '''
-    hyper_exp_1 : '&' super_exp
-                | '|' super_exp
+    hyper_exp_1 : '&' np_push_operator_stack super_exp
+                | '|' np_push_operator_stack super_exp
                 | epsilon
     '''
 
@@ -453,14 +468,33 @@ def p_super_exp(p):
     '''
     super_exp : exp super_exp_1
     '''
+    if operator_stack and (operator_stack[-1] in ['>', '<', "==", "!="]):
+        # obtener operandos
+        op2 = operand_stack.pop()
+        op1 = operand_stack.pop()
+        # obtener operador
+        operator = operator_stack.pop()
+        # verificar si se puede hacer la operacion
+        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        # direccion
+        result_dir = func_dir.add_var(curr_func, result_type)
+        if result_type:
+            # agregar cuadruplo
+            quadruples.gen_quad(operator, op1, op2,result_dir)
+            # agregar resultado a operand stack
+            temp = (result_dir, result_type)
+            operand_stack.append(temp)
+        else:
+            raise Exception('Error: tipos incompatibles en operacion')
+    
 
 # Super exp 1
 def p_super_exp_1(p):
     '''
-    super_exp_1 : '<' exp
-                | '>' exp
-                | EQUAL_TO exp
-                | NOT_EQUAL_TO exp
+    super_exp_1 : '<' np_push_operator_stack exp
+                | '>' np_push_operator_stack exp
+                | EQUAL_TO np_push_operator_stack exp
+                | NOT_EQUAL_TO np_push_operator_stack exp
                 | epsilon
     '''
 
@@ -469,12 +503,31 @@ def p_exp(p):
     '''
     exp : term exp_1
     '''
+    if operator_stack and (operator_stack[-1] in ['+', '-']):
+        # obtener operandos
+        op2 = operand_stack.pop()
+        op1 = operand_stack.pop()
+        # obtener operador
+        operator = operator_stack.pop()
+        # verificar si se puede hacer la operacion
+        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        # direccion
+        result_dir = func_dir.add_var(curr_func, result_type)
+        if result_type:
+            # agregar cuadruplo
+            quadruples.gen_quad(operator, op1, op2,result_dir)
+            # agregar resultado a operand stack
+            temp = (result_dir, result_type)
+            operand_stack.append(temp)
+        else:
+            raise Exception('Error: tipos incompatibles en operacion')
+    
 
 # Exp 1
 def p_exp_1(p):
     '''
-    exp_1 : '+' term
-          | '-' term
+    exp_1 : '+' np_push_operator_stack term
+          | '-' np_push_operator_stack term
           | epsilon
     '''
 
@@ -483,15 +536,39 @@ def p_term(p):
     '''
     term : factor term_1
     '''
+    if operator_stack and (operator_stack[-1] in ['*', '/']):
+        # obtener operandos
+        op2 = operand_stack.pop()
+        op1 = operand_stack.pop()
+        # obtener operador
+        operator = operator_stack.pop()
+        # verificar si se puede hacer la operacion
+        result_type = semantic_cube.is_match((op1[1], op2[1], operator))
+        # direccion
+        result_dir = func_dir.add_var(curr_func, result_type)
+        if result_type:
+            # agregar cuadruplo
+            quadruples.gen_quad(operator, op1, op2,result_dir)
+            # agregar resultado a operand stack
+            temp = (result_dir, result_type)
+            operand_stack.append(temp)
+        else:
+            raise Exception('Error: tipos incompatibles en operacion')
 
 # Term 1
 def p_term_1(p):
     '''
-    term_1 : '*' factor 
-           | '/' factor
+    term_1 : '*' np_push_operator_stack factor 
+           | '/' np_push_operator_stack factor
            | epsilon
     '''
-
+def p_np_push_operator_stack(p):
+    '''
+    np_push_operator_stack : epsilon
+    '''
+    # push operador a stack
+    # global operator_stack
+    operator_stack.append(p[-1])
 # # Factor
 # def p_factor(p):
 #     '''
@@ -504,28 +581,62 @@ def p_term_1(p):
 #     '''
 
 # Factor
+# TODO: factor logic
+# TODO: define factor values
 def p_factor(p):
     '''
-    factor : VAL_INT np_push_const
-           | VAL_FLOAT
-           | VAL_STRING
-           | VAL_CHAR
+    factor : constant
            | variable
            | '(' hyper_exp ')'
     '''
-    # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
-    if len(p) == 2:
-        temp_tuple = p[1]
-        operand_stack.append(temp_tuple)
-        
+    # # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
+    # if len(p) == 2:
+    #     temp_tuple = p[1]
+    #     operand_stack.append(temp_tuple)
+
+# Constant
+# TODO:  agregar string ?
+def p_constant(p):
+    '''
+    constant : VAL_INT np_push_const_int
+             | VAL_FLOAT np_push_const_float
+             | VAL_CHAR np_push_const_char
+    '''
 
 # TODO: how to do constants 
-def p_np_push_const(p):
+def p_np_push_const_int(p):
     '''
     np_push_const : epsilon
     '''
     # push constante a operand stack
-    # operand_stack.append((p[1], 'int'))
+    dir = func_dir.add_const('int', p[-1])
+    operand_stack.append((dir, 'int'))
+
+def p_np_push_const_float(p):
+    '''
+    np_push_const_float : epsilon
+    '''
+    # push constante a operand stack
+    dir = func_dir.add_const('float', p[-1])
+    operand_stack.append((dir, 'float'))
+
+def p_np_push_const_char(p):
+    '''
+    np_push_const_char : epsilon
+    '''
+    # push constante a operand stack
+    dir = func_dir.add_const('char', p[-1])
+    operand_stack.append((dir, 'char'))
+
+def np_single_var_search(p):
+    '''
+    np_single_var_search : epsilon
+    '''
+    # buscar variable en dirFunc
+    # global func_dir, curr_func
+    #
+    tipo, dir = func_dir.search_var(curr_func, p[-1])
+    operand_stack.append((dir, tipo))
 
 def p_epsilon(p):
     '''epsilon : '''
