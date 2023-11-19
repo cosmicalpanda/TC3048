@@ -26,7 +26,7 @@ curr_param_name = None
 curr_param_type = None
 # multiple input counter
 input_counter = None
-
+dir_uno = None
 
 '''
 main
@@ -42,7 +42,7 @@ def p_np_program_start(p):
     np_program_start : epsilon
     '''
     # crear dirFunc
-    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack, input_counter, jump_stack
+    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack, input_counter, jump_stack, dir_uno
     func_dir = FuncDir()
     semantic_cube = SemanticCube()
     quadruples = Quadruples()
@@ -50,7 +50,10 @@ def p_np_program_start(p):
     operator_stack = []
     jump_stack = []
     input_counter = 0
-    
+
+    # Agregar constante 1 para funcionalidad for
+    dir_uno = func_dir.add_const('int', '1')
+
 def p_np_start_dirfunc(p):
     '''
     np_start_dirfunc : epsilon
@@ -59,6 +62,7 @@ def p_np_start_dirfunc(p):
     global func_dir, curr_func, curr_func_type
     curr_func = 'global'
     curr_func_type = 'void'
+    print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
 
 # main
@@ -72,9 +76,10 @@ def p_np_fin_total(p):
     '''
     np_fin_total : epsilon
     '''
-    # borra dirFunc y vartable global
+    quadruples.gen_quad('ENDPROG', -1, -1, -1)
     for q in quadruples.list:
         print(q)
+    # borra dirFunc y vartable global
     
 
 '''
@@ -223,7 +228,7 @@ def p_np_add_to_func_dir(p):
     global func_dir, curr_func, curr_func_type
     print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
-    print("OK")
+    # print("OK")
 
 def p_np_kill_func(p):
     '''
@@ -260,8 +265,8 @@ def p_parametro(p):
     if len(p) == 2:
         pass
     else:
-        for i in p:
-            print(i)
+        # for i in p:
+        #     print(i)
         print(curr_func, p[1], p[2])
         func_dir.add_var(curr_func, p[1], p[2])
         # operand_stack.append((p[1], p[2]))
@@ -279,8 +284,8 @@ def p_loop_parametro(p):
     else:
         # agregar a func_dir 
         # se agrega a stack de operandos? no vdd 
-        for i in p:
-            print(i)
+        # for i in p:
+        #     print(i)
         print(curr_func, p[2], p[3])
         func_dir.add_var(curr_func, p[2], p[3])
         # operand_stack.append((p[1], p[2]))
@@ -327,7 +332,7 @@ def p_tipo(p):
 # Estatuto
 def p_estatuto(p):
     '''
-    estatuto : asignacion
+    estatuto : asignacion 
              | func_llamada ';'
              | read
              | write
@@ -350,7 +355,7 @@ def p_asignacion(p):
     if op1[1] != op2[1]:
         raise Exception('Error: tipos incompatibles en asignacion. {} = {}'.format(op1[1], op2[1]))
     # agregar cuadruplo
-    quadruples.gen_quad('=', op2, None, op1)
+    quadruples.gen_quad('=', op2[0], None, op1[0])
     
 # Funcion llamada
 def p_func_llamada(p):
@@ -499,15 +504,113 @@ def p_repeticion(p):
 # Condicional
 def p_condicional(p):
     '''
-    condicional : WHILE '(' hyper_exp ')' DO '{' loop_estatuto '}' 
+    condicional : WHILE np_cond_1 '(' hyper_exp ')' np_cond_2 DO '{' loop_estatuto '}' np_cond_3
     '''
+
+def p_np_cond_1(p):
+    '''
+    np_cond_1 : epsilon
+    '''
+    # agregar a jump stack
+    global jump_stack, quadruples
+    jump_stack.append(quadruples.counter)
+
+def p_np_cond_2(p):
+    '''
+    np_cond_2 : epsilon
+    '''
+    # obtener datos de operandos
+    dir, tipo = operand_stack.pop()
+    if tipo != 'bool':
+        raise Exception('Error: tipos incompatibles en condicional. {} != bool'.format(tipo))
+    else:
+        # agregar cuadruplo
+        quadruples.gen_quad('GOTOF', dir, -1, None)
+        # agregar a jump stack
+        jump_stack.append(quadruples.counter - 1)
+
+def p_np_cond_3(p):
+    '''
+    np_cond_3 : epsilon
+    '''
+    # obtener fin de condicion
+    fin_cond = jump_stack.pop()
+    # obtener inicio repeticion de condicion
+    repeticion_cond = jump_stack.pop()
+    # agregar cuadruplo
+    quadruples.gen_quad('GOTO', -1, -1, repeticion_cond)
+    # agregar a jump stack
+    jump_stack.append(quadruples.counter - 1)
+    # rellenar cuadruplo
+    quadruples.fill_quad(fin_cond, 3, quadruples.counter)
 
 # No condicional
 # usar id en lugar de variable, por que usaria una casilla de algun array en un for ?
 def p_no_condicional(p):
     '''
-    no_condicional : FOR variable '=' hyper_exp TO hyper_exp DO '{' loop_estatuto '}' 
+    no_condicional : FOR variable '=' hyper_exp np_for_1 TO hyper_exp np_for_2 DO np_for_3 '{' loop_estatuto '}' 
     '''
+    # obtener fin de condicion
+    fin_cond = jump_stack.pop()
+    # obtener inicio repeticion de condicion
+    repeticion_cond = jump_stack.pop()
+    # agregar cuadruplo
+    quadruples.gen_quad('GOTO', -1, -1, repeticion_cond)
+    # agregar a jump stack
+    jump_stack.append(quadruples.counter - 1)
+    # rellenar cuadruplo
+    quadruples.fill_quad(fin_cond, 3, quadruples.counter)
+    
+# se realiza la asignacion con la diferencia que se guarda
+# la direccion de la asignacion en el stack de operandos
+def p_np_for_1(p):
+    '''
+    np_for_1 : epsilon
+    '''
+    # obtener datos de operandos
+    dir2, tipo2 = operand_stack.pop()
+    dir1, tipo1 = operand_stack.pop()
+    # tipos iguales
+    if tipo1 != 'int' or tipo2 != 'int':
+        raise Exception('Error: tipos incompatibles en no_condicional. Se esperaba: int,int. Se obtuvo: {} '.format(tipo1, tipo2))        
+    # agregar cuadruplo
+    quadruples.gen_quad('=', dir2, None, dir1)
+    # agregar a operand stack
+    operand_stack.append((dir1, tipo1))
+
+def p_np_for_2(p):
+    '''
+    np_for_2 : epsilon
+    '''
+    # obtener datos de operando
+    _, tipo = operand_stack[-1]
+    # validar tipo
+    if tipo != 'int':
+        raise Exception('Error: tipo incompatibles en segundo valor no_condicional. Se esperaba: int. Se obtuvo: {} '.format(tipo))
+    # # agregar cuadruplo
+    # one_dir = func_dir.add_const('int', '1')
+    # quadruples.gen_quad('-', dir, one_dir, dir)
+
+def p_np_for_3(p):
+    '''
+    np_for_3 : epsilon
+    '''
+    # agregar a jump stack
+    global jump_stack, quadruples
+    jump_stack.append(quadruples.counter) # apunta al codigo que se va a repetir
+    # obtener datos de operandos
+    limite_sup, _ = operand_stack.pop()
+    curr_dir, _ = operand_stack.pop()
+    dir_bool = func_dir.add_var(curr_func, 'bool')
+    # se compara val1 > val2, esto hace incluyente con
+    quadruples.gen_quad('>', curr_dir, limite_sup, dir_bool)
+    quadruples.gen_quad('GOTOV', dir_bool, -1, None)
+    # agregar a jump stack
+    jump_stack.append(quadruples.counter - 1) # el gotov que quiero llena
+    # agregar cuadruplo
+    quadruples.gen_quad('+', curr_dir, dir_uno, curr_dir)
+
+ 
 
 # Hyper exp
 def p_hyper_exp(p):
@@ -526,7 +629,7 @@ def p_hyper_exp(p):
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
             # agregar cuadruplo
-            quadruples.gen_quad(operator, op1, op2,result_dir)
+            quadruples.gen_quad(operator, op1[0], op2[0],result_dir)
             # agregar resultado a operand stack
             temp = (result_dir, result_type)
             operand_stack.append(temp)
@@ -560,7 +663,7 @@ def p_super_exp(p):
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
             # agregar cuadruplo
-            quadruples.gen_quad(operator, op1, op2,result_dir)
+            quadruples.gen_quad(operator, op1[0], op2[0],result_dir)
             # agregar resultado a operand stack
             temp = (result_dir, result_type)
             operand_stack.append(temp)
@@ -595,7 +698,7 @@ def p_exp(p):
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
             # agregar cuadruplo
-            quadruples.gen_quad(operator, op1, op2,result_dir)
+            quadruples.gen_quad(operator, op1[0], op2[0],result_dir)
             # agregar resultado a operand stack
             temp = (result_dir, result_type)
             operand_stack.append(temp)
@@ -628,7 +731,7 @@ def p_term(p):
         result_dir = func_dir.add_var(curr_func, result_type)
         if result_type:
             # agregar cuadruplo
-            quadruples.gen_quad(operator, op1, op2,result_dir)
+            quadruples.gen_quad(operator, op1[0], op2[0],result_dir)
             # agregar resultado a operand stack
             temp = (result_dir, result_type)
             operand_stack.append(temp)

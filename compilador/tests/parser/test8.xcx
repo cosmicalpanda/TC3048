@@ -1,0 +1,17 @@
+% prueba condicionales
+program test1 ; 
+vars int  a , b ;  float c, d ;
+function int f1 ( int x, int y ) ; vars int a, b ; { 
+
+ }
+
+ main () {
+    while (a == 1) do {
+        a = 2 ;
+    }
+
+    for a = 1 to 10  do {
+        
+    }
+    
+ }
