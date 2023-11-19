@@ -16,9 +16,8 @@ quadruples = None
 
 # stack de direcion y tipo [(dir, type)]
 operand_stack = None
-#
 operator_stack = None
-#
+jump_stack = None
 curr_func = None
 curr_var_type = None
 curr_var_name = None
@@ -26,7 +25,9 @@ curr_func_type = None
 curr_param_name = None
 curr_param_type = None
 # multiple input counter
-input_counter = 0
+input_counter = None
+
+
 '''
 main
 '''
@@ -41,12 +42,14 @@ def p_np_program_start(p):
     np_program_start : epsilon
     '''
     # crear dirFunc
-    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack
+    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack, input_counter, jump_stack
     func_dir = FuncDir()
     semantic_cube = SemanticCube()
     quadruples = Quadruples()
     operand_stack = []
     operator_stack = []
+    jump_stack = []
+    input_counter = 0
     
 def p_np_start_dirfunc(p):
     '''
@@ -432,15 +435,45 @@ def p_write(p):
 # Decision
 def p_decision(p):
     '''
-    decision : IF '(' hyper_exp ')' THEN '{' loop_estatuto '}'  decision_1
+    decision : IF '(' hyper_exp ')' np_decision_1 THEN '{' loop_estatuto '}'  decision_else
     '''
+    #obtener fin de condicion
+    fin_decision = jump_stack.pop()
+    # agregar cuadruplo
+    quadruples.fill_quad(fin_decision, 3, quadruples.counter)
 
 # Decision 1
-def p_decision_1(p):
+def p_decision_else(p):
     '''
-    decision_1 : ELSE '{' loop_estatuto '}' 
-               | epsilon
+    decision_else : ELSE np_decision_2 '{' loop_estatuto '}' 
+                  | epsilon
     '''
+
+def p_np_decision_1(p):
+    '''
+    np_decision_1 : epsilon
+    '''
+    dir, tipo = operand_stack.pop()
+    if tipo != 'bool':
+        raise Exception('Error: tipos incompatibles en decision. {} != bool'.format(tipo))
+    else:
+        # agregar cuadruplo
+        quadruples.gen_quad('GOTOF', dir, -1, None)
+        # agregar a jump stack
+        jump_stack.append(quadruples.counter - 1)
+
+def p_np_decision_2(p):
+    '''
+    np_decision_2 : epsilon
+    '''
+    # Crea cuadruplo
+    quadruples.gen_quad('GOTO', -1, -1, None)
+	# guarda el cuadruplo en el stack de saltos
+    false_way = jump_stack.pop()
+    jump_stack.append(quadruples.counter - 1)
+	# rellena el cuadruplo anterior
+    quadruples.fill_quad(false_way, 3, quadruples.counter)
+
 
 
 # loop estatuto

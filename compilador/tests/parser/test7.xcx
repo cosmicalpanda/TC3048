@@ -1,0 +1,20 @@
+% prueba condicionales
+program test1 ; 
+vars int  a , b ;  float c, d ;
+function int f1 ( int x, int y ) ; vars int a, b ; { 
+    
+    if (a == 1) then {
+        a = 1;
+    } 
+
+    if (a > 1) then {
+        a = 1;
+    } else {
+        a = 2;
+    }
+
+ }
+
+ main () {
+
+ }

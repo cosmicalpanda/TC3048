@@ -8,7 +8,16 @@ TEST no.3
 apropiado
 
 TEST no.4
-error: Error: tipos incompatibles en asignacion. int = bool
+apropiado
 
 TEST no.5
+error: Error: tipos incompatibles en asignacion. int = bool
+
+TEST no.6
 apropiado
+
+TEST no.7
+apropiado
+
+TEST no.8
+error: Syntax error
