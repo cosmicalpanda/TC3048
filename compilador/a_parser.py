@@ -10,6 +10,9 @@ from semantic_cube import SemanticCube
 from func_dir import FuncDir
 from quadruples import Quadruples
 
+import json
+import jsonpickle
+
 func_dir = None
 semantic_cube = None
 quadruples = None
@@ -79,6 +82,14 @@ def p_np_fin_total(p):
     quadruples.gen_quad('ENDPROG', -1, -1, -1)
     for q in quadruples.list:
         print(q)
+    fd = []
+    for i in func_dir.dir:
+        fd.append(func_dir.dir[i][1].table)
+    # fd = func_dir.dir['global'][1].table
+    obj = {"function_directory": fd,
+           "quads": quadruples.list}
+    with open('obj.json', "w") as output_file:
+        json.dump(obj, output_file, indent=2)
     # borra dirFunc y vartable global
     
 
