@@ -19,3 +19,10 @@ A00825923
 
 # Fase 3
 - Cubo Semantico
+
+# Fase 4
+- Generacion de codigo estatutos secuenciales
+- Generacion de codigo Decisiones
+
+# Fase 5
+- Generacion de codigo Ciclos
