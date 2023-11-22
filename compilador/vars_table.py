@@ -73,6 +73,7 @@ class VarsTable:
                 if prev_size // 1000 != self.counter[self.scope][type] // 1000:
                     raise Exception('Se excedio el limite de variables de tipo {}'.format(type))
                 # retorna la direccion de la variable
+                # print('added var {} to scope {}'.format(varName, self.scope))
                 return self.counter[self.scope][type] - 1
             # si ya existe declarar error
             else:

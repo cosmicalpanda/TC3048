@@ -33,6 +33,7 @@ curr_param_type = None
 input_counter = None
 dir_uno = None
 
+call_stack = None
 '''
 main
 '''
@@ -47,7 +48,8 @@ def p_np_program_start(p):
     np_program_start : epsilon
     '''
     # crear dirFunc
-    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack, input_counter, jump_stack, dir_uno
+    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack
+    global input_counter, jump_stack, dir_uno, call_stack
     func_dir = FuncDir()
     semantic_cube = SemanticCube()
     quadruples = Quadruples()
@@ -55,6 +57,7 @@ def p_np_program_start(p):
     operator_stack = []
     jump_stack = []
     input_counter = 0
+    call_stack = []
 
     # Agregar constante 1 para funcionalidad for
     dir_uno = func_dir.add_const('int', '1')
@@ -102,14 +105,14 @@ def p_np_fin_total(p):
     # for q in quadruples.list:
     #     print(q)
     
+    cont_q = 0
     for i in func_dir.dir:
-
         fd.append( (i, func_dir.dir[i][0], func_dir.dir[i][1].table , func_dir.dir[i][2],func_dir.dir[i][3],func_dir.dir[i][4] ))
     # fd = func_dir.dir['global'][1].table
     obj = {"function_directory": fd,
-           "quads": quadruples.list}
+           "quads":  quadruples.list}
     with open('obj.json', "w") as output_file:
-        json.dump(obj, output_file, indent=2)
+        json.dump(obj, output_file, indent=4)
     # borra dirFunc y vartable global
     for q in quadruples.list:
         cuad.append(q)
@@ -397,8 +400,59 @@ def p_asignacion(p):
 # Funcion llamada
 def p_func_llamada(p):
     '''
-    func_llamada : ID '(' ')' 
-                 | ID '(' hyper_exp_loop ')' 
+    func_llamada : ID np_fc_1 '(' np_push_operator_stack argumento_loop ')' np_pop_operator_stack
+    '''
+    # verifica que los argumentos sean exactos
+    if call_stack[-1][1][0] < call_stack[-1][1][1]:
+        raise Exception('Error: llamada a funcion con parametros faltantes')
+    # agregar cuadruplo
+    quadruples.gen_quad('GOSUB', -1, -1, func_dir.get_quad(p[1]))
+    # obtener tipo esperado de llamada
+    ret_tipo = func_dir.get_func_type(call_stack[-1][0])
+    # en caso de tener retorno:
+    if ret_tipo != 'void':
+        # TODO: usar global en vez de call stack 
+        # primero busca en funcion, luego en global
+        _, ret_dir = func_dir.search_var(call_stack[-1][0], '_' + call_stack[-1][0])
+        call_stack.pop()
+        # guarda en temporal el valor de retorno en caso de multiples llamadas
+        ret_temp = func_dir.add_var(call_stack[-1][0], ret_tipo)
+        # agregar cuadruplo para guardar retorno temporal a global
+        quadruples.gen_quad('=', ret_dir, -1, ret_temp)
+        operand_stack.append((ret_temp, ret_tipo)) # agregar a operand stack
+       
+    # fin llamada actual
+    call_stack.pop()
+
+
+def p_np_fc_1(p):
+    '''
+    np_fc_1 : epsilon
+    '''
+    func = func_dir.dir.get(p[-1])
+    # call stack tendra el orden de llamadas realizadas
+    call_stack.append((curr_func, []))
+    if func:
+        call_stack.append((p[-1], []))
+        # agregar cuadruplo
+        quadruples.gen_quad('ERA', -1, -1, p[-1])
+        # [contador de argumentos, contador de parametros esperados] 
+        call_stack[-1][1].append(0)
+        call_stack[-1][1].append(len(func[2]))
+    else:
+        raise Exception('Error: funcion {} no declarada'.format(p[-1]))
+
+# argumento
+
+def p_argumento_loop(p):
+    '''
+    argumento_loop : hyper_exp np_fc_2 argumento_loop_1
+                   | epsilon
+    '''
+def p_argumento_loop_1(p):
+    '''
+    argumento_loop_1 : ',' hyper_exp np_fc_2 argumento_loop_1
+                     | epsilon
     '''
 
 #loop hyper_exp
@@ -414,7 +468,30 @@ def p_hyper_exp_loop_1(p):
                      | epsilon
     '''
 
+def p_np_fc_2(p):
+    '''
+    np_fc_2 : epsilon
+    '''
+    curr_p_count = call_stack[-1][1][0]
+    curr_p_len = call_stack[-1][1][1]
+    curr_f_name = call_stack[-1][0]
 
+    # Verifica si se llamo con parametros extra
+    if curr_p_count >= curr_p_len:
+        raise Exception('Error: llamada a funcion con parametros extra')
+    dir, tipo = operand_stack.pop()
+    #[func] -> [params] ->[param][type]
+    # obtiene el tipo esperado del parametro
+    curr_p_type, curr_p_name = func_dir.dir[curr_f_name][2][curr_p_count]
+    # verifica si los tipos son iguales
+    if curr_p_type != tipo:
+        raise Exception('Error: tipos incompatibles en llamada a funcion. {} != {}'.format(curr_p_type, tipo))
+    else:
+        _,p_dir = func_dir.search_var(curr_f_name, curr_p_name)
+    # agregar cuadruplo
+    quadruples.gen_quad('PARAM', dir, None, p_dir)
+    # aumentar contador de parametros (k)
+    call_stack[-1][1][0] += 1
 
 # func return
 def p_func_return(p):
@@ -788,6 +865,8 @@ def p_term_1(p):
            | '/' np_push_operator_stack factor
            | epsilon
     '''
+
+# push and pop
 def p_np_push_operator_stack(p):
     '''
     np_push_operator_stack : epsilon
@@ -795,6 +874,15 @@ def p_np_push_operator_stack(p):
     # push operador a stack
     global operator_stack
     operator_stack.append(p[-1])
+
+def p_np_pop_operator_stack(p):
+    '''
+    np_pop_operator_stack : epsilon
+    '''
+    # push operador a stack
+    global operator_stack
+    operator_stack.pop()
+
 # # Factor
 # def p_factor(p):
 #     '''
@@ -807,13 +895,13 @@ def p_np_push_operator_stack(p):
 #     '''
 
 # Factor
-# TODO: factor logic
-# TODO: define factor values
+# TODO: read?
 def p_factor(p):
     '''
     factor : constant
            | variable
            | '(' hyper_exp ')'
+           | func_llamada
     '''
     # # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
     # if len(p) == 2:

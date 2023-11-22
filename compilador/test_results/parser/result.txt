@@ -1,20 +1,2 @@
-TEST no.1
-apropiado
-
-TEST no.2
-apropiado
-
-TEST no.3
-apropiado
-
-TEST no.4
-error: Error: tipos incompatibles en asignacion. int = bool
-
-TEST no.5
-apropiado
-
-TEST no.6
-apropiado
-
-TEST no.7
-apropiado
+TEST: test1.xcx
+error: list index out of range
