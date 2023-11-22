@@ -11,11 +11,13 @@ from func_dir import FuncDir
 from quadruples import Quadruples
 
 import json
-import jsonpickle
 
 func_dir = None
 semantic_cube = None
 quadruples = None
+
+cuad = []
+fd = []
 
 # stack de direcion y tipo [(dir, type)]
 operand_stack = None
@@ -57,32 +59,48 @@ def p_np_program_start(p):
     # Agregar constante 1 para funcionalidad for
     dir_uno = func_dir.add_const('int', '1')
 
+
 def p_np_start_dirfunc(p):
     '''
     np_start_dirfunc : epsilon
     '''
-    # insertar funcion main en dirFunc
+    # insertar funcion global en dirFunc, guarda la function actual en curr_func
     global func_dir, curr_func, curr_func_type
     curr_func = 'global'
     curr_func_type = 'void'
-    print(curr_func, curr_func_type)
+    # print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
+    # GOTO main, cuadruplo inicial de todo el programa
+    quadruples.gen_quad('GOTO', -1, -1, None)
 
 # main
 # No se puede declarar variables en el main
 def p_main(p):
     '''
-    main : MAIN '(' ')' '{' loop_estatuto '}' np_fin_total
+    main : MAIN np_prep_main '(' ')' '{' loop_estatuto '}' np_fin_total
     '''
+def p_np_prep_main(p):
+    '''
+    np_prep_main : epsilon
+    '''
+    # crear vartable
+    global func_dir, curr_func, curr_func_type, quadruples
+    # rellena GOTO main con el primer cuadruplo del main
+    quadruples.fill_quad(0, 3, quadruples.counter)
+
+    curr_func = 'main'
+    curr_func_type = 'void'
+    # no agregamos main a func_dir ya que fue instanciado en la clase
 
 def p_np_fin_total(p):
     '''
     np_fin_total : epsilon
     '''
+    # cuadruplo final del programa
     quadruples.gen_quad('ENDPROG', -1, -1, -1)
-    for q in quadruples.list:
-        print(q)
-    fd = []
+    # for q in quadruples.list:
+    #     print(q)
+    
     for i in func_dir.dir:
         fd.append(func_dir.dir[i][1].table)
     # fd = func_dir.dir['global'][1].table
@@ -91,7 +109,9 @@ def p_np_fin_total(p):
     with open('obj.json', "w") as output_file:
         json.dump(obj, output_file, indent=2)
     # borra dirFunc y vartable global
-    
+    for q in quadruples.list:
+        cuad.append(q)
+    # print(fd)
 
 '''
 vars
@@ -184,7 +204,7 @@ def p_np_add_var_to_varstable(p):
     # no se tiene que validar, si ya existe se lanza error
     global func_dir, curr_func, curr_var_type, curr_var_name
     # agregar a func_dir y stack de operandos
-    print(curr_func, curr_var_type, curr_var_name)
+    # print(curr_func, curr_var_type, curr_var_name)
     func_dir.add_var(curr_func, curr_var_type, curr_var_name)
     operand_stack.append((curr_var_name, curr_var_type))
 
@@ -237,7 +257,7 @@ def p_np_add_to_func_dir(p):
     '''
     # agregar a func_dir
     global func_dir, curr_func, curr_func_type
-    print(curr_func, curr_func_type)
+    # print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
     # print("OK")
 
@@ -278,7 +298,7 @@ def p_parametro(p):
     else:
         # for i in p:
         #     print(i)
-        print(curr_func, p[1], p[2])
+        # print(curr_func, p[1], p[2])
         func_dir.add_var(curr_func, p[1], p[2])
         # operand_stack.append((p[1], p[2]))
 
@@ -297,7 +317,7 @@ def p_loop_parametro(p):
         # se agrega a stack de operandos? no vdd 
         # for i in p:
         #     print(i)
-        print(curr_func, p[2], p[3])
+        # print(curr_func, p[2], p[3])
         func_dir.add_var(curr_func, p[2], p[3])
         # operand_stack.append((p[1], p[2]))
 
