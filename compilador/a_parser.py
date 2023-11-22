@@ -87,10 +87,11 @@ def p_np_prep_main(p):
     global func_dir, curr_func, curr_func_type, quadruples
     # rellena GOTO main con el primer cuadruplo del main
     quadruples.fill_quad(0, 3, quadruples.counter)
-
     curr_func = 'main'
     curr_func_type = 'void'
     # no agregamos main a func_dir ya que fue instanciado en la clase
+    # agregamos cuadruplo de inicio de main
+    func_dir.dir[curr_func][3] = quadruples.counter
 
 def p_np_fin_total(p):
     '''
@@ -102,7 +103,8 @@ def p_np_fin_total(p):
     #     print(q)
     
     for i in func_dir.dir:
-        fd.append(func_dir.dir[i][1].table)
+
+        fd.append( (i, func_dir.dir[i][0], func_dir.dir[i][1].table , func_dir.dir[i][2],func_dir.dir[i][3],func_dir.dir[i][4] ))
     # fd = func_dir.dir['global'][1].table
     obj = {"function_directory": fd,
            "quads": quadruples.list}
@@ -222,7 +224,7 @@ def p_func_programa_loop(p):
 # function definition
 def p_func_definicion(p):
     '''
-    func_definicion : FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir '(' np_prep_func_params func_parametro ')' ';' var_opcional '{' loop_estatuto '}' np_kill_func
+    func_definicion : FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir '(' np_prep_func_params func_parametro ')' ';' var_opcional np_save_curr_func_quad '{' loop_estatuto '}' np_kill_func
     '''
     # insert function into function directory
     # func_dir.insert_func(p[3], p[2])
@@ -259,7 +261,24 @@ def p_np_add_to_func_dir(p):
     global func_dir, curr_func, curr_func_type
     # print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
+    # si la funcion tiene valor de retorno crear el valor global para almacenarlo
+    if curr_func_type != 'void':
+        # si no se creo una tabla de valores globales crearla
+        if not func_dir.has_varstable('global'):
+            func_dir.add_varstable('global', 'global')
+        # agregar variable global para almacenar el valor de retorno
+        dirRet = func_dir.add_var('global', curr_func_type, '_' + curr_func)
+        func_dir.add_return(curr_func, dirRet)
+        # func_dir.add_var(curr_func, curr_func_type, 'return')
     # print("OK")
+
+def p_np_save_curr_func_quad(p):
+    '''
+    np_save_curr_func_quad : epsilon
+    '''
+    global func_dir, curr_func
+    # guarda el cuadruplo de inicio de la funcion
+    func_dir.dir[curr_func][3] = quadruples.counter
 
 def p_np_kill_func(p):
     '''
@@ -289,37 +308,24 @@ def p_func_parametro(p):
 # Solo declara parametros del mismo tipo, para otro tipo se tiene que volver a invocar
 def p_parametro(p):
     '''
-    parametro : tipo ID loop_parametro
+    parametro : tipo ID np_add_param loop_parametro
     '''
-    # agregar a func_dir 
-    # se agrega a stack de operandos? no vdd 
-    if len(p) == 2:
-        pass
-    else:
-        # for i in p:
-        #     print(i)
-        # print(curr_func, p[1], p[2])
-        func_dir.add_var(curr_func, p[1], p[2])
-        # operand_stack.append((p[1], p[2]))
-
 
 # Parameter loop
 # loop parametro es para loopear los parametros del mismo tipo
 def p_loop_parametro(p):
     '''
-    loop_parametro : ',' tipo ID loop_parametro
+    loop_parametro : ',' tipo ID np_add_param loop_parametro
                    | epsilon
     '''
-    if len(p) == 2:
-        pass
-    else:
-        # agregar a func_dir 
-        # se agrega a stack de operandos? no vdd 
-        # for i in p:
-        #     print(i)
-        # print(curr_func, p[2], p[3])
-        func_dir.add_var(curr_func, p[2], p[3])
-        # operand_stack.append((p[1], p[2]))
+
+def p_np_add_param(p):
+    '''
+    np_add_param : epsilon
+    '''
+    # agregar a func_dir
+    global func_dir, curr_func, curr_param_type, curr_param_name
+    func_dir.add_param(curr_func, p[-2], p[-1])
 
 # Type
 def p_tipo(p):
@@ -415,6 +421,12 @@ def p_func_return(p):
     '''
     func_return : RETURN '(' hyper_exp ')' ';'
     '''
+    dir, tipo = operand_stack.pop()
+    # se busca la variable global de retorno
+    tipoRet, dirRet = func_dir.search_var('global', '_' + curr_func)
+    if tipo != tipoRet:
+        raise Exception('Error: tipos incompatibles en return. {} != {}'.format(tipo, tipoRet))
+    quadruples.gen_quad('RETURN', dir, -1, dirRet)
 
 # Read
 def p_read(p):
