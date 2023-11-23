@@ -48,18 +48,29 @@ class Memory:
     def mem_stack(self):
         #agregamos memoria al stack
         self.func_stack.append(self.mem.pop())
+        # no se
+        self.total_mem += len(self.func_stack[-1].table)
+        if self.total_mem > 11000:
+            raise Exception("Error: Limite de memoria excedido")
 
+    def mem_unstack(self):
+        # sacamos memoria del stack
+        self.total_mem -= len(self.func_stack[-1].table)
+        self.mem_stack.pop()
 
     # era
     def era(self, counter):
         self.mem.append(MemoryTable())
         self.mem[-1].init(counter)
-        # self.func_stack.append(self.mem.pop())
-        # print("era", counter)
 
     # param
-    def param(self):
-        pass
+    def param(self, dir, val):
+        scope = self.dir_scope(dir)
+        tipo = self.dir_type(dir)
+        index = dir % 1000
+        self.mem[-1].table[scope][tipo][index] = val
+
+        
     
     # asign space
     def assign_space(self, dir, value):

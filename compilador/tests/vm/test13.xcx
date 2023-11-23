@@ -1,0 +1,13 @@
+% prueba todos los elementos del lenguaje planeados hasta el momento
+program test1 ; 
+vars int  a[10] , b, c; 
+
+ main () {
+    b = 1 ;
+    for c = 0 to 9  do {
+        a[c] = 1 ;
+        b = b + 1 ;
+        write(b);
+    }
+    
+ }

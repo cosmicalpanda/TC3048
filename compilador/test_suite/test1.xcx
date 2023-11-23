@@ -1,0 +1,55 @@
+% prueba el funcionamiento de expresiones aritmeticas, logicas y relacionales
+program test1 ; 
+vars int  a , b ;  float c, d ; bool e, f ;
+ main () {
+    % expresiones aritmeticas int
+    a = 1 + 1 ;
+    write ( a ) ;
+    a = 1 - 1 ;
+    write ( a ) ;
+    a = 1 * 10 ;
+    write ( a ) ;
+    a = 10 / 2 ;
+    write ( a ) ;
+
+    % expresiones aritmeticas float
+    c = 1.0 + 1.0 ;
+    write ( c ) ;
+    c = 1.0 - 1.0 ;
+    write ( c ) ;
+    c = 1.0 * 10.0 ;
+    write ( c ) ;
+    c = 10.0 / 2.0 ;
+    write ( c ) ;
+
+    % division float con int
+    c = 10.0 / 2 ;
+    write ( c ) ;
+
+    % expresiones relacionales
+    e = 1 < 2 ;
+    write ( e ) ;
+    e = 1 > 2 ;
+    write ( e ) ;
+    e = 1 == 1 ;
+    write ( e ) ;
+    e = 1 != 1 ;
+    write ( e ) ;
+
+    % expresiones logicas
+    e = 1 < 2;
+    write ( e ) ;
+    f = e & e ;
+    write ( f ) ;
+    f = e | e ;
+    write ( f ) ;
+
+    e = 1 > 2;
+    write ( e ) ;
+    f = e & e ;
+    write ( f ) ;
+    f = e | e ;
+
+    
+
+ }

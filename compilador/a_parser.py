@@ -34,6 +34,7 @@ curr_param_type = None
 # multiple input counter
 input_counter = None
 dir_uno = None
+dir_menos_uno = None
 curr_dir = None
 
 call_stack = None
@@ -52,7 +53,7 @@ def p_np_program_start(p):
     '''
     # crear dirFunc
     global  semantic_cube, quadruples, operand_stack, operator_stack
-    global input_counter, jump_stack, dir_uno, call_stack
+    global input_counter, jump_stack, dir_uno, call_stack, dir_menos_uno
     # func_dir = FuncDir()
     semantic_cube = SemanticCube()
     quadruples = Quadruples()
@@ -64,6 +65,8 @@ def p_np_program_start(p):
 
     # Agregar constante 1 para funcionalidad for
     dir_uno = func_dir.add_const('int', '1')
+    # agregar k para arrays
+    dir_menos_uno = func_dir.add_const('int', '-1')
 
 
 def p_np_start_dirfunc(p):
@@ -76,8 +79,8 @@ def p_np_start_dirfunc(p):
     curr_func_type = 'void'
     # print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
-    # GOTOMAIN, cuadruplo inicial de todo el programa
-    quadruples.gen_quad('GOTOMAIN', -1, -1, None)
+    # GOTO, cuadruplo inicial de todo el programa
+    quadruples.gen_quad('GOTO', -1, -1, None)
 
 # main
 # No se puede declarar variables en el main
@@ -98,6 +101,7 @@ def p_np_prep_main(p):
     # no agregamos main a func_dir ya que fue instanciado en la clase
     # agregamos cuadruplo de inicio de main
     func_dir.dir[curr_func][3] = quadruples.counter
+    quadruples.gen_quad('INIT', -1, -1, -1)
 
 def p_np_fin_total(p):
     '''
@@ -995,9 +999,11 @@ def p_np_array_var_process(p):
     
     # formula
     # print( dim, s1_dir)
-    quadruples.gen_quad("VER", 1, dim, s1_dir)
+    quadruples.gen_quad('VER', 1, dim, s1_dir)
     point = func_dir.add_var(curr_func, 'pointer')
+    quadruples.gen_quad('+', s1_dir, dir_menos_uno, s1_dir)
     quadruples.gen_quad('+dir', s1_dir, dir_base, point)
+    # quadruples.gen_quad('+dir', point, dir_menos_uno, point)
     operand_stack.append((point, type_base ))
 
 def p_epsilon(p):

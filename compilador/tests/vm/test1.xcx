@@ -6,13 +6,6 @@ function int f1 ( int x, int y ) ; vars int a, b ; {
 
  main () {
    a = 1 + 1 ;
-   b = 2 * 2 ;
-   c = 1.0 + 1.0 ;
-   d = 10.0 / 2.0 ;
-   e = a > b ;
-   f = a < b  | c > d ;
-   a = 1 ;
-   b = 1 ;
-   f = a == b ;
+   write ( a , a) ;    
     
  }
