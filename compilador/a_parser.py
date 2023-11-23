@@ -34,6 +34,7 @@ curr_param_type = None
 # multiple input counter
 input_counter = None
 dir_uno = None
+curr_dir = None
 
 call_stack = None
 '''
@@ -691,11 +692,14 @@ def p_no_condicional(p):
     '''
     no_condicional : FOR variable '=' hyper_exp np_for_1 TO hyper_exp np_for_2 DO np_for_3 '{' loop_estatuto '}' 
     '''
+    # global curr_dir
     # obtener fin de condicion
     fin_cond = jump_stack.pop()
     # obtener inicio repeticion de condicion
     repeticion_cond = jump_stack.pop()
-    # agregar cuadruplo
+    
+    # agregar cuadruplos: suma 1 a la variable de control, GOTO
+    # quadruples.gen_quad('+', curr_dir, dir_uno, curr_dir)
     quadruples.gen_quad('GOTO', -1, -1, repeticion_cond)
     # agregar a jump stack
     jump_stack.append(quadruples.counter - 1)
@@ -748,8 +752,9 @@ def p_np_for_3(p):
     quadruples.gen_quad('GOTOV', dir_bool, -1, None)
     # agregar a jump stack
     jump_stack.append(quadruples.counter - 1) # el gotov que quiero llena
-    # agregar cuadruplo
     quadruples.gen_quad('+', curr_dir, dir_uno, curr_dir)
+
+
 
  
 
