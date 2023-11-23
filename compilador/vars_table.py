@@ -37,7 +37,8 @@ class VarsTable:
                     'int': 10000,
                     'float': 11000,
                     'char': 12000,
-                    'bool': 13000
+                    'bool': 13000,
+                    'pointer': 14000
                 }
             }
         elif scope == 'const':
@@ -58,7 +59,7 @@ class VarsTable:
     # Funcion para agregar una variable a la tabla de variables
     # regresa la direccion de la variable
     # TODO: codigo para agregar arreglos 
-    def add_var(self, type, varName=None, dim=None):
+    def add_var(self, type, varName=None, dim=1):
         # en caso de no tener varName es temporal
         if varName:
             # si es una variable nueva proceder
@@ -69,11 +70,11 @@ class VarsTable:
                 self.table[self.scope][varName] = (type, self.counter[self.scope][type], dim)
                 prev_size = self.counter[self.scope][type]
                 # incrementar contador
-                # if dim:
-                # NOTA k = -1 ya que se es indice 1 -> dim
-                self.counter[self.scope][type] += int(dim)
-                # else:   
-                #     self.counter[self.scope][type] += 1 
+                if dim:
+                    # NOTA k = -1 ya que se es indice 1 -> dim
+                    self.counter[self.scope][type] += int(dim)
+                else:   
+                    self.counter[self.scope][type] += 1 
                 if prev_size // 1000 != self.counter[self.scope][type] // 1000:
                     raise Exception('Se excedio el limite de variables de tipo {}'.format(type))
                 # retorna la direccion de la variable

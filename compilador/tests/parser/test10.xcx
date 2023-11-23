@@ -2,7 +2,7 @@
 program test1 ; 
 vars int  a[100] , b ; 
 function int f1 ( int x, int y ) ; vars int a[3], b ; { 
-    b = 1 ;
+    a[1] = 1 ;
  }
 
 

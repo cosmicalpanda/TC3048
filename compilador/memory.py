@@ -20,6 +20,7 @@ class Memory:
         11000 - 11999 : float
         12000 - 12999 : char
         13000 - 13999 : bool
+        14000 - 14999 : pointer
 
         Constantes
         20000 - 20999 : int
@@ -135,5 +136,7 @@ class Memory:
             return 'float'
         elif dir < 3000 or (dir >= 7000 and dir < 8000) or (dir >= 12000 and dir < 13000) or (dir >= 22000 and dir < 23000):
             return 'char'
+        elif dir >= 14000 and dir < 15000:
+            return 'pointer'
         else:
             return 'bool'

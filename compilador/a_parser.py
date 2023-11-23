@@ -191,8 +191,9 @@ def p_array_opcional(p):
     array_opcional : '[' VAL_INT np_push_const_int ']'
                    | epsilon
     '''
+    print(len(p))
     if len(p) == 2:
-        p[0] = 1
+        p[0] = []
     else:
         p[0] = p[2]
 
@@ -982,12 +983,15 @@ def p_np_array_var_process(p):
     s1_dir, s1_type = operand_stack.pop()
     type_base, dir_base = func_dir.search_var(curr_func, p[-6])
     dim = func_dir.get_dims(curr_func, p[-6])
+    if dim :
+        dim = int(dim)
     if s1_type != 'int':
         raise Exception('Error: tipos incompatibles en array. {} != int'.format(s1_type))
     
     # formula
-    quadruples.fill_quad("VER", 1, dim, s1_dir)
-    point = func_dir.add_var(curr_func, 'point')
+    print( dim, s1_dir)
+    quadruples.gen_quad("VER", 1, dim, s1_dir)
+    point = func_dir.add_var(curr_func, 'pointer')
     quadruples.gen_quad('+dir', s1_dir, dir_base, point)
     operand_stack.append((point, type_base ))
 
