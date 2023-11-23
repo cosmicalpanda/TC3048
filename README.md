@@ -26,3 +26,11 @@ A00825923
 
 # Fase 5
 - Generacion de codigo Ciclos
+
+# Fase 6
+- Generacion de codigo de funciones
+- Mapa memoria de ejecucion maquina virtual
+- Maquina virtual = ejecucion de expresiones aritmeticas
+
+# Fase 7
+- Generacion de codigo arreglos
