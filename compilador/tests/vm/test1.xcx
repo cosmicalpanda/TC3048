@@ -5,6 +5,6 @@ function int f1 ( int x, int y ) ; vars int a, b ; {
  }
 
  main () {
-   a = 1;
+   a = 1 +1 ;
     
  }

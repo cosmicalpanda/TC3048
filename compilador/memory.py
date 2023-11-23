@@ -32,19 +32,28 @@ class Memory:
         self.const_mem = MemoryTable()
         self.total_mem = 0
 
+    # crear la tabla de espacios dependiendo del scope
     def init(self, scope, counter):
         if scope == 'global':
             self.global_mem.init(counter)
         elif scope == 'const':
             self.const_mem.init(counter)
         elif scope == 'main':
+            # creamos la memoria para el main y agregamos al stack
             self.era(counter)
+            self.mem_stack()
+
+    # stack
+    def mem_stack(self):
+        #agregamos memoria al stack
+        self.func_stack.append(self.mem.pop())
 
 
     # era
     def era(self, counter):
         self.mem.append(MemoryTable())
         self.mem[-1].init(counter)
+        # self.func_stack.append(self.mem.pop())
         print("era", counter)
 
     # param
@@ -60,7 +69,9 @@ class Memory:
         if scope == 'local' or scope == 'temp':
             print("cobo1")
             print(len(self.func_stack))
-            self.func_stack[-1][scope][tipo][index] = value
+            for i in self.func_stack[-1].table.keys():
+                print(i)
+            self.func_stack[-1].table[scope][tipo][index] = value
         elif scope == 'global':
             print("cobo3",value)
             self.global_mem.table[scope][tipo][index] = value
@@ -75,7 +86,7 @@ class Memory:
         tipo =  self.dir_type(dir)
         index = dir % 1000
         if scope == 'local' or scope == 'temp':
-            ans = self.func_stack[-1][scope][tipo][index]
+            ans = self.func_stack[-1].table[scope][tipo][index]
             if ans == None:
                 raise Exception("Error: Casilla {} no inicializada".format(dir))
             return ans            

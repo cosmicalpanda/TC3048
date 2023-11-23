@@ -75,4 +75,4 @@ class VM:
 
         print(str(len(self.memory.func_stack)) + " stack de memoria")
         for m in self.memory.func_stack:
-            pp.pprint(m.stack)
+            pp.pprint(m.table)
