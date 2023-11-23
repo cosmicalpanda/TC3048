@@ -1,10 +1,18 @@
 % prueba condicionales
 program test1 ; 
-vars int  a , b ;  float c, d ;
+vars int  a , b ;  float c, d ; bool e, f ;
 function int f1 ( int x, int y ) ; vars int a, b ; { 
  }
 
  main () {
-   a = 1 +1 ;
+   a = 1 + 1 ;
+   b = 2 * 2 ;
+   c = 1.0 + 1.0 ;
+   d = 10.0 / 2.0 ;
+   e = a > b ;
+   f = a < b  | c > d ;
+   a = 1 ;
+   b = 1 ;
+   f = a == b ;
     
  }

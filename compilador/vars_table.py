@@ -7,7 +7,7 @@ class VarsTable:
         # {nombre_variable: tipo_variable, direccion}
         # cada scope tiene su propio contador de variables
         # local cuenta con un contador de variables locales
-        # {tipo_variable: contador}
+        # {nombre: tipo, dir, dims }
 
         if scope == 'global':
             self.table = {
@@ -58,18 +58,22 @@ class VarsTable:
     # Funcion para agregar una variable a la tabla de variables
     # regresa la direccion de la variable
     # TODO: codigo para agregar arreglos 
-    def add_var(self, type, varName=None):
+    def add_var(self, type, varName=None, dim=None):
         # en caso de no tener varName es temporal
         if varName:
             # si es una variable nueva proceder
             if not self.table[self.scope].get(varName):
                 # agregar a la tabla de variables con el formato:
-                # {varName: (type, dir)}
-                # ejemplo: {'a': ('int', 5000, False)}
-                self.table[self.scope][varName] = (type, self.counter[self.scope][type])
+                # {varName: (type, dir, dim)}
+                # ejemplo: {'a': ('int', 5000, 2)}
+                self.table[self.scope][varName] = (type, self.counter[self.scope][type], dim)
                 prev_size = self.counter[self.scope][type]
                 # incrementar contador
-                self.counter[self.scope][type] = self.counter[self.scope][type] + 1
+                
+                if dim:
+                    self.counter[self.scope][type] += int(dim)
+                else:   
+                    self.counter[self.scope][type] += 1 
                 if prev_size // 1000 != self.counter[self.scope][type] // 1000:
                     raise Exception('Se excedio el limite de variables de tipo {}'.format(type))
                 # retorna la direccion de la variable
@@ -86,9 +90,9 @@ class VarsTable:
             # agregar a la tabla de variables temporales con el formato:
             # {new_temp: (type, dir)}
             # ejemplo: {'int10000': ('int', 10000, False)}
-            self.table['temp'][new_temp] = (type, self.counter['temp'][type])
+            self.table['temp'][new_temp] = (type, self.counter['temp'][type], dim)
             # actualiza counter
-            self.counter['temp'][type] = self.counter['temp'][type] + 1
+            self.counter['temp'][type] += 1
             # retorna la direccion del temporal
             return self.counter['temp'][type] - 1
 

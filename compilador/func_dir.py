@@ -27,10 +27,10 @@ class FuncDir:
 
     # agregar variable a varstable
     # retorna la direccion de la variable en caso correcto
-    def add_var(self, func, type, varName=None):
+    def add_var(self, func, type, varName=None, dim=None):
         if self.dir.get(func):
             # print('adding var {} to func {}'.format(varName, func))
-            return self.dir[func][1].add_var(type, varName)
+            return self.dir[func][1].add_var(type, varName, dim)
         else:
             raise Exception('Error llamando add_var. Funcion {} no declarada'.format(func))
     

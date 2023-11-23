@@ -182,14 +182,25 @@ def p_loop_var_declaracion(p):
 # declaracion bloque de variables del mismo tipo
 def p_var_declaracion_mismo_tipo(p):
     '''
-    var_declaracion_mismo_tipo :  tipo np_set_curr_var_type ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo ';'
+    var_declaracion_mismo_tipo :  tipo np_set_curr_var_type ID np_set_curr_var_name array_opcional np_add_var_to_varstable loop_var_decl_mismo_tipo ';'
     '''
+
+def p_array_opcional(p):
+    '''
+    array_opcional : '[' VAL_INT np_push_const_int ']'
+                   | epsilon
+    '''
+    if len(p) == 2:
+        p[0] = []
+    else:
+        p[0] = p[2]
+
 
 # TODO: rework for array
 # Variable declaration loop
 def p_loop_var_decl_mismo_tipo(p):
     '''
-    loop_var_decl_mismo_tipo : ',' ID np_set_curr_var_name np_add_var_to_varstable loop_var_decl_mismo_tipo
+    loop_var_decl_mismo_tipo : ',' ID np_set_curr_var_name array_opcional np_add_var_to_varstable loop_var_decl_mismo_tipo
                   | epsilon
     '''
 
@@ -218,8 +229,8 @@ def p_np_add_var_to_varstable(p):
     # no se tiene que validar, si ya existe se lanza error
     global func_dir, curr_func, curr_var_type, curr_var_name
     # agregar a func_dir y stack de operandos
-    # print(curr_func, curr_var_type, curr_var_name)
-    func_dir.add_var(curr_func, curr_var_type, curr_var_name)
+    print(curr_func, curr_var_type, curr_var_name, p[-1])
+    func_dir.add_var(curr_func, curr_var_type, curr_var_name, p[-1])
     operand_stack.append((curr_var_name, curr_var_type))
 
 '''
