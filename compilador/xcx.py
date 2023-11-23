@@ -1,4 +1,4 @@
-from a_parser import parser, cuad, fd, func_dir
+from a_parser import parser, cuad, counters, constants
 import sys
 import os
 import json
@@ -17,16 +17,18 @@ if test_no:
     try:
         data = open('tests/vm/' + 'test' + test_no + '.xcx', 'r').read()
         parser.parse(data, tracking=True)
-        maquina = VM(cuad,fd)
+        print(constants)
+        maquina = VM(cuad,counters, constants)
         print("-----RUNNING-----")
         maquina.run()
+        maquina.imprimir_memoria()
         print("-----FINISHED-----")
         print('test no.', test_no, ': apropiado')
     except Exception as e:
         error_msg = "test " + str(test_no) + " : " + str(e)
         # Save obj as error
-        with open('obj.json', "w") as output_file:
-            json.dump({'error': error_msg}, output_file, indent=2)
+        # with open('obj.json', "w") as output_file:
+        #     json.dump({'error': error_msg}, output_file, indent=2)
         raise e
 else:
     # assign directory
@@ -52,6 +54,7 @@ else:
             # proceso
             parser.parse(data, tracking=True)
             # print(func_dir)
+            # print(fd)
             maquina = VM(cuad,fd)
             print("-----RUNNING-----")
             maquina.run()

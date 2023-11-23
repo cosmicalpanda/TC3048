@@ -89,6 +89,7 @@ class FuncDir:
             return self.dir['const'][1].table['const']
         
     # get counter
+    # se utiliza para obtener el numero de variables de una funcion
     def get_counter(self, func):
         if self.dir[func][1]:
             return self.dir[func][1].counter

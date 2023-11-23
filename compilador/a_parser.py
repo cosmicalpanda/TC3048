@@ -12,12 +12,14 @@ from quadruples import Quadruples
 
 import json
 
-func_dir = None
+func_dir = FuncDir()
 semantic_cube = None
-quadruples = None
+quadruples = Quadruples()
 
 cuad = []
 fd = []
+counters = {}
+constants = {}
 
 # stack de direcion y tipo [(dir, type)]
 operand_stack = None
@@ -48,9 +50,9 @@ def p_np_program_start(p):
     np_program_start : epsilon
     '''
     # crear dirFunc
-    global func_dir, semantic_cube, quadruples, operand_stack, operator_stack
+    global  semantic_cube, quadruples, operand_stack, operator_stack
     global input_counter, jump_stack, dir_uno, call_stack
-    func_dir = FuncDir()
+    # func_dir = FuncDir()
     semantic_cube = SemanticCube()
     quadruples = Quadruples()
     operand_stack = []
@@ -73,8 +75,8 @@ def p_np_start_dirfunc(p):
     curr_func_type = 'void'
     # print(curr_func, curr_func_type)
     func_dir.add_func(curr_func, curr_func_type)
-    # GOTO main, cuadruplo inicial de todo el programa
-    quadruples.gen_quad('GOTO', -1, -1, None)
+    # GOTOMAIN, cuadruplo inicial de todo el programa
+    quadruples.gen_quad('GOTOMAIN', -1, -1, None)
 
 # main
 # No se puede declarar variables en el main
@@ -118,6 +120,13 @@ def p_np_fin_total(p):
         cuad.append(q)
     # print(fd)
 
+    for func in func_dir.dir.keys():
+        counters[func] = func_dir.get_counter(func)
+    # print(counters)
+    cdict = func_dir.get_const_table().copy()
+    for c in cdict:
+        constants[c] = (cdict[c][0], cdict[c][1])
+    print("CONST", constants)
 '''
 vars
 '''
@@ -956,7 +965,6 @@ def p_epsilon(p):
     '''epsilon : '''
     p[0] = 'epsilon'
 
-
 def p_error(p):
     if not p:
         error_msg = "Syntax error"
@@ -965,46 +973,4 @@ def p_error(p):
             str(p.lineno) + ' when parsing ' + str(p)
     raise SyntaxError(error_msg)
 
-'''
-
-TODO: fix bool problem
-# '''
-# codigo = '''
-
-# program test1 ; 
-# vars int  a , b ;  float c, d ;
-# function int f1 ( int x, int y ) ; vars int a, b ; { 
-#     a = 1 ;
-#     b [2] = c [a] ;
-#  }
-#  main () {
-#     x = 1 ;
-
-#     f0();
-#     f1 (1);
-#     f2 (1, 2);
-    
-#     read (a, b, c);
-
-#     write (a, b, c);
-
-#     if (a == 1) then {
-#         a = 1;
-#     } 
-
-#     if (a > 1) then {
-#         a = 1;
-#     } else {
-#         a = 2;
-#     }
-
-#     while (a == 1) do {
-#         a = 1;
-#     }
-
-#     for x = 1 to 10 do {
-#         a = 1;
-#     }
-#  }
-# '''
 parser = yacc.yacc()

@@ -2,9 +2,16 @@
 program test1 ; 
 vars int  a , b ;  float c, d ;
 function int f1 ( int x, int y ) ; vars int a, b ; { 
+    a = 1 ;
  }
 
  main () {
-   a = 1;
+    while (a == 1) do {
+        a = 2 ;
+    }
+
+    for a = 1 to 10  do {
+        
+    }
     
  }

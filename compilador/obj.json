@@ -1,3 +1,118 @@
 {
-  "error": "test 8 : 'int' object is not iterable"
+    "function_directory": [
+        [
+            "main",
+            "void",
+            {
+                "local": {},
+                "temp": {}
+            },
+            [],
+            1,
+            null
+        ],
+        [
+            "const",
+            "void",
+            {
+                "const": {
+                    "1": [
+                        "int",
+                        20000
+                    ]
+                }
+            },
+            null,
+            null,
+            null
+        ],
+        [
+            "global",
+            "void",
+            {
+                "global": {
+                    "a": [
+                        "int",
+                        0
+                    ],
+                    "b": [
+                        "int",
+                        1
+                    ],
+                    "c": [
+                        "float",
+                        1000
+                    ],
+                    "d": [
+                        "float",
+                        1001
+                    ],
+                    "_f1": [
+                        "int",
+                        2
+                    ]
+                }
+            },
+            [],
+            null,
+            null
+        ],
+        [
+            "f1",
+            "int",
+            {
+                "local": {
+                    "x": [
+                        "int",
+                        5000
+                    ],
+                    "y": [
+                        "int",
+                        5001
+                    ],
+                    "a": [
+                        "int",
+                        5002
+                    ],
+                    "b": [
+                        "int",
+                        5003
+                    ]
+                },
+                "temp": {}
+            },
+            [
+                [
+                    "int",
+                    "x"
+                ],
+                [
+                    "int",
+                    "y"
+                ]
+            ],
+            1,
+            2
+        ]
+    ],
+    "quads": [
+        [
+            "GOTOMAIN",
+            -1,
+            -1,
+            1
+        ],
+        [
+            "=",
+            20000,
+            null,
+            0
+        ],
+        [
+            "ENDPROG",
+            -1,
+            -1,
+            -1
+        ]
+    ]
 }

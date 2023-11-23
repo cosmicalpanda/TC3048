@@ -1,2 +1,5 @@
-TEST: test1.xcx
-error: list index out of range
+TEST: test8.xcx
+apropiado
+
+TEST: test9.xcx
+apropiado
