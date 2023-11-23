@@ -1,0 +1,63 @@
+% prueba el funcionamiento de control de flujo: ifs,, whiles, fors
+program test3 ; 
+vars int  a , b ;  float c, d ; char e, f ;
+ main () {
+    
+    % ifs
+    a = 1 ;
+    b = 2;  
+    if (a < b) then {
+        e = 'T' ;
+    } 
+    write(e);
+
+
+    a = 1 ;
+    b = 2;  
+    if (a < b) then {
+        e = 'T' ;
+    } else {
+        e = 'F' ;
+    }
+    write(e);
+
+    a = 10;
+    b = 2;  
+    if (a < b) then {
+        e = 'T' ;
+    } else {
+        e = 'F' ;
+    }
+    write(e) ;
+
+    % while
+    a = 1 ;
+    write('s') ;
+    write('w') ;
+    while (a < 10) do {
+        write(a) ;
+        a = a + 1 ;
+    }
+    write('e') ;
+    write('w') ;
+    write(a) ;
+
+    % for
+    a = 0 ;
+    write('s') ;
+    write('f') ;
+    %write(a) ;
+
+    for b = 1 to 10  do {
+        a = a + 1 ;
+        write(b) ;
+        write(a) ;
+    }
+    write('e') ;
+    write('f') ;
+    write(a) ;
+    write(b) ;
+
+
+
+ }

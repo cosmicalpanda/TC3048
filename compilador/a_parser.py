@@ -35,8 +35,8 @@ curr_param_type = None
 input_counter = None
 dir_uno = None
 dir_menos_uno = None
-curr_dir = None
-
+curr_dir_for = None
+curr_type_for = None
 call_stack = None
 '''
 main
@@ -543,6 +543,7 @@ def p_read(p):
         # agregar cuadruplo
         quadruples.gen_quad('READ', -1, -1, opdir)
     input_counter = 0
+    
 
 # Variable loop
 def p_variable_loop(p):
@@ -697,6 +698,7 @@ def p_no_condicional(p):
     no_condicional : FOR variable '=' hyper_exp np_for_1 TO hyper_exp np_for_2 DO np_for_3 '{' loop_estatuto '}' 
     '''
     # global curr_dir
+    quadruples.gen_quad('+', curr_dir_for, dir_uno, curr_dir_for)
     # obtener fin de condicion
     fin_cond = jump_stack.pop()
     # obtener inicio repeticion de condicion
@@ -710,6 +712,7 @@ def p_no_condicional(p):
     # rellenar cuadruplo
     quadruples.fill_quad(fin_cond, 3, quadruples.counter)
     
+
 # se realiza la asignacion con la diferencia que se guarda
 # la direccion de la asignacion en el stack de operandos
 def p_np_for_1(p):
@@ -717,15 +720,16 @@ def p_np_for_1(p):
     np_for_1 : epsilon
     '''
     # obtener datos de operandos
+    global curr_dir_for, curr_type_for
     dir2, tipo2 = operand_stack.pop()
-    dir1, tipo1 = operand_stack.pop()
+    curr_dir_for, curr_type_for = operand_stack.pop()
     # tipos iguales
-    if tipo1 != 'int' or tipo2 != 'int':
-        raise Exception('Error: tipos incompatibles en no_condicional. Se esperaba: int,int. Se obtuvo: {} '.format(tipo1, tipo2))        
+    if curr_type_for != 'int' or tipo2 != 'int':
+        raise Exception('Error: tipos incompatibles en no_condicional. Se esperaba: int,int. Se obtuvo: {} '.format(curr_type_for, tipo2))        
     # agregar cuadruplo
-    quadruples.gen_quad('=', dir2, -1, dir1)
+    quadruples.gen_quad('=', dir2, -1, curr_dir_for)
     # agregar a operand stack
-    operand_stack.append((dir1, tipo1))
+    operand_stack.append((curr_dir_for, curr_type_for))
 
 def p_np_for_2(p):
     '''
@@ -756,7 +760,7 @@ def p_np_for_3(p):
     quadruples.gen_quad('GOTOV', dir_bool, -1, None)
     # agregar a jump stack
     jump_stack.append(quadruples.counter - 1) # el gotov que quiero llena
-    quadruples.gen_quad('+', curr_dir, dir_uno, curr_dir)
+  
 
 
 
@@ -932,6 +936,7 @@ def p_factor(p):
            | variable
            | '(' hyper_exp ')'
            | func_llamada
+           | read
     '''
     # # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
     # if len(p) == 2:

@@ -89,7 +89,7 @@ def t_VAL_CHAR(t):
     r'\'[^\']\''
     t.type = reserved.get(t.value, 'VAL_CHAR')
     t.value = t.value[1:-1]  # Remove quotes
-    t.value = (t.value, 'char')
+    # t.value = (t.value, 'char')
     return t
 
 # # VAL_BOOL

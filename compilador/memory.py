@@ -65,9 +65,11 @@ class Memory:
 
     # param
     def param(self, dir, val):
+        print("param:", dir, val)
         scope = self.dir_scope(dir)
         tipo = self.dir_type(dir)
         index = dir % 1000
+        print("param:", scope, tipo, index, dir, val)
         self.mem[-1].table[scope][tipo][index] = val
 
         
@@ -112,6 +114,7 @@ class Memory:
                 raise Exception("Error: Casilla {} no inicializada".format(dir))
             return ans
         elif scope == 'const':
+            # print(scope, tipo, index)
             ans = self.const_mem.table[scope][tipo][index]
             # print(ans)
             if ans == None:
@@ -128,6 +131,8 @@ class Memory:
                 self.assign_space(constants[c][1], int(c))
             elif constants[c][0] == 'float':
                 self.assign_space(constants[c][1], float(c))
+            elif constants[c][0] == 'char':
+                self.assign_space(constants[c][1], c)
         pass
 
     def dir_scope(self,dir):

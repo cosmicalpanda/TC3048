@@ -50,6 +50,10 @@ vars int  a , b ;  float c, d ; bool e, f ;
     write ( f ) ;
     f = e | e ;
 
-    
+    % expresiones con parentesis   
+    a = ( 1 + 1 ) * 2 ;
+    write ( a ) ;
+    e = ( 1 < 2 ) & ( 1 < 2 ) ;
+    write ( e ) ;
 
  }

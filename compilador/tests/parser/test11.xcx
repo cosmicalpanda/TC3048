@@ -1,0 +1,17 @@
+% prueba el funcionamiento de expresiones aritmeticas, logicas y relacionales
+program test1 ; 
+vars int  a , b ;  float c, d ; char e, f ;
+ main () {
+    % writes
+    a = 1 ;
+    write ( a ) ; 
+    c = 1.0 ;
+    write ( c ) ;
+    e = 'a' ;
+    write ( e ) ;
+    
+    read( a ) ;
+    read( c ) ;
+    read( e ) ;
+
+ }
