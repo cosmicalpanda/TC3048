@@ -55,7 +55,7 @@ class Memory:
         self.mem.append(MemoryTable())
         self.mem[-1].init(counter)
         # self.func_stack.append(self.mem.pop())
-        print("era", counter)
+        # print("era", counter)
 
     # param
     def param(self):
@@ -66,19 +66,19 @@ class Memory:
         scope = self.dir_scope(dir)
         tipo = self.dir_type(dir)
         index = dir % 1000
-        print("assign", scope, tipo, index, dir, value)
+        # print("assign", scope, tipo, index, dir, value)
         if scope == 'local' or scope == 'temp':
-            print("cobo1")
-            print(len(self.func_stack))
-            for i in self.func_stack[-1].table.keys():
-                print(i)
+            # print("cobo1")
+            # # print(len(self.func_stack))
+            # for i in self.func_stack[-1].table.keys():
+            #     print(i)
             self.func_stack[-1].table[scope][tipo][index] = value
         elif scope == 'global':
-            print("cobo3",value)
+            # print("cobo3",value)
             self.global_mem.table[scope][tipo][index] = value
-            print(self.global_mem.table[scope][tipo][index])
+            # print(self.global_mem.table[scope][tipo][index])
         elif scope == 'const':
-            print("cobo2")
+            # print("cobo2")
             self.const_mem.table[scope][tipo][index] = value
 
     # search space
@@ -93,16 +93,16 @@ class Memory:
             return ans            
         elif scope == 'global':
             # print(scope, tipo, index)
-            for a in self.global_mem.table.keys():
-                print(a, self.global_mem.table[a])
-            print ("aja")
+            # for a in self.global_mem.table.keys():
+            #     print(a, self.global_mem.table[a])
+            # print ("aja")
             ans = self.global_mem.table[scope][tipo][index]
             if ans == None:
                 raise Exception("Error: Casilla {} no inicializada".format(dir))
             return ans
         elif scope == 'const':
             ans = self.const_mem.table[scope][tipo][index]
-            print(ans)
+            # print(ans)
             if ans == None:
                 raise Exception("Error: Casilla {} no inicializada".format(dir))
             return ans
@@ -112,7 +112,7 @@ class Memory:
     #
     def init_const(self, constants):
         for c in constants:
-            print(c)
+            # print(c)
             if constants[c][0] == 'int':
                 self.assign_space(constants[c][1], int(c))
             elif constants[c][0] == 'float':

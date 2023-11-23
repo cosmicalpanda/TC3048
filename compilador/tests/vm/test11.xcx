@@ -1,0 +1,16 @@
+% prueba condicionales
+program test1 ; 
+vars int  a , b ;  float c, d ;
+
+ main () {
+    a = 1 ;
+    while (a < 10) do {
+        write (a) ;
+        a = a + 1 ;
+    }
+
+    for b = 1 to 10  do {
+        write (b) ;
+    }
+    
+ }

@@ -19,6 +19,15 @@ class VM:
             op1 = self.quadruples[self.pointer_stack[-1]][1]
             op2 = self.quadruples[self.pointer_stack[-1]][2]
             dir = self.quadruples[self.pointer_stack[-1]][3]
+            # check for pointers
+            # print(opcode, op1, op2, dir)
+            if opcode not in ['ERA', '+dir']:
+                if op1 >= 14000 and op1 < 15000:
+                    op1 = self.memory.search_space(op1)
+                if op2 >= 14000 and op2 < 15000:
+                    op2 = self.memory.search_space(op2)
+                if dir >= 14000 and dir < 15000:
+                    dir = self.memory.search_space(dir)
             # aritmetica
             if opcode == '+':
                 # print( "dir: {} + dir: {} goes to dir: {}".format(op1,op2,dir))
@@ -46,8 +55,23 @@ class VM:
             elif opcode == '!=':
                 self.memory.assign_space(dir, self.memory.search_space(op1) != self.memory.search_space(op2))
             elif opcode == '=':
-                print("dir1: {} = dir2: {}".format(dir, op1))
+                # print("dir1: {} = dir2: {}".format(dir, op1))
                 self.memory.assign_space(dir, self.memory.search_space(op1))
+            elif opcode == 'WRITE':
+                print("write: ", self.memory.search_space(dir))
+                # print(self.memory.search_space(dir))
+            elif opcode == 'READ':
+                temp = input()
+                self.memory.assign_space(dir, temp)
+            elif opcode == 'GOTO':
+                # print("goto: ", dir)
+                self.pointer_stack[-1] = dir - 1
+            elif opcode == 'GOTOF':
+                if not self.memory.search_space(op1):
+                    self.pointer_stack[-1] = dir - 1
+            elif opcode == 'GOTOV':
+                if self.memory.search_space(op1):
+                    self.pointer_stack[-1] = dir - 1
             
             # funciones
 

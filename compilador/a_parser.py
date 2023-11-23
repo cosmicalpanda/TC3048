@@ -191,7 +191,7 @@ def p_array_opcional(p):
     array_opcional : '[' VAL_INT np_push_const_int ']'
                    | epsilon
     '''
-    print(len(p))
+    # print(len(p))
     if len(p) == 2:
         p[0] = []
     else:
@@ -230,7 +230,7 @@ def p_np_add_var_to_varstable(p):
     # no se tiene que validar, si ya existe se lanza error
     global func_dir, curr_func, curr_var_type, curr_var_name
     # agregar a func_dir y stack de operandos
-    print(curr_func, curr_var_type, curr_var_name, p[-1])
+    # print(curr_func, curr_var_type, curr_var_name, p[-1])
     func_dir.add_var(curr_func, curr_var_type, curr_var_name, p[-1])
     operand_stack.append((curr_var_name, curr_var_type))
 
@@ -416,7 +416,7 @@ def p_asignacion(p):
     if op1[1] != op2[1]:
         raise Exception('Error: tipos incompatibles en asignacion. {} = {}'.format(op1[1], op2[1]))
     # agregar cuadruplo
-    quadruples.gen_quad('=', op2[0], None, op1[0])
+    quadruples.gen_quad('=', op2[0], -1, op1[0])
     
 # Funcion llamada
 def p_func_llamada(p):
@@ -510,7 +510,7 @@ def p_np_fc_2(p):
     else:
         _,p_dir = func_dir.search_var(curr_f_name, curr_p_name)
     # agregar cuadruplo
-    quadruples.gen_quad('PARAM', dir, None, p_dir)
+    quadruples.gen_quad('PARAM', dir, -1, p_dir)
     # aumentar contador de parametros (k)
     call_stack[-1][1][0] += 1
 
@@ -536,7 +536,7 @@ def p_read(p):
         # obtener datos de operandos
         opdir, _ = operand_stack.pop()
         # agregar cuadruplo
-        quadruples.gen_quad('read', None, None, opdir)
+        quadruples.gen_quad('READ', -1, -1, opdir)
     input_counter = 0
 
 # Variable loop
@@ -575,7 +575,7 @@ def p_write(p):
         # obtener datos de operandos
         opdir, _ = operand_stack.pop()
         # agregar cuadruplo
-        quadruples.gen_quad('write', None, None, opdir)
+        quadruples.gen_quad('WRITE', -1, -1, opdir)
     input_counter = 0
 
 # Decision
@@ -715,7 +715,7 @@ def p_np_for_1(p):
     if tipo1 != 'int' or tipo2 != 'int':
         raise Exception('Error: tipos incompatibles en no_condicional. Se esperaba: int,int. Se obtuvo: {} '.format(tipo1, tipo2))        
     # agregar cuadruplo
-    quadruples.gen_quad('=', dir2, None, dir1)
+    quadruples.gen_quad('=', dir2, -1, dir1)
     # agregar a operand stack
     operand_stack.append((dir1, tipo1))
 
@@ -989,7 +989,7 @@ def p_np_array_var_process(p):
         raise Exception('Error: tipos incompatibles en array. {} != int'.format(s1_type))
     
     # formula
-    print( dim, s1_dir)
+    # print( dim, s1_dir)
     quadruples.gen_quad("VER", 1, dim, s1_dir)
     point = func_dir.add_var(curr_func, 'pointer')
     quadruples.gen_quad('+dir', s1_dir, dir_base, point)
