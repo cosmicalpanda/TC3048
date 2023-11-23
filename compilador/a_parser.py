@@ -146,6 +146,7 @@ def p_var_opcional(p):
 def p_variable(p):
     '''
     variable : ID np_single_var_process
+             | ID '[' np_push_operator_stack hyper_exp ']' np_pop_operator_stack np_array_var_process
 
     '''
     # if len(p) == 2:
@@ -191,12 +192,11 @@ def p_array_opcional(p):
                    | epsilon
     '''
     if len(p) == 2:
-        p[0] = []
+        p[0] = 1
     else:
         p[0] = p[2]
 
 
-# TODO: rework for array
 # Variable declaration loop
 def p_loop_var_decl_mismo_tipo(p):
     '''
@@ -971,6 +971,25 @@ def p_np_single_var_process(p):
     #
     tipo, dir = func_dir.search_var(curr_func, p[-1])
     operand_stack.append((dir, tipo))
+
+def p_np_array_var_process(p):
+    '''
+    np_array_var_process : epsilon
+    '''
+    # buscar variable en dirFunc
+    global func_dir, curr_func
+    # obteniendo datos para la formula 
+    s1_dir, s1_type = operand_stack.pop()
+    type_base, dir_base = func_dir.search_var(curr_func, p[-6])
+    dim = func_dir.get_dims(curr_func, p[-6])
+    if s1_type != 'int':
+        raise Exception('Error: tipos incompatibles en array. {} != int'.format(s1_type))
+    
+    # formula
+    quadruples.fill_quad("VER", 1, dim, s1_dir)
+    point = func_dir.add_var(curr_func, 'point')
+    quadruples.gen_quad('+dir', s1_dir, dir_base, point)
+    operand_stack.append((point, type_base ))
 
 def p_epsilon(p):
     '''epsilon : '''

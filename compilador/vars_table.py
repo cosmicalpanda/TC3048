@@ -69,11 +69,11 @@ class VarsTable:
                 self.table[self.scope][varName] = (type, self.counter[self.scope][type], dim)
                 prev_size = self.counter[self.scope][type]
                 # incrementar contador
-                
-                if dim:
-                    self.counter[self.scope][type] += int(dim)
-                else:   
-                    self.counter[self.scope][type] += 1 
+                # if dim:
+                # NOTA k = -1 ya que se es indice 1 -> dim
+                self.counter[self.scope][type] += int(dim)
+                # else:   
+                #     self.counter[self.scope][type] += 1 
                 if prev_size // 1000 != self.counter[self.scope][type] // 1000:
                     raise Exception('Se excedio el limite de variables de tipo {}'.format(type))
                 # retorna la direccion de la variable

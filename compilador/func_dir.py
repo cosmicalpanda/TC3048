@@ -110,6 +110,15 @@ class FuncDir:
         else:
             raise Exception('Error llamando get_func_type. Funcion {} no declarada'.format(func))
 
-    # dims
-
-    #
+    # get dims
+    def get_dims(self, func, varName):
+        if self.dir[func][1]:
+            var = self.dir[func][1].table['local'].get(varName)
+            if var:
+                return var[2]
+        if self.dir['global'][1]:
+            var = self.dir['global'][1].table['global'].get(varName)
+            if var:
+                return var[2]
+        else:
+            raise Exception('Error llamando get_dims. Funcion {} no declarada'.format(func))
