@@ -314,6 +314,7 @@ def p_np_kill_func(p):
     np_kill_func : epsilon
     '''
     # kill curr_func
+    quadruples.gen_quad('ENDFUNC', -1, -1, -1)
 
 def p_np_prep_func_params(p):
     '''
@@ -526,7 +527,7 @@ def p_func_return(p):
     '''
     dir, tipo = operand_stack.pop()
     # se busca la variable global de retorno
-    tipoRet, dirRet = func_dir.search_var('global', '_' + curr_func)
+    tipoRet, dirRet = func_dir.search_var(curr_func, '_' + curr_func)
     if tipo != tipoRet:
         raise Exception('Error: tipos incompatibles en return. {} != {}'.format(tipo, tipoRet))
     quadruples.gen_quad('RETURN', dir, -1, dirRet)

@@ -56,7 +56,7 @@ class Memory:
     def mem_unstack(self):
         # sacamos memoria del stack
         self.total_mem -= len(self.func_stack[-1].table)
-        self.mem_stack.pop()
+        self.func_stack.pop()
 
     # era
     def era(self, counter):
@@ -64,12 +64,21 @@ class Memory:
         self.mem[-1].init(counter)
 
     # param
-    def param(self, dir, val):
+    def param(self, dir1, dir2):
+        # buscamos lo que exista en dir1
+        val = self.search_space(dir1)
+        # asignamos el valor a dir2
+        self.assign_param(dir2, val)
+    
+    #
+    def assign_param(self, dir, val):
+        # obtenemos los datos de la direccion
         print("param:", dir, val)
         scope = self.dir_scope(dir)
         tipo = self.dir_type(dir)
         index = dir % 1000
         print("param:", scope, tipo, index, dir, val)
+        # asignamos el valor a la direccion
         self.mem[-1].table[scope][tipo][index] = val
 
         
