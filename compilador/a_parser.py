@@ -1005,10 +1005,14 @@ def p_np_array_var_process(p):
     
     # formula
     # print( dim, s1_dir)
+    # verificamos que el indice este dentro del rango del arreglo
     quadruples.gen_quad('VER', 1, dim, s1_dir)
+    # obtenemos el pointere temporal quue apuntara a la primera casilla del arreglo
     point = func_dir.add_var(curr_func, 'pointer')
-    quadruples.gen_quad('+', s1_dir, dir_menos_uno, s1_dir)
+    # agregamos la direccion base del arreglo al pointer temporal
     quadruples.gen_quad('+dir', s1_dir, dir_base, point)
+    # ajustamos para k, como k es 1 en este leng, restamos 1
+    # quadruples.gen_quad('+dir', point, dir_menos_uno, point)
     # quadruples.gen_quad('+dir', point, dir_menos_uno, point)
     operand_stack.append((point, type_base ))
 

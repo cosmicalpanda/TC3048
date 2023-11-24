@@ -64,10 +64,14 @@ class VM:
             elif opcode == '+dir':
                 if op1 >= 14000 and op1 < 15000:
                     op1 = self.memory.search_space(op1)
-                self.memory.assign_space(dir, self.memory.search_space(op1) + op2)
+                # print("dir1: {}, {}, {} ".format(dir, self.memory.search_space(op1) -1, op2))
+                self.memory.assign_space(dir, self.memory.search_space(op1) + op2 -1)
+                # self.memory.assign_space(dir, self.memory.search_space(op1) + op2 )
             elif opcode == 'VER':
                 temp = self.memory.search_space(dir)
-                if temp <=0 or temp > op2:
+                #TODO: arrays start in 1
+                temp -= 1
+                if temp <0 or temp >=op2:
                     raise Exception("Error: indice {} fuera de rango: {} -> {}".format(temp, 0,op2))
             elif opcode == 'WRITE':
                 print("write: ", self.memory.search_space(dir))
