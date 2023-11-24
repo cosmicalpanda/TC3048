@@ -64,6 +64,7 @@ class FuncDir:
     # busca func -> global
     # retorna tipo, direccion
     def search_var(self, func, varName):
+        print("searching var {} in func {}".format(varName, func))
         if self.dir[func][1]:
             var = self.dir[func][1].table['local'].get(varName)
             if var:
