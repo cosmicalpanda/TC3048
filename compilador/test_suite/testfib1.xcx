@@ -1,4 +1,4 @@
-% prueba el funcionamiento de elementos no atomicos
+% fibonacci recursivo
 program testfib1 ; 
 
 vars int x;
