@@ -20,7 +20,7 @@ class VM:
             op2 = self.quadruples[self.pointer_stack[-1]][2]
             dir = self.quadruples[self.pointer_stack[-1]][3]
             # check for pointers
-            print(opcode, op1, op2, dir)
+            # print(opcode, op1, op2, dir)
             if opcode not in ['ERA', '+dir']:
                 if op1 >= 14000 and op1 < 15000:
                     op1 = self.memory.search_space(op1)

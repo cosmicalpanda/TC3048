@@ -17,4 +17,3 @@ function int fact_it ( int x  ) var int total , i ; {
     read(x);
     write(fact_it(x)); 
  }
-

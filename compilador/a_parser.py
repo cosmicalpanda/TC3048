@@ -35,8 +35,9 @@ curr_param_type = None
 input_counter = None
 dir_uno = None
 dir_menos_uno = None
-curr_dir_for = None
-curr_type_for = None
+for_dir_stack = None
+# curr_dir_for = None
+# curr_type_for = None
 call_stack = None
 '''
 main
@@ -598,8 +599,8 @@ def p_decision(p):
     #obtener fin de condicion
     fin_decision = jump_stack.pop()
     # agregar cuadruplo
-    print("fin_dec: ", fin_decision)
-    print("goto:", quadruples.list[fin_decision])
+    # print("fin_dec: ", fin_decision)
+    # print("goto:", quadruples.list[fin_decision])
     quadruples.fill_quad(fin_decision, 3, quadruples.counter)
 
 # Decision 1
@@ -706,22 +707,23 @@ def p_no_condicional(p):
     no_condicional : FOR variable '=' hyper_exp np_for_1 TO hyper_exp np_for_2 DO np_for_3 '{' loop_estatuto '}' 
     '''
     # global curr_dir
+    curr_dir_for,_ = operand_stack.pop()
     quadruples.gen_quad('+', curr_dir_for, dir_uno, curr_dir_for)
     # obtener fin de condicion
     fin_cond = jump_stack.pop()
     # obtener inicio repeticion de condicion
     repeticion_cond = jump_stack.pop()
-    print("repeticion: ", repeticion_cond)
-    print("fin_cond: ", fin_cond)
+    # print("repeticion: ", repeticion_cond)
+    # print("fin_cond: ", fin_cond)
     
     # agregar cuadruplos: suma 1 a la variable de control, GOTO
     # quadruples.gen_quad('+', curr_dir, dir_uno, curr_dir)
     quadruples.gen_quad('GOTO', -1, -1, repeticion_cond)
-    print("goto: ", quadruples.counter - 1, repeticion_cond)
+    # print("goto: ", quadruples.counter - 1, repeticion_cond)
     # agregar a jump stack
     # jump_stack.append(quadruples.counter - 1)
     # rellenar cuadruplo
-    print(quadruples.list[fin_cond])
+    # print(quadruples.list[fin_cond])
     quadruples.fill_quad(fin_cond, 3, quadruples.counter)
     
 
@@ -732,7 +734,7 @@ def p_np_for_1(p):
     np_for_1 : epsilon
     '''
     # obtener datos de operandos
-    global curr_dir_for, curr_type_for
+    # global curr_dir_for, curr_type_for
     dir2, tipo2 = operand_stack.pop()
     curr_dir_for, curr_type_for = operand_stack.pop()
     # tipos iguales
@@ -765,7 +767,7 @@ def p_np_for_3(p):
     jump_stack.append(quadruples.counter) # apunta al codigo que se va a repetir
     # obtener datos de operandos
     limite_sup, _ = operand_stack.pop()
-    curr_dir, _ = operand_stack.pop()
+    curr_dir, _ = operand_stack[-1]
     dir_bool = func_dir.add_var(curr_func, 'bool')
     # se compara val1 > val2, esto hace incluyente con
     quadruples.gen_quad('>', curr_dir, limite_sup, dir_bool)

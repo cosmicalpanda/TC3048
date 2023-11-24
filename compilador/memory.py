@@ -105,7 +105,7 @@ class Memory:
 
     # search space
     def search_space(self, dir):
-        print("searching space: ", dir)
+        # print("searching space: ", dir)
         scope = self.dir_scope(dir)
         tipo =  self.dir_type(dir)
         index = dir % 1000
@@ -115,7 +115,7 @@ class Memory:
                 raise Exception("Error: Casilla {} no inicializada".format(dir))
             return ans            
         elif scope == 'global':
-            print(scope, tipo, index)
+            # print(scope, tipo, index)
             # for a in self.global_mem.table.keys():
             #     print(a, self.global_mem.table[a])
             # print ("aja")

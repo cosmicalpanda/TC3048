@@ -1,0 +1,18 @@
+% sort de un vector
+program testsort ; 
+
+vars int arr[10], aux, i;
+
+main () {
+    aux = 10;
+    for  i = 1 to 10 do {
+        aux = aux - 1;
+        arr[i] = aux;
+        write (arr[i]);
+    }
+    write('s');
+    for i = 1 to 10 do{
+        
+    }
+ }
+
