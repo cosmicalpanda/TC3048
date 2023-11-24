@@ -34,3 +34,8 @@ A00825923
 
 # Fase 7
 - Generacion de codigo arreglos
+- Maquina Virtual: Ejecucion estatutos secuenciales y condicionales
+
+# Fase 8
+- Maquina Virtual: Modulos y arreglos
+
