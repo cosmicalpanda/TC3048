@@ -1,0 +1,20 @@
+% factorial iterativo
+program testfib1 ; 
+
+vars int x;
+
+function int fact_it ( int x  ) var int total , i ; { 
+    total = 1;
+    for i = 1 to x do {
+        total = total * ( i + 1 );
+    }
+    return total;
+ }
+
+
+ main () {
+    write('i'); 
+    read(x);
+    write(fact_it(x)); 
+ }
+

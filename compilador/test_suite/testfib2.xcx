@@ -22,7 +22,7 @@ function int fib_it ( int x  ) ; vars int a, b, c, i; {
 
 
  main () {
-    write('r'); 
+    write('i'); 
     read(x);
     write(fib_it(x)); 
  }
