@@ -1,0 +1,29 @@
+% prueba el funcionamiento de elementos no atomicos
+program testfib1 ; 
+
+vars int x;
+
+function int fib_rec ( int x  ) ; { 
+    if ( x < 1 ) then {
+        write('e');
+        return (0);
+    } else {
+        if ( (x == 1) | (x == 2) ) then {
+            return (1);
+        } else {
+            return ( 
+                ( fib_rec ( ( x - 1 ) )  ) 
+                + 
+                ( fib_rec ( ( x - 2 ) )  ) 
+            );
+        }
+    }
+ }
+
+
+ main () {
+    write('r'); 
+    read(x);
+    write(fib_rec(x)); 
+ }
+

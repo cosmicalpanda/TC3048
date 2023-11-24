@@ -10,9 +10,9 @@ vars int  a[10], b, c;
     for b = 1 to 10  do {
         a[b] = b ;
     }
-    %for b = 1 to 10  do {
-    %    write ( a[b] ) ;
-    %}
+    for b = 1 to 10  do {
+        write ( a[b] ) ;
+    }
     b = 99; 
     c = 100 ;
     write ( a[10] ) ;
