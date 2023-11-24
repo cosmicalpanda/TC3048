@@ -92,10 +92,13 @@ def p_np_prep_main(p):
     '''
     np_prep_main : epsilon
     '''
-    # crear vartable
     global func_dir, curr_func, curr_func_type, quadruples
+    # crear vartable de global  si no fue instanciada previamente
+    if not func_dir.has_varstable(curr_func):
+        func_dir.add_varstable(curr_func, 'global')
     # rellena GOTO main con el primer cuadruplo del main
     quadruples.fill_quad(0, 3, quadruples.counter)
+    
     curr_func = 'main'
     curr_func_type = 'void'
     # no agregamos main a func_dir ya que fue instanciado en la clase
@@ -111,7 +114,9 @@ def p_np_fin_total(p):
     quadruples.gen_quad('ENDPROG', -1, -1, -1)
     # for q in quadruples.list:
     #     print(q)
-    
+    print(len(quadruples.list))
+    for i in enumerate(quadruples.list,1000):
+        print(i)
     cont_q = 0
     for i in func_dir.dir:
         fd.append( (i, func_dir.dir[i][0], func_dir.dir[i][1].table , func_dir.dir[i][2],func_dir.dir[i][3],func_dir.dir[i][4] ))
@@ -593,6 +598,8 @@ def p_decision(p):
     #obtener fin de condicion
     fin_decision = jump_stack.pop()
     # agregar cuadruplo
+    print("fin_dec: ", fin_decision)
+    print("goto:", quadruples.list[fin_decision])
     quadruples.fill_quad(fin_decision, 3, quadruples.counter)
 
 # Decision 1
@@ -704,13 +711,17 @@ def p_no_condicional(p):
     fin_cond = jump_stack.pop()
     # obtener inicio repeticion de condicion
     repeticion_cond = jump_stack.pop()
+    print("repeticion: ", repeticion_cond)
+    print("fin_cond: ", fin_cond)
     
     # agregar cuadruplos: suma 1 a la variable de control, GOTO
     # quadruples.gen_quad('+', curr_dir, dir_uno, curr_dir)
     quadruples.gen_quad('GOTO', -1, -1, repeticion_cond)
+    print("goto: ", quadruples.counter - 1, repeticion_cond)
     # agregar a jump stack
-    jump_stack.append(quadruples.counter - 1)
+    # jump_stack.append(quadruples.counter - 1)
     # rellenar cuadruplo
+    print(quadruples.list[fin_cond])
     quadruples.fill_quad(fin_cond, 3, quadruples.counter)
     
 

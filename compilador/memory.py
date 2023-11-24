@@ -73,11 +73,11 @@ class Memory:
     #
     def assign_param(self, dir, val):
         # obtenemos los datos de la direccion
-        print("param:", dir, val)
+        # print("param:", dir, val)
         scope = self.dir_scope(dir)
         tipo = self.dir_type(dir)
         index = dir % 1000
-        print("param:", scope, tipo, index, dir, val)
+        # print("param:", scope, tipo, index, dir, val)
         # asignamos el valor a la direccion
         self.mem[-1].table[scope][tipo][index] = val
 
@@ -105,6 +105,7 @@ class Memory:
 
     # search space
     def search_space(self, dir):
+        print("searching space: ", dir)
         scope = self.dir_scope(dir)
         tipo =  self.dir_type(dir)
         index = dir % 1000
@@ -114,7 +115,7 @@ class Memory:
                 raise Exception("Error: Casilla {} no inicializada".format(dir))
             return ans            
         elif scope == 'global':
-            # print(scope, tipo, index)
+            print(scope, tipo, index)
             # for a in self.global_mem.table.keys():
             #     print(a, self.global_mem.table[a])
             # print ("aja")

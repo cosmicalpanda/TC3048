@@ -5,14 +5,18 @@ import json
 from virtual_machine import VM
 
 # Se puede especificar un test case en particular como argumento
+print(sys.argv)
 test_no = str(sys.argv[1]) if len(sys.argv) > 1 else None
 
-print("---PROBANDO ANALIZADOR SINTACTICO---")
+
+print("---PROBANDO---")
+
 
 # Si se especifica un test case en particular, se prueba solo ese
 if test_no:
     pass
     try:
+        print("---PARSING---")
         data = open('test_suite/' + 'test' + test_no + '.xcx', 'r').read()
         parser.parse(data, tracking=True)
         # print(constants)
@@ -30,10 +34,10 @@ if test_no:
         raise e
 else:
     # assign directory
-    directory = 'test_suite'
+    directory = 'test_suite/'
     i = 0 # contador de test cases
     # abre el archivo que contendra los resultados
-    wf = open("test_results/parser/result.txt","w")
+    wf = open("test_results/ts/result.txt","w")
     listadearchivos = os.listdir(directory)
     listadearchivos.sort()
 

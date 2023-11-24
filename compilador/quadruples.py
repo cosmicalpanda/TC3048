@@ -9,6 +9,7 @@ class Quadruples:
         quad = [op, left, right, res]
         self.list.append(quad)
         self.counter += 1
+        # print(self.counter,quad)
 
     # funcion para completar algun dato vacio de un cuadruplo
     # index es el dato a completar con val
