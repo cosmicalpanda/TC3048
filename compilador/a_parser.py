@@ -1082,6 +1082,10 @@ def p_np_arr_input(p):
     # obtener datos de operandos
     tipo,dir = func_dir.search_var(curr_func, p[-2])
     dims = func_dir.get_dims(curr_func, p[-2])
+    # dims = int(dims)
+    print("SIZE OF ",dims)
+    dims_dir = func_dir.add_const('int', dims)
+    print("dims_dir", dims_dir)
     if dims is None:
         raise Exception('Error: variable no es arreglo')
     fe = p[-4]
@@ -1092,7 +1096,7 @@ def p_np_arr_input(p):
         if tipo not in ['int', 'float']:
             raise Exception('Error: tipos incompatibles en funcion matematica. Se esperaba: int o float. Se obtuvo: {} '.format(tipo))
     res_dir = func_dir.add_var(curr_func, result_tipo)
-    quadruples.gen_quad(fe, dir, -1, res_dir)
+    quadruples.gen_quad(fe, dir, dims_dir, res_dir)
     operand_stack.append((res_dir, result_tipo))
 
 def p_fm_2_param(p):

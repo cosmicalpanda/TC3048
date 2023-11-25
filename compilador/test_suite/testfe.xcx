@@ -1,0 +1,43 @@
+% funciones especiales test
+program fe ; 
+
+vars int x[10], y, i, aux; float z;
+
+ main () {
+    aux = 10;
+    for i = 1 to 10 do {
+        %aux = rand(1,20);
+        x[i] = aux;
+        write (x[i]);
+    }
+
+    write ( media(x) ) ;
+    write ( mediana(x) ) ;
+    write ( moda(x) ) ;
+    write ( len(x) ) ;
+    write ( varianza(x) ) ;
+    y = 180;
+    write (y); 
+    write ( sen(y) ) ;
+    write ( cos(y) ) ;
+    write ( tan(y) ) ;
+    write ( senh(y) ) ;
+    write ( cosh(y) ) ;
+    write ( tanh(y) ) ;
+
+    y = 10;
+    write (y);
+    write ( log(y) ) ;
+    z = -10.5;
+    write (z);
+    write ( abs(z) ) ;
+    write ( floor(z) ) ;
+    write ( ceil(z) ) ;
+
+    write ( rand(1,20) ) ;
+    write ( pow(2,3) ) ;
+    write ( min(2,3) ) ;
+    write ( max(2,3) ) ;
+
+
+ }

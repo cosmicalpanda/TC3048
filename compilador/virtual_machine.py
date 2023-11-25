@@ -1,7 +1,9 @@
 # Virtual Machine
 from memory import Memory
 import pprint
-
+import math
+import random
+import numpy as np
 
 class VM:
     def __init__(self,quadruples, counters, constants):
@@ -85,6 +87,79 @@ class VM:
                 elif self.memory.dir_type(dir) == 'float':
                     temp = float(temp)
                 self.memory.assign_space(dir, temp)
+            #funciones especiales
+            elif opcode == 'rand':
+                rand = random.randint(self.memory.search_space(op1), self.memory.search_space(op2))
+                self.memory.assign_space(dir, rand)
+            elif opcode == 'media':
+                sum = 0
+                limit = self.memory.search_space(op2)
+                # print("Obteniendo media de {} elementos".format(limit))
+                for i in range(limit):
+                    # print (i, op1+i)
+                    sum += self.memory.search_space(op1 + i)
+                    # print(sum)
+                media = sum / limit
+                self.memory.assign_space(dir, media)
+            elif opcode == 'mediana':
+                values = []
+                limit = self.memory.search_space(op2)
+                for i in range(limit):
+                    values.append(self.memory.search_space(op1 + i))
+                values_sorted = sorted(values)
+                if limit % 2:
+                    mediana = values_sorted[limit // 2]
+                else:
+                    mediana = (values_sorted[limit // 2] + values_sorted[(limit // 2 ) + 1]) / 2
+                self.memory.assign_space(dir, mediana)
+            elif opcode == 'moda':
+                values = {}
+                limit = self.memory.search_space(op2)
+                for i in range(limit):
+                    value = self.memory.search_space(op1 + i)
+                    if value in values.keys():
+                        values[value] += 1
+                    else:
+                        values[value] = 1
+                maxVal = max(values, key=values.get)
+                self.memory.assign_space(dir, maxVal)
+            elif opcode == 'varianza':
+                values = []
+                limit = self.memory.search_space(op2)
+                for i in range(limit):
+                    values.append(self.memory.search_space(op1 + i))
+                varianza = np.var(values)
+                self.memory.assign_space(dir, varianza)
+            elif opcode == 'len':
+                limit = self.memory.search_space(op2)
+                self.memory.assign_space(dir, limit)
+            elif opcode == 'sen':
+                self.memory.assign_space(dir, math.sin(self.memory.search_space(op1)))
+            elif opcode == 'cos':
+                self.memory.assign_space(dir, math.cos(self.memory.search_space(op1)))
+            elif opcode == 'tan':
+                self.memory.assign_space(dir, math.tan(self.memory.search_space(op1)))
+            elif opcode == 'senh':
+                self.memory.assign_space(dir, math.sinh(self.memory.search_space(op1)))
+            elif opcode == 'cosh':
+                self.memory.assign_space(dir, math.cosh(self.memory.search_space(op1)))
+            elif opcode == 'tanh':
+                self.memory.assign_space(dir, math.tanh(self.memory.search_space(op1)))
+            elif opcode == 'log':
+                self.memory.assign_space(dir, math.log(self.memory.search_space(op1)))
+            elif opcode == 'abs':
+                self.memory.assign_space(dir, abs(self.memory.search_space(op1)))
+            elif opcode == 'floor':
+                self.memory.assign_space(dir, math.floor(self.memory.search_space(op1)))
+            elif opcode == 'ceil':
+                self.memory.assign_space(dir, math.ceil(self.memory.search_space(op1)))
+            elif opcode == 'pow':
+                self.memory.assign_space(dir, math.pow(self.memory.search_space(op1), self.memory.search_space(op2)))
+            elif opcode == 'min':
+                self.memory.assign_space(dir, min(self.memory.search_space(op1), self.memory.search_space(op2)))
+            elif opcode == 'max':
+                self.memory.assign_space(dir, max(self.memory.search_space(op1), self.memory.search_space(op2)))
+            # control de flujo
             elif opcode == 'GOTO':
                 # print("goto: ", dir)
                 self.pointer_stack[-1] = dir - 1

@@ -102,12 +102,15 @@ class VarsTable:
     # regresa la direccion de la constante
     def add_const(self, type, constVal):
         # checar si ya existe la constante
-        dir = self.table['const'].get(constVal)
+        # dir = self.table['const'].get(constVal)
+        # print("dir->>>>>>>>>>>>>>>>:", dir, constVal)
         # si existe, regresar direccion
-        if dir:
-            return dir[1]
+        if constVal in self.table['const'].keys():
+            print("constante repetida", constVal, self.table['const'])
+            return self.table['const'][constVal][1]
         # else, agregar a la tabla
         else:
+            print("agregando constante", constVal)
             # agregar a la tabla de constantes con el formato:
             # {constVal: (type, dir)}
             self.table['const'][constVal] = (type, self.counter['const'][type])

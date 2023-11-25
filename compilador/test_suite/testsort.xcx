@@ -1,7 +1,7 @@
 % sort de un vector
 program testsort ; 
 
-vars int arr[10], aux, i;
+vars int arr[10], aux, i, j;
 
 main () {
     aux = 10;
@@ -12,7 +12,17 @@ main () {
     }
     write('s');
     for i = 1 to 10 do{
-        
+        for j = 1 to 10 - i do {
+            if ( arr[j] > arr[ j+1 ] ) then {
+                aux = arr[j+1];
+                arr[j+1] = arr[j];
+                arr[j] = aux;
+            }
+        }
+    }
+    write('e');
+    for i = 1 to 10 do{
+        write(arr[i]);
     }
  }
 
