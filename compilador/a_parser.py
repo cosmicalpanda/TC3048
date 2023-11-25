@@ -951,6 +951,7 @@ def p_factor(p):
            | '(' hyper_exp ')'
            | func_llamada
            | read
+           | func_mat
     '''
     # # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
     # if len(p) == 2:
@@ -1028,6 +1029,107 @@ def p_np_array_var_process(p):
     # quadruples.gen_quad('+dir', point, dir_menos_uno, point)
     # quadruples.gen_quad('+dir', point, dir_menos_uno, point)
     operand_stack.append((point, type_base ))
+
+# funciones matematicas
+def p_func_mat(p):
+    '''
+    func_mat : fm_1_param
+             | fm_2_param
+    '''
+
+def p_fm_1_param(p): 
+    '''
+    fm_1_param : MEDIA '(' ID ')' np_arr_input
+               | MEDIANA '(' ID ')' np_arr_input
+               | MODA '(' ID ')' np_arr_input
+               | LEN '(' ID ')' np_arr_input
+               | VARIANZA '(' ID ')' np_arr_input
+               | SEN '(' hyper_exp ')' np_he_input
+               | COS '(' hyper_exp ')' np_he_input
+               | TAN '(' hyper_exp ')' np_he_input
+               | SENH '(' hyper_exp ')' np_he_input
+               | COSH '(' hyper_exp ')' np_he_input
+               | TANH '(' hyper_exp ')' np_he_input
+               | LOG '(' hyper_exp ')' np_he_input
+               | ABS '(' hyper_exp ')' np_he_input
+               | FLOOR '(' hyper_exp ')' np_he_input
+               | CEIL '(' hyper_exp ')' np_he_input
+    '''
+
+def p_np_he_input(p):
+    '''
+    np_he_input : epsilon
+    '''
+    # obtener datos de operandos
+    dir, tipo = operand_stack.pop()
+    if tipo not in ['int', 'float']:  
+        raise Exception('Error: tipos incompatibles en funcion matematica. Se esperaba: int o float. Se obtuvo: {} '.format(tipo))
+    fe = p[-4]
+    if fe == 'abs':
+        result_tipo = tipo
+    elif fe in ['floor', 'ceil']:
+        result_tipo = 'int'
+    else:
+        result_tipo = 'float'
+    result_dir = func_dir.add_var(curr_func, result_tipo)
+    quadruples.gen_quad(fe, dir, -1, result_dir)
+    operand_stack.append((result_dir, result_tipo))
+
+def p_np_arr_input(p):
+    '''
+    np_arr_input : epsilon
+    '''
+    # obtener datos de operandos
+    tipo,dir = func_dir.search_var(curr_func, p[-2])
+    dims = func_dir.get_dims(curr_func, p[-2])
+    if dims is None:
+        raise Exception('Error: variable no es arreglo')
+    fe = p[-4]
+    if fe == 'len':
+        result_tipo = 'int'
+    else:
+        result_tipo = 'float'
+        if tipo not in ['int', 'float']:
+            raise Exception('Error: tipos incompatibles en funcion matematica. Se esperaba: int o float. Se obtuvo: {} '.format(tipo))
+    res_dir = func_dir.add_var(curr_func, result_tipo)
+    quadruples.gen_quad(fe, dir, -1, res_dir)
+    operand_stack.append((res_dir, result_tipo))
+
+def p_fm_2_param(p):
+    '''
+    fm_2_param : RAND '(' hyper_exp ',' hyper_exp ')' np_int_input
+               | POW '(' hyper_exp ',' hyper_exp ')' np_int_input
+               | MIN '(' hyper_exp ',' hyper_exp ')' np_same_input
+               | MAX '(' hyper_exp ',' hyper_exp ')' np_same_input
+    '''
+
+def p_np_int_input(p):
+    '''
+    np_int_input : epsilon
+    '''
+    # obtener datos de operandos
+    dir2, tipo2 = operand_stack.pop()
+    dir1, tipo1 = operand_stack.pop()
+    if tipo1 != 'int' or tipo2 != 'int':
+        raise Exception('Error: tipos incompatibles en funcion matematica. Se esperaba: int,int. Se obtuvo: {} '.format(tipo1, tipo2))
+    fe = p[-6]
+    res_dir = func_dir.add_var(curr_func, tipo1)
+    quadruples.gen_quad(fe, dir1, dir2, res_dir)
+    operand_stack.append((res_dir, tipo1))
+
+def p_np_same_input(p):
+    '''
+    np_same_input : epsilon
+    '''
+    # obtener datos de operandos
+    dir2, tipo2 = operand_stack.pop()
+    dir1, tipo1 = operand_stack.pop()
+    if tipo1 != tipo2:
+        raise Exception('Error: tipos incompatibles en funcion matematica. Se esperaba: {},{}. Se obtuvo: {} '.format(tipo1, tipo1, tipo2))
+    fe = p[-6]
+    res_dir = func_dir.add_var(curr_func, tipo1)
+    quadruples.gen_quad(fe, dir1, dir2, res_dir)
+    operand_stack.append((res_dir, tipo1))
 
 def p_epsilon(p):
     '''epsilon : '''

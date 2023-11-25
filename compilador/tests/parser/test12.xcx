@@ -1,0 +1,31 @@
+% funciones especiales test
+program fe ; 
+
+vars int x[10], y;
+
+ main () {
+    
+    write ( media(x) ) ;
+    write ( mediana(x) ) ;
+    write ( moda(x) ) ;
+    write ( len(x) ) ;
+    write ( varianza(x) ) ;
+
+    write ( sen(y) ) ;
+    write ( cos(y) ) ;
+    write ( tan(y) ) ;
+    write ( senh(y) ) ;
+    write ( cosh(y) ) ;
+    write ( tanh(y) ) ;
+    write ( log(y) ) ;
+    write ( abs(y) ) ;
+    write ( floor(y) ) ;
+    write ( ceil(y) ) ;
+
+    write ( rand(1,20) ) ;
+    write ( pow(2,3) ) ;
+    write ( min(2,3) ) ;
+    write ( max(2,3) ) ;
+
+
+ }
