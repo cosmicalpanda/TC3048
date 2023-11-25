@@ -13,13 +13,13 @@ vars int  a , b ;  float c, d ; bool e, f ;
     write ( a ) ;
 
     % expresiones aritmeticas float
-    c = 1.0 + 1.0 ;
+    c = 1.0 + 1.5 ;
     write ( c ) ;
-    c = 1.0 - 1.0 ;
+    c = 1.0 - 1.8 ;
     write ( c ) ;
-    c = 1.0 * 10.0 ;
+    c = 1.0 * 10.7 ;
     write ( c ) ;
-    c = 10.0 / 2.0 ;
+    c = 10.7 / 2.0 ;
     write ( c ) ;
 
     % division float con int
