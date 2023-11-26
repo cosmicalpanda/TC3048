@@ -1,6 +1,6 @@
 % prueba el funcionamiento de control de flujo: ifs,, whiles, fors
 program test3 ; 
-vars int  a , b ;  float c, d ; char e, f ;
+vars int  a , b , x, y;  float c, d ; char e, f ;
  main () {
     
     % ifs
@@ -57,6 +57,14 @@ vars int  a , b ;  float c, d ; char e, f ;
     write('f') ;
     write(a) ;
     write(b) ;
+
+    % nested
+    for x = 1 to 2  do {
+        write('a') ;
+        for y = 1 to 2  do {
+            write('b') ;
+        }
+    }
 
 
 

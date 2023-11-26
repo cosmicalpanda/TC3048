@@ -4,13 +4,13 @@ program testsort ;
 vars int arr[10], aux, i, j;
 
 main () {
-    aux = 10;
+    %aux = 10;
     for  i = 1 to 10 do {
-        aux = aux - 1;
+        aux = rand(1, 100);
         arr[i] = aux;
         write (arr[i]);
     }
-    write('s');
+    write(' ');
     for i = 1 to 10 do{
         for j = 1 to 10 - i do {
             if ( arr[j] > arr[ j+1 ] ) then {
@@ -20,7 +20,8 @@ main () {
             }
         }
     }
-    write('e');
+    write('s');
+    write(' ');
     for i = 1 to 10 do{
         write(arr[i]);
     }

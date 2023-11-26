@@ -4,9 +4,8 @@ program testsort ;
 vars int arr[10], aux, i, search, res;
 
 main () {
-    aux = 10;
     for i = 1 to 10 do {
-        aux = aux - 1;
+        aux = rand(1, 100);
         arr[i] = aux;
         write (arr[i]);
     }

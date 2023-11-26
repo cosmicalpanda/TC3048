@@ -1,4 +1,4 @@
-% prueba el funcionamiento de expresiones aritmeticas, logicas y relacionales
+% prueba el funcionamiento input y output
 program test2 ; 
 vars int  a , b ;  float c, d ; char e, f ;
  main () {
