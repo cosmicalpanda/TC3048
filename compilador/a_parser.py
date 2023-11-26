@@ -149,8 +149,6 @@ def p_var_opcional(p):
     '''
     pass
 
-# TODO: add array logic
-#             | ID '[' hyper_exp ']'
 # variable
 def p_variable(p):
     '''
@@ -161,7 +159,6 @@ def p_variable(p):
     # if len(p) == 2:
     #     p[0] = p[1]
 
-# TODO: array logic, for now only single variables
 # Variable declaration
 def p_var_declaracion(p):
     '''
@@ -176,7 +173,7 @@ def p_np_var_prep(p):
     # crear vartable
     global func_dir, curr_func
     if not func_dir.has_varstable(curr_func):
-        # TODO: agregar opciones de scope
+
         if curr_func == 'global':
             func_dir.add_varstable(curr_func, 'global')
         else:
@@ -417,7 +414,6 @@ def p_func_llamada(p):
     ret_tipo = func_dir.get_func_type(call_stack[-1][0])
     # en caso de tener retorno:
     if ret_tipo != 'void':
-        # TODO: usar global en vez de call stack 
         # primero busca en funcion, luego en global
         _, ret_dir = func_dir.search_var(call_stack[-1][0], '_' + call_stack[-1][0])
         call_stack.pop()

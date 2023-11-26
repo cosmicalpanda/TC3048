@@ -56,7 +56,6 @@ class VarsTable:
     # Add
     # Funcion para agregar una variable a la tabla de variables
     # regresa la direccion de la variable
-    # TODO: codigo para agregar arreglos 
     def add_var(self, type, varName=None, dim=1):
         # en caso de no tener varName es temporal
         if varName:
