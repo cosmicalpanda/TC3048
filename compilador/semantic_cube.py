@@ -1,6 +1,10 @@
-# clase para comparar los tipos de expresiones 
-# dict que mapea todas las combinaciones validas de operador con operandos y retorno
-# combinaciones que no estan en el diccionario son invalidas
+'''
+semantic_cube.py
+
+clase para comparar los tipos de expresiones 
+dict que mapea todas las combinaciones validas de operador con operandos y retorno
+combinaciones que no estan en el diccionario son invalidas
+'''
 class SemanticCube:
     def __init__(self):
         '''

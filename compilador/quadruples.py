@@ -1,3 +1,8 @@
+'''
+quadruples.py
+
+Clase que mantiene un conteo de cuadruplos existentes y cuenta con funciones para generar y completar cuadruplos
+'''
 class Quadruples:
     def __init__(self):
         # siguiente cuadruplo a generar

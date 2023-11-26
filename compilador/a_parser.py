@@ -1,7 +1,7 @@
 '''
 parser.py
 
-Parser for the compiler
+Genera la logica de generación de cuadruplos para el programa
 '''
 import ply.yacc as yacc
 from lexer import tokens
@@ -113,10 +113,8 @@ def p_np_fin_total(p):
     quadruples.gen_quad('ENDPROG', -1, -1, -1)
     # for q in quadruples.list:
     #     print(q)
-    print(len(quadruples.list))
-    for i in enumerate(quadruples.list,1000):
-        print(i)
-    cont_q = 0
+    # print(len(quadruples.list))
+
     for i in func_dir.dir:
         fd.append( (i, func_dir.dir[i][0], func_dir.dir[i][1].table , func_dir.dir[i][2],func_dir.dir[i][3],func_dir.dir[i][4] ))
     # fd = func_dir.dir['global'][1].table
@@ -136,7 +134,7 @@ def p_np_fin_total(p):
     cdict = func_dir.get_const_table().copy()
     for c in cdict:
         constants[c] = (cdict[c][0], cdict[c][1])
-    print("CONST", constants)
+    # print("CONST", constants)
 '''
 vars
 '''

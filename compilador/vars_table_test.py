@@ -1,3 +1,9 @@
+''''
+vars_table_test.py
+
+Pruebas unitarias para vars_table.py
+'''
+
 from vars_table import VarsTable
 
 def test_vars_table_global():

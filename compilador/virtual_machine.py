@@ -1,3 +1,9 @@
+'''
+virtual_machine.py
+
+Maquina virtual que corre los cuadruplos generados por el compilador
+requiere una lista de cuadruplos, un diccionario de contadores y un diccionario de constantes
+'''
 # Virtual Machine
 from memory import Memory
 import pprint

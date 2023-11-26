@@ -1,3 +1,7 @@
+'''
+func_dir_test.py
+Pruebas unitarias para func_dir.py
+'''
 from func_dir import FuncDir
 
 def test_add_func():

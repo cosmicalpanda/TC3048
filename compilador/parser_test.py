@@ -1,5 +1,7 @@
 '''
 parser_test.py
+
+Este archivo se encarga de correr todos los test cases en la carpeta parser, o un archivo en especifio
 '''
 from a_parser import parser
 import sys

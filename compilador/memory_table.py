@@ -1,3 +1,8 @@
+'''
+memory_table.py
+
+Clase que instancia espacios de memoria vacios dependiendo de los contadores especificados
+'''
 class MemoryTable:
     def __init__(self):
         self.table = {}

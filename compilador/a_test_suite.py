@@ -1,3 +1,8 @@
+'''
+a_test_suite.py
+
+Este archivo se encarga de correr todos los test cases en la carpeta test_suite, o un archivo en especifio
+'''
 from a_parser import parser, cuad, counters, constants
 import sys
 import os
@@ -34,8 +39,8 @@ if test_no:
     except Exception as e:
         error_msg = "test " + str(test_no) + " : " + str(e)
         # Save obj as error
-        # with open('obj.json', "w") as output_file:
-        #     json.dump({'error': error_msg}, output_file, indent=2)
+        with open('obj.json', "w") as output_file:
+            json.dump({'error': error_msg}, output_file, indent=2)
         raise e
 else:
     # assign directory
@@ -62,6 +67,11 @@ else:
             parser.parse(data, tracking=True)
             # print(func_dir)
             # print(fd)
+            # print(constants)
+            tabla_cuadruplos = PrettyTable(['#', 'operator', 'op1', 'op2', 'res'])
+            for c in range(len(cuad)):
+                tabla_cuadruplos.add_row([c] + cuad[c])
+            print(tabla_cuadruplos)
             maquina = VM(cuad,counters, constants)
             print("-----RUNNING-----")
             maquina.run()

@@ -1,3 +1,8 @@
+'''
+memory.py
+
+Clase que instancia la memoria global, local y el stack de memoria de ejecucion
+'''
 from memory_table import MemoryTable
 class Memory:
     def __init__(self) :

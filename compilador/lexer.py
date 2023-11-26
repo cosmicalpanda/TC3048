@@ -1,7 +1,7 @@
 '''
 lexer.py
 
-tokenizer for the compiler
+tokeniza el codigo fuente
 '''
 import ply.lex as lex
 

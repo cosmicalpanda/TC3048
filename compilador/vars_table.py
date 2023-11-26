@@ -1,3 +1,12 @@
+'''
+vars_table.py
+
+clase que maneja las variables en compilacion de cada funcion de func_dir.
+cuenta con la capacidad de agregar variables y retornar su direccion
+valida que no se exceda el limite de variables por tipo
+valida que no se repitan variables
+'''
+
 class VarsTable:
     def __init__(self, scope):
         # scope: global, local, const
@@ -103,11 +112,11 @@ class VarsTable:
         # print("dir->>>>>>>>>>>>>>>>:", dir, constVal)
         # si existe, regresar direccion
         if constVal in self.table['const'].keys():
-            print("constante repetida", constVal, self.table['const'])
+            # print("constante repetida", constVal, self.table['const'])
             return self.table['const'][constVal][1]
         # else, agregar a la tabla
         else:
-            print("agregando constante", constVal)
+            # print("agregando constante", constVal)
             # agregar a la tabla de constantes con el formato:
             # {constVal: (type, dir)}
             self.table['const'][constVal] = (type, self.counter['const'][type])

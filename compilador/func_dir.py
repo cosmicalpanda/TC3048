@@ -1,3 +1,11 @@
+
+'''
+func_dir.py
+
+Clase para el directorio de funciones
+
+Tiene las funciones para agregar funciones y a estas modificar variables, parametros, cuadruplo inicial y cuadruplo de retorno
+'''
 from vars_table import VarsTable
 
 class FuncDir:

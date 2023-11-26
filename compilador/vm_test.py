@@ -1,3 +1,9 @@
+'''
+vm_test.py
+
+Este archivo se encarga de correr todos los test cases en la carpeta vm, o un archivo en especifio
+'''
+
 from a_parser import parser, cuad, counters, constants
 import sys
 import os
