@@ -33,11 +33,11 @@ class MemoryTable:
     const: {
         int: []
         float: []
-        char: [] (?)
+        char: []
     }
     
     '''
-
+    # para cada alcance, crea una tabla de memoria con la cantidad de espacios especificados por tipo
     def init(self, counter):
         if counter:
             for scope in counter.keys():

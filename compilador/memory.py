@@ -50,31 +50,38 @@ class Memory:
             self.mem_stack()
 
     # stack
+    # agrega al stack de funciones la memoria de la funcion ya parametrizada
+    # actualiza el total de memoria y valida que no se exceda el limite
     def mem_stack(self):
         #agregamos memoria al stack
         self.func_stack.append(self.mem.pop())
         self.total_mem += len(self.func_stack[-1].table)
         if self.total_mem > 11000:
             raise Exception("Error: Limite de memoria excedido")
-
+   
+    # elimina del stack de funciones la memoria de la funcion ya ejecutada
+    # actualiza el total de memoria
     def mem_unstack(self):
         # sacamos memoria del stack
         self.total_mem -= len(self.func_stack[-1].table)
         self.func_stack.pop()
 
     # era
+    # inicializa la memoria de la funcion
+    # inivializa la tabla de memoria de la funcion
     def era(self, counter):
         self.mem.append(MemoryTable())
         self.mem[-1].init(counter)
 
     # param
+    #  asigna el valor de dir1 a dir2
     def param(self, dir1, dir2):
         # buscamos lo que exista en dir1
         val = self.search_space(dir1)
         # asignamos el valor a dir2
         self.assign_param(dir2, val)
     
-    #
+    # al top del stack de memoria asignamos los parametros de la funcion en el lugar que les corresponde
     def assign_param(self, dir, val):
         # obtenemos los datos de la direccion
         # print("param:", dir, val)
@@ -87,6 +94,7 @@ class Memory:
 
         
     # asign space
+    # asigna un valor a una direccion de memoria
     def assign_space(self, dir, value):
         scope = self.dir_scope(dir)
         tipo = self.dir_type(dir)
@@ -103,6 +111,8 @@ class Memory:
             self.const_mem.table[scope][tipo][index] = value
 
     # search space
+    # busca el valor de una direccion de memoria
+    # si no esta inicializada, lanza excepcion
     def search_space(self, dir):
         # print("searching space: ", dir)
         scope = self.dir_scope(dir)
@@ -132,7 +142,7 @@ class Memory:
         pass
 
     # init const  │{'1': ('int', 20000)}
-    #
+    # inicializa la tabla de constantes
     def init_const(self, constants):
         for c in constants:
             # print(c)
@@ -144,6 +154,7 @@ class Memory:
                 self.assign_space(constants[c][1], c)
         pass
 
+    # buca el scope de una direccion basado en su direccion
     def dir_scope(self,dir):
         if dir < 5000:
             return 'global'
@@ -154,6 +165,7 @@ class Memory:
         else:
             return 'const'
         
+    # busca el tipo de una direccion basado en su direccion
     def dir_type(self,dir):
         if dir < 1000 or (dir >= 5000 and dir < 6000) or (dir >= 10000 and dir < 11000) or (dir >= 20000 and dir < 21000):
             return 'int'
