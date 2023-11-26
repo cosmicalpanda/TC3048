@@ -42,7 +42,4 @@ class MemoryTable:
                 # Para cada tipo de valor en el alcance
                 for tipo in counter[scope].keys():
                     tam = counter[scope][tipo]
-                    # checar overflow
-                    # if tipo != checar_tipo_memoria(tam):
-                    #     raise Exception("Limite de memoria de tipo {} {} excedido".format(scope, tipo))
                     self.table[scope][tipo] = [None] * (tam % 1000)

@@ -10,11 +10,9 @@ class VM:
         self.quadruples = quadruples
         self.pointer_stack = [0]
         self.counters = counters
-        # self.func_dir = func_dir
         self.memory = Memory()
         self.constants = constants
 
-    
     def run(self):
         while (self.pointer_stack[-1] < len(self.quadruples)):
             opcode = self.quadruples[self.pointer_stack[-1]][0]
@@ -73,10 +71,10 @@ class VM:
                 # self.memory.assign_space(dir, self.memory.search_space(op1) + op2 )
             elif opcode == 'VER':
                 temp = self.memory.search_space(dir)
-                #TODO: arrays start in 1
+                #arrays start in 1
                 temp -= 1
                 if temp <0 or temp >=op2:
-                    raise Exception("Error: indice {} fuera de rango: {} -> {}".format(temp, 0,op2))
+                    raise Exception("Error: indice {} fuera de rango: {} -> {}".format(temp, 1,op2))
             elif opcode == 'WRITE':
                 # print("write: ", self.memory.search_space(dir))
                 print(self.memory.search_space(dir))
@@ -175,12 +173,10 @@ class VM:
             elif opcode == 'RETURN':
                 self.memory.assign_space(dir, self.memory.search_space(op1))
             elif opcode == 'ENDFUNC':
-                #TODO
                 self.memory.mem_unstack()
                 self.pointer_stack.pop()
                 pass
             elif opcode == 'PARAM':
-                # TODO
                 self.memory.param(op1, dir)
                 pass
             elif opcode == 'ERA':
@@ -194,9 +190,9 @@ class VM:
                 self.memory.init('const', self.counters['const'])
                 self.memory.init_const(self.constants)
                 print("INIT")
-                # self.pointer_stack[-1] = dir - 1
             else:
-                print("ERROR: opcode {} not found".format(opcode))
+                raise Exception("ERROR: opcode {} not found".format(opcode))
+                # print("ERROR: opcode {} not found".format(opcode))
             self.pointer_stack[-1] += 1
 
     def imprimir_memoria(self):

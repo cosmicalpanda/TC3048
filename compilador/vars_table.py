@@ -49,9 +49,7 @@ class VarsTable:
                 'const': {
                     'int': 20000,
                     'float': 21000,
-                    # no se si char y/o str se usen en la hora de de imprimir letreros
                     'char': 22000,
-                    # 'str': 23000,
                 }
             }
     

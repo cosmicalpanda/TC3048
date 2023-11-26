@@ -25,7 +25,7 @@ class Memory:
         Constantes
         20000 - 20999 : int
         21000 - 21999 : float
-        22000 - 22999 : char (?)
+        22000 - 22999 : char
         '''
         self.func_stack = []    
         self.mem = []
@@ -48,7 +48,6 @@ class Memory:
     def mem_stack(self):
         #agregamos memoria al stack
         self.func_stack.append(self.mem.pop())
-        # no se
         self.total_mem += len(self.func_stack[-1].table)
         if self.total_mem > 11000:
             raise Exception("Error: Limite de memoria excedido")
@@ -82,7 +81,6 @@ class Memory:
         self.mem[-1].table[scope][tipo][index] = val
 
         
-    
     # asign space
     def assign_space(self, dir, value):
         scope = self.dir_scope(dir)
@@ -90,10 +88,6 @@ class Memory:
         index = dir % 1000
         # print("assign", scope, tipo, index, dir, value)
         if scope == 'local' or scope == 'temp':
-            # print("cobo1")
-            # # print(len(self.func_stack))
-            # for i in self.func_stack[-1].table.keys():
-            #     print(i)
             self.func_stack[-1].table[scope][tipo][index] = value
         elif scope == 'global':
             # print("cobo3",value)

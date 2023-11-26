@@ -1,7 +1,7 @@
 '''
-lexer.py
+parser.py
 
-tokenizer for the compiler
+Parser for the compiler
 '''
 import ply.yacc as yacc
 from lexer import tokens
@@ -34,10 +34,8 @@ curr_param_type = None
 # multiple input counter
 input_counter = None
 dir_uno = None
-dir_menos_uno = None
+# dir_menos_uno = None
 for_dir_stack = None
-# curr_dir_for = None
-# curr_type_for = None
 call_stack = None
 '''
 main
@@ -54,7 +52,7 @@ def p_np_program_start(p):
     '''
     # crear dirFunc
     global  semantic_cube, quadruples, operand_stack, operator_stack
-    global input_counter, jump_stack, dir_uno, call_stack, dir_menos_uno
+    global input_counter, jump_stack, dir_uno, call_stack
     # func_dir = FuncDir()
     semantic_cube = SemanticCube()
     quadruples = Quadruples()
@@ -67,7 +65,7 @@ def p_np_program_start(p):
     # Agregar constante 1 para funcionalidad for
     dir_uno = func_dir.add_const('int', '1')
     # agregar k para arrays
-    dir_menos_uno = func_dir.add_const('int', '-1')
+    # dir_menos_uno = func_dir.add_const('int', '-1')
 
 
 def p_np_start_dirfunc(p):
@@ -122,8 +120,9 @@ def p_np_fin_total(p):
     for i in func_dir.dir:
         fd.append( (i, func_dir.dir[i][0], func_dir.dir[i][1].table , func_dir.dir[i][2],func_dir.dir[i][3],func_dir.dir[i][4] ))
     # fd = func_dir.dir['global'][1].table
-    obj = {"function_directory": fd,
-           "quads":  quadruples.list}
+    # obj = {"function_directory": fd,
+    #        "quads":  quadruples.list}
+    obj = {"function_directory": fd}
     with open('obj.json', "w") as output_file:
         json.dump(obj, output_file, indent=4)
     # borra dirFunc y vartable global
@@ -141,7 +140,6 @@ def p_np_fin_total(p):
 '''
 vars
 '''
-
 #var_opcional
 # puede hacerse la declaracion de variables o no
 def p_var_opcional(p):
@@ -261,8 +259,6 @@ def p_func_definicion(p):
     '''
     func_definicion : FUNCTION func_tipo_retorno np_func_tipo_retorno ID np_func_id np_add_to_func_dir '(' np_prep_func_params func_parametro ')' ';' var_opcional np_save_curr_func_quad '{' loop_estatuto '}' np_kill_func
     '''
-    # insert function into function directory
-    # func_dir.insert_func(p[3], p[2])
 
 #function return type
 def p_func_tipo_retorno(p):
@@ -337,9 +333,7 @@ def p_func_parametro(p):
     func_parametro : parametro
                    | epsilon
     '''
-    # logica en caso de no params, quiza agregar params vacio de una vez ?
 
-#TODO: logica para agregar params a func en func_dir
 # Parameter
 # Solo declara parametros del mismo tipo, para otro tipo se tiene que volver a invocar
 def p_parametro(p):
@@ -373,34 +367,10 @@ def p_tipo(p):
     '''
     p[0] = p[1]
 
-# TODO: logica para arrays
-# # List of IDs
-# def p_lista_ids(p):
-#     '''
-#     lista_ids : ID loop_lista_ids
-#               | ID '[' INT ']' loop_lista_ids
-#     '''
 
-# # loop_lista_ids
-# def p_loop_lista_ids(p):
-#     '''
-#     loop_lista_ids : ',' ID loop_lista_ids
-#                    | ',' ID '[' INT ']' loop_lista_ids
-#                    | epsilon
-#     '''
-
-# # Estatuto
-# def p_estatuto(p):
-#     '''
-#     estatuto : asignacion
-#              | func_llamada ';'
-#              | read
-#              | write
-#              | decision
-#              | repeticion
-#     '''
-#     p[0] = p[1]
-#     pass
+'''
+estatutos
+'''
 
 # Estatuto
 def p_estatuto(p):
@@ -430,6 +400,9 @@ def p_asignacion(p):
     # agregar cuadruplo
     quadruples.gen_quad('=', op2[0], -1, op1[0])
     
+'''
+llamada de funciones
+'''
 # Funcion llamada
 def p_func_llamada(p):
     '''
@@ -475,8 +448,10 @@ def p_np_fc_1(p):
     else:
         raise Exception('Error: funcion {} no declarada'.format(p[-1]))
 
+'''
+.
+'''
 # argumento
-
 def p_argumento_loop(p):
     '''
     argumento_loop : hyper_exp np_fc_2 argumento_loop_1
@@ -635,11 +610,7 @@ def p_np_decision_2(p):
 	# rellena el cuadruplo anterior
     quadruples.fill_quad(false_way, 3, quadruples.counter)
 
-
-
 # loop estatuto
-# TODO: determinar si es necesario ya que creo que todas las instancias de estatuto son opcionales
-# manda un estatuto obligatorio y luego opcionales
 def p_loop_estatuto(p):
     '''
     loop_estatuto : estatuto loop_estatuto
@@ -701,7 +672,6 @@ def p_np_cond_3(p):
     quadruples.fill_quad(fin_cond, 3, quadruples.counter)
 
 # No condicional
-# usar id en lugar de variable, por que usaria una casilla de algun array en un for ?
 def p_no_condicional(p):
     '''
     no_condicional : FOR variable '=' hyper_exp np_for_1 TO hyper_exp np_for_2 DO np_for_3 '{' loop_estatuto '}' 
@@ -726,7 +696,6 @@ def p_no_condicional(p):
     # print(quadruples.list[fin_cond])
     quadruples.fill_quad(fin_cond, 3, quadruples.counter)
     
-
 # se realiza la asignacion con la diferencia que se guarda
 # la direccion de la asignacion en el stack de operandos
 def p_np_for_1(p):
@@ -775,11 +744,9 @@ def p_np_for_3(p):
     # agregar a jump stack
     jump_stack.append(quadruples.counter - 1) # el gotov que quiero llena
   
-
-
-
- 
-
+'''
+expresiones
+'''
 # Hyper exp
 def p_hyper_exp(p):
     '''
@@ -931,19 +898,7 @@ def p_np_pop_operator_stack(p):
     global operator_stack
     operator_stack.pop()
 
-# # Factor
-# def p_factor(p):
-#     '''
-#     factor : func_llamada
-#            | VAL_INT
-#            | VAL_FLOAT
-#            | VAL_STRING
-#            | variable
-#            | '(' hyper_exp ')'
-#     '''
-
 # Factor
-# TODO: read?
 def p_factor(p):
     '''
     factor : constant
@@ -953,13 +908,8 @@ def p_factor(p):
            | read
            | func_mat
     '''
-    # # en caso de encontrar una variable, agregar temporalmente solo el nombre al stack
-    # if len(p) == 2:
-    #     temp_tuple = p[1]
-    #     operand_stack.append(temp_tuple)
 
 # Constant
-# TODO:  agregar string ?
 def p_constant(p):
     '''
     constant : VAL_INT np_push_const_int
@@ -967,7 +917,6 @@ def p_constant(p):
              | VAL_CHAR np_push_const_char
     '''
 
-# TODO: how to do constants 
 def p_np_push_const_int(p):
     '''
     np_push_const_int : epsilon

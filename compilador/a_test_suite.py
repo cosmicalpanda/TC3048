@@ -3,6 +3,7 @@ import sys
 import os
 import json
 from virtual_machine import VM
+from prettytable import PrettyTable
 
 # Se puede especificar un test case en particular como argumento
 print(sys.argv)
@@ -20,6 +21,10 @@ if test_no:
         data = open('test_suite/' + 'test' + test_no + '.xcx', 'r').read()
         parser.parse(data, tracking=True)
         # print(constants)
+        tabla_cuadruplos = PrettyTable(['#', 'operator', 'op1', 'op2', 'res'])
+        for c in range(len(cuad)):
+            tabla_cuadruplos.add_row([c] + cuad[c])
+        print(tabla_cuadruplos)
         maquina = VM(cuad,counters, constants)
         print("-----RUNNING-----")
         maquina.run()
